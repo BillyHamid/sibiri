@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+/* ─── Orbiting circles — SubsidiaryOrbits ────────────────────────────────── */
+@keyframes orbit {
+  0% {
+    transform:
+      rotate(var(--angle))
+      translateX(var(--radius))
+      rotate(calc(-1 * var(--angle)));
+  }
+  100% {
+    transform:
+      rotate(calc(var(--angle) + 360deg))
+      translateX(var(--radius))
+      rotate(calc(-1 * (var(--angle) + 360deg)));
+  }
+}
+
+/* ─── Hologram title — LogoParticles hero ─────────────────────────────────── */
+@keyframes hologram-shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+.fluid-hologram {
+  background: linear-gradient(
+    90deg,
+    #C9A84C 0%,
+    #F5DFA0 25%,
+    #ffffff 50%,
+    #F5DFA0 75%,
+    #C9A84C 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: hologram-shimmer 5s linear infinite;
+}
+
+.fluid-hologram-line2 {
+  background: linear-gradient(
+    90deg,
+    #9A7A30 0%,
+    #C9A84C 30%,
+    #EDD98A 55%,
+    #C9A84C 75%,
+    #9A7A30 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: hologram-shimmer 5s linear infinite;
+  animation-delay: 0.8s;
+}
+
+/* AnimatedShaderHero (filiale Energy) */
+@keyframes shader-hero-fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shader-hero-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.shader-hero-fade-in-down {
+  animation: shader-hero-fade-in-down 0.8s ease-out forwards;
+}
+
+.shader-hero-fade-in-up {
+  opacity: 0;
+  animation: shader-hero-fade-in-up 0.8s ease-out forwards;
+}
+
+.shader-hero-delay-200 {
+  animation-delay: 0.2s;
+}
+
+.shader-hero-delay-400 {
+  animation-delay: 0.4s;
+}
+
+.shader-hero-delay-600 {
+  animation-delay: 0.6s;
+}
+
+.shader-hero-delay-800 {
+  animation-delay: 0.8s;
+}
