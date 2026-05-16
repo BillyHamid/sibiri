@@ -1,12 +1,13 @@
 import { useRef, useState, useEffect } from "react"
 import { motion, useInView, AnimatePresence } from "framer-motion"
-import { ZoomParallax } from "../components/ZoomParallax"
+import { NeoMinimalFooter } from "../components/NeoMinimalFooter"
+import { ConstructionNav } from "../components/ConstructionNav"
 
-// ─── Couleurs Global Construction (Bleu & Cyan) ──────────────────────────────
-const PRIMARY   = "#3b82f6"
-const ACCENT    = "#93c5fd"
-const ACCENT_OP = "#60a5fa"
-const DARK      = "#111418"
+// ─── Couleurs Global Construction (Rouge/Marron Brick du Logo) ──────────────────
+const PRIMARY   = "#A64D42"      // Rouge/Marron du logo
+const ACCENT    = "#D4756B"      // Rouge plus clair
+const ACCENT_OP = "#C05A52"      // Rouge intermédiaire
+const DARK      = "#2D2D2D"      // Gris très foncé
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 const P = ({ children }) => (
@@ -79,7 +80,7 @@ const Presentation = () => (
           <div
             className="relative rounded-2xl overflow-hidden flex items-center justify-center"
             style={{
-              background: `linear-gradient(135deg, rgba(59,130,246,0.08), rgba(147,197,253,0.08))`,
+              background: `linear-gradient(135deg, rgba(166,77,66,0.08), rgba(212,117,107,0.08))`,
               border: `1px solid ${PRIMARY}22`,
               minHeight: 260,
               padding: 40,
@@ -97,70 +98,6 @@ const Presentation = () => (
       </div>
 
     </div>
-  </section>
-)
-
-// ─── GALERIE ZOOM PARALLAX ────────────────────────────────────────────────────
-const GC_IMAGES = [
-  { src: '/construction/building1.jpg', alt: 'Bâtiment administratif' },
-  { src: '/construction/infrastructure.jpg', alt: 'Infrastructure routière' },
-  { src: '/construction/renovation.jpg', alt: 'Rénovation bâtiment' },
-  { src: '/construction/worksite.jpg', alt: 'Chantier en cours' },
-  { src: '/construction/team.jpg', alt: 'Équipe sur chantier' },
-  { src: '/construction/equipment.jpg', alt: 'Équipements techniques' },
-]
-
-const GallerySection = () => (
-  <section style={{ background: DARK, overflow: 'hidden' }}>
-    <div style={{ padding: '80px 40px 60px', textAlign: 'center' }}>
-      <span style={{
-        display: 'inline-block',
-        padding: '6px 18px', borderRadius: 99,
-        background: `${PRIMARY}33`,
-        border: `1px solid ${ACCENT}55`,
-        color: 'rgba(167, 243, 208, 0.8)',
-        fontSize: 11, fontWeight: 700,
-        letterSpacing: '0.14em', textTransform: 'uppercase',
-        fontFamily: "'Inter', sans-serif",
-        marginBottom: 20,
-      }}>
-        Nos réalisations
-      </span>
-      <h2 style={{
-        fontFamily: "'Playfair Display', serif",
-        fontSize: 'clamp(1.8rem, 3vw, 2.8rem)',
-        fontWeight: 700, color: 'white', margin: '0 0 16px',
-      }}>
-        Excellence & maîtrise
-      </h2>
-      <p style={{
-        fontFamily: "'Inter', sans-serif",
-        fontSize: 15, color: 'rgba(255,255,255,0.5)',
-        maxWidth: 420, margin: '0 auto 16px',
-      }}>
-        Faites défiler pour explorer nos projets, chantiers et installations
-      </p>
-      <div style={{
-        display: 'inline-flex', alignItems: 'center', gap: 8,
-        color: 'rgba(255,255,255,0.3)', fontSize: 13,
-        fontFamily: "'Inter', sans-serif",
-        animation: 'gcBounce 1.8s ease-in-out infinite',
-      }}>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M12 5v14M5 12l7 7 7-7"/>
-        </svg>
-        Scroll
-      </div>
-    </div>
-
-    <ZoomParallax images={GC_IMAGES} />
-
-    <style>{`
-      @keyframes gcBounce {
-        0%, 100% { transform: translateY(0); opacity: 0.4; }
-        50%       { transform: translateY(6px); opacity: 1; }
-      }
-    `}</style>
   </section>
 )
 
@@ -213,7 +150,7 @@ const MissionVision = () => (
         <h2 style={{
           fontFamily: "'Playfair Display', serif",
           fontSize: 'clamp(2rem, 3.5vw, 3rem)',
-          fontWeight: 700, color: '#111418', margin: '14px 0 20px',
+          fontWeight: 700, color: '#2D2D2D', margin: '14px 0 20px',
         }}>
           Mission, Vision &{' '}
           <span style={{
@@ -260,7 +197,7 @@ const MissionVision = () => (
 
             <h3 style={{
               fontFamily: "'Playfair Display', serif",
-              fontSize: 24, fontWeight: 700, color: '#111418', margin: '0 0 8px',
+              fontSize: 24, fontWeight: 700, color: '#2D2D2D', margin: '0 0 8px',
             }}>Notre Mission</h3>
             <div style={{
               width: 44, height: 2, borderRadius: 2, marginBottom: 32,
@@ -356,7 +293,7 @@ const MissionVision = () => (
 
               <h3 style={{
                 fontFamily: "'Playfair Display', serif",
-                fontSize: 22, fontWeight: 700, color: '#111418', margin: '0 0 24px',
+                fontSize: 22, fontWeight: 700, color: '#2D2D2D', margin: '0 0 24px',
               }}>Nos 4 Valeurs</h3>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
@@ -370,7 +307,7 @@ const MissionVision = () => (
                     <span style={{ fontSize: 16 }}>{v.icon}</span>
                     <span style={{
                       fontFamily: "'Inter', sans-serif",
-                      fontSize: 13, fontWeight: 600, color: '#111418',
+                      fontSize: 13, fontWeight: 600, color: '#2D2D2D',
                     }}>{v.label}</span>
                   </div>
                 ))}
@@ -531,9 +468,9 @@ const ATOUTS_ITEMS = [
   {
     icon: "🏛️",
     num: "01",
-    stat: "HOLDING",
+    stat: "Groupe solide",
     title: "Solidité financière",
-    desc: "Soutien du Groupe SIBIRI HOLDING offrant stabilité et ressources.",
+    desc: "Soutien du Groupe SIBIRI offrant stabilité et ressources.",
     badge: "Groupe solide",
   },
   {
@@ -590,7 +527,7 @@ const Atouts = () => (
             <h2 style={{
               fontFamily: "'Playfair Display', serif",
               fontSize: 'clamp(2rem, 3.5vw, 3rem)',
-              fontWeight: 700, color: '#111418',
+              fontWeight: 700, color: '#2D2D2D',
               margin: '14px 0 0',
             }}>
               Nos{' '}
@@ -662,7 +599,7 @@ const Atouts = () => (
               <h3 style={{
                 fontFamily: "'Inter', sans-serif",
                 fontSize: 15, fontWeight: 700,
-                color: '#111418', margin: '0 0 10px',
+                color: '#2D2D2D', margin: '0 0 10px',
               }}>{item.title}</h3>
 
               <p style={{
@@ -737,38 +674,6 @@ const Slogan = () => (
   </section>
 )
 
-// ─── CONTACT ──────────────────────────────────────────────────────────────────
-const Contact = () => (
-  <section id="contact" className="py-16 px-6" style={{ background: `linear-gradient(135deg, ${DARK}, #1a2a3a)` }}>
-    <div className="max-w-3xl mx-auto text-center">
-      <Reveal>
-        <span className="text-3xl">📍</span>
-        <h2 className="mt-4 text-2xl md:text-3xl font-bold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>Nous contacter</h2>
-        <div className="w-12 h-0.5 mx-auto mt-3 mb-8" style={{ background: ACCENT }} />
-      </Reveal>
-      <Reveal delay={0.1}>
-        <div className="grid sm:grid-cols-3 gap-4 text-left">
-          {[
-            { icon: "📍", label: "Ouagadougou",    value: "Secteur 30\nBurkina Faso" },
-            { icon: "📞", label: "Équipe projets",  value: "Direction travaux\nSIBIRI GROUP" },
-            { icon: "✉️", label: "Email",     value: "construction@sibiri.group\noperations@sibiri.group" },
-          ].map(c => (
-            <div key={c.label} className="rounded-xl p-4" style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)" }}>
-              <span className="text-xl">{c.icon}</span>
-              <p className="text-xs text-slate-400 mt-2 mb-1 uppercase tracking-wider font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>{c.label}</p>
-              <p className="text-sm text-white whitespace-pre-line" style={{ fontFamily: "'Inter', sans-serif" }}>{c.value}</p>
-            </div>
-          ))}
-        </div>
-      </Reveal>
-      <Reveal delay={0.2} className="mt-8">
-        <a href="/" className="inline-flex items-center gap-2 text-sm font-semibold transition-all hover:gap-3" style={{ color: ACCENT, fontFamily: "'Inter', sans-serif" }}>
-          ← Retour au Groupe SIBIRI
-        </a>
-      </Reveal>
-    </div>
-  </section>
-)
 
 // ─── HERO BANNER ──────────────────────────────────────────────────────────────
 const HERO_IMAGES = [
@@ -816,14 +721,14 @@ const GCCarouselBanner = () => {
           135deg,
           rgba(17,20,24,0.88) 0%,
           rgba(17,20,24,0.72) 50%,
-          rgba(59,130,246,0.12) 100%
+          rgba(166,77,66,0.12) 100%
         )`,
       }} />
 
       <div style={{
         position: 'absolute', inset: 0, zIndex: 2,
-        backgroundImage: `linear-gradient(rgba(59,130,246,0.06) 1px, transparent 1px),
-                          linear-gradient(90deg, rgba(59,130,246,0.06) 1px, transparent 1px)`,
+        backgroundImage: `linear-gradient(rgba(166,77,66,0.06) 1px, transparent 1px),
+                          linear-gradient(90deg, rgba(166,77,66,0.06) 1px, transparent 1px)`,
         backgroundSize: '64px 64px',
         pointerEvents: 'none',
       }} />
@@ -927,13 +832,13 @@ const GCCarouselBanner = () => {
 // ─── PAGE PRINCIPALE ──────────────────────────────────────────────────────────
 export const GlobalConstructionPage = () => (
   <div className="w-full">
+    <ConstructionNav />
     <GCCarouselBanner />
     <Presentation />
-    <GallerySection />
     <MissionVision />
     <Activites />
     <Atouts />
     <Slogan />
-    <Contact />
+    <NeoMinimalFooter variant="construction" />
   </div>
 )

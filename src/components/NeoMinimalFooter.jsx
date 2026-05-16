@@ -38,17 +38,17 @@ const THEMES = {
     status: "Agro Supply Online",
   },
   construction: {
-    bg: "#111418",
-    panel: "rgba(24, 36, 56, 0.45)",
-    border: "rgba(147, 197, 253, 0.25)",
-    accent: "#3b82f6",
+    bg: "#2D2D2D",
+    panel: "rgba(166, 77, 66, 0.15)",
+    border: "rgba(166, 77, 66, 0.25)",
+    accent: "#A64D42",
     title: "SIBIRI GLOBAL CONSTRUCTION",
     subtitle: "Projets BTP, infrastructures et execution terrain maitrisee.",
     status: "Projects On Schedule",
   },
   logistic: {
     bg: "#0f1720",
-    panel: "rgba(9, 36, 49, 0.45)",
+    panel: "rgba(14, 165, 233, 0.12)",
     border: "rgba(103, 232, 249, 0.25)",
     accent: "#0ea5e9",
     title: "SIBIRI TRANSPORT & LOGISTIC",
@@ -57,14 +57,42 @@ const THEMES = {
   },
 }
 
-const QUICK_LINKS = [
-  { title: "Filiale", links: ["Presentation", "Services", "Contact"] },
-  { title: "Groupe", links: ["A propos", "Filiales", "Vision"] },
-  { title: "Ressources", links: ["Actualites", "Partenaires", "Support"] },
-]
+const QUICK_LINKS_BY_VARIANT = {
+  home: [
+    { title: "Groupe", links: ["Accueil", "A propos de nous", "Actualites"] },
+    { title: "Filiales", links: ["Medical", "Energy", "Construction"] },
+    { title: "Plus", links: ["Transport", "Agro-Chimie", "Contact"] },
+  ],
+  medical: [
+    { title: "Navigation", links: ["Presentation", "Nos prestations", "Nos realisations"] },
+    { title: "Groupe", links: ["Actualite", "Formation", "Contact"] },
+    { title: "Ressources", links: ["Accueil", "Filiales", "Support"] },
+  ],
+  energy: [
+    { title: "Navigation", links: ["Services", "A Propos", "Projets"] },
+    { title: "Groupe", links: ["Pourquoi nous", "Contact", "Accueil"] },
+    { title: "Ressources", links: ["Filiales", "Actualites", "Support"] },
+  ],
+  construction: [
+    { title: "Navigation", links: ["Presentation", "Activites", "Atouts"] },
+    { title: "Groupe", links: ["Conformite", "Projets futurs", "Contact"] },
+    { title: "Ressources", links: ["Accueil", "Filiales", "Support"] },
+  ],
+  logistic: [
+    { title: "Navigation", links: ["Presentation", "Activites", "Atouts"] },
+    { title: "Groupe", links: ["Conformite", "Projets futurs", "Contact"] },
+    { title: "Ressources", links: ["Accueil", "Filiales", "Support"] },
+  ],
+  agro: [
+    { title: "Navigation", links: ["Presentation", "Services", "Produits"] },
+    { title: "Groupe", links: ["Realisation", "Partenaires", "Contact"] },
+    { title: "Ressources", links: ["Accueil", "Filiales", "Support"] },
+  ],
+}
 
 export function NeoMinimalFooter({ variant = "home" }) {
   const theme = THEMES[variant] || THEMES.home
+  const quickLinks = QUICK_LINKS_BY_VARIANT[variant] || QUICK_LINKS_BY_VARIANT.home
 
   return (
     <footer
@@ -111,7 +139,7 @@ export function NeoMinimalFooter({ variant = "home" }) {
             </div>
           </div>
 
-          {QUICK_LINKS.map((section) => (
+          {quickLinks.map((section) => (
             <div key={section.title} className="col-span-6 md:col-span-2 flex flex-col gap-4">
               <h4 className="text-xs font-semibold text-white/70 uppercase tracking-widest">{section.title}</h4>
               <ul className="flex flex-col gap-3">

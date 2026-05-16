@@ -20,6 +20,7 @@ import { GlobalConstructionPage } from './pages/GlobalConstructionPage'
 import { TransportLogisticPage } from './pages/TransportLogisticPage'
 import { GroupePage } from './pages/GroupePage'
 import { ContactPage } from './pages/ContactPage'
+import { NewsPage } from './pages/NewsPage'
 
 // ─── Page d'accueil ───────────────────────────────────────────────────────────
 const HomePage = () => (
@@ -47,6 +48,7 @@ function App() {
           <Routes>
             <Route path="/"                    element={<HomePage />} />
             <Route path="/groupe"              element={<GroupePage />} />
+            <Route path="/actualites"          element={<NewsPage />} />
             <Route path="/contact"             element={<ContactPage />} />
             <Route path="/medical"                element={<MedicalPage />} />
             <Route path="/medical/realisations"   element={<MedicalRealisationsPage />} />

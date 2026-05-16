@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react"
 import { motion, useInView, useScroll, AnimatePresence } from "framer-motion"
 import { MedicalTailarkHeroSection } from "../components/MedicalTailarkHeroSection"
 import { MedicalNav } from "../components/MedicalNav"
+import { NeoMinimalFooter } from "../components/NeoMinimalFooter"
 
 // ─── Icônes SVG inline (pas de dépendance externe) ───────────────────────────
 const IconMenu = () => (
@@ -1744,6 +1745,6 @@ export const MedicalPage = () => (
     <MissionVision />
     <Services />
     <Atouts />
-    <Contact />
+    <NeoMinimalFooter variant="medical" />
   </div>
 )

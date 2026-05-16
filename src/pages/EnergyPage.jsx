@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { NeoMinimalFooter } from '../components/NeoMinimalFooter'
 
 // ── Palette ──────────────────────────────────────────────────────────────────
 const RED   = '#E62630'
@@ -585,10 +586,10 @@ const ServicesSection = () => {
         <Reveal>
           <SectionLabel>Nos Services</SectionLabel>
           <h2 style={{ fontSize: 'clamp(28px, 4vw, 46px)', fontWeight: 800, color: '#fff', margin: '0 0 16px', fontFamily: "'Inter', sans-serif", letterSpacing: '-0.02em', lineHeight: 1.1 }}>
-            Des solutions énergétiques<br />complètes et intégrées
+            Une expertise énergétique<br />complète et intégrée
           </h2>
           <p style={{ fontSize: 15, color: GRAY, maxWidth: 480, lineHeight: 1.75, margin: '0 0 56px', fontFamily: "'Inter', sans-serif" }}>
-            De la conception à l'exploitation, nous couvrons l'ensemble de la chaîne de valeur énergétique avec une expertise de premier plan.
+            De la distribution pétrolière aux solutions solaires, en passant par les travaux électriques et le consulting, nous couvrons tous les domaines de l'énergie.
           </p>
         </Reveal>
 
@@ -693,13 +694,13 @@ const AboutSection = () => {
                 Le partenaire énergétique de référence au Burkina Faso
               </h2>
               <p style={{ fontSize: 15, color: GRAY, lineHeight: 1.8, margin: '0 0 16px', fontFamily: "'Inter', sans-serif" }}>
-                SIBIRI ENERGY SA est la filiale énergétique du Groupe Sibiri Holding. Spécialisée dans la distribution de produits pétroliers, elle est le partenaire de qualité des grandes entreprises des secteurs Transport, BTP et Industrie au Burkina Faso.
+                SIBIRI ENERGY SA est la filiale énergétique du Groupe Sibiri Holding, opérant au Burkina Faso avec une expertise étendue couvrant la distribution de produits pétroliers, les travaux électriques, mécaniques et de génie civil, ainsi que les réseaux téléphoniques et internet.
               </p>
               <p style={{ fontSize: 15, color: GRAY, lineHeight: 1.8, margin: '0 0 16px', fontFamily: "'Inter', sans-serif" }}>
-                Avec quatre stations-service dans la zone de Ouagadougou et un réseau en pleine expansion, SIBIRI ENERGY SA propose des solutions innovantes en approvisionnement, incluant la location de cuves portatives adaptées aux besoins spécifiques de chaque client.
+                Pionnière dans l'accès à l'énergie solaire, la société réalise des centrales solaires et systèmes d'éclairage solaire, des forages et offre du consulting en solutions énergétiques. Avec quatre stations-service dans la zone de Ouagadougou depuis 2022, elle combine expertise B2B et accès grand public.
               </p>
               <p style={{ fontSize: 15, color: GRAY, lineHeight: 1.8, margin: '0 0 32px', fontFamily: "'Inter', sans-serif" }}>
-                En 2025, la société a obtenu l'exclusivité de distribution au Burkina Faso de la marque belge <strong style={{ color: '#fff' }}>WOLF LUBRICANTS</strong> de WOLF OIL CORPORATION, partenaire stratégique dans le domaine des lubrifiants depuis 1955.
+                En 2025, la société a obtenu l'<strong style={{ color: '#fff' }}>exclusivité de distribution au Burkina Faso de WOLF LUBRICANTS</strong> de WOLF OIL CORPORATION, partenaire stratégique dans les lubrifiants premium depuis 1955, renforçant sa position de leader énergétique régional.
               </p>
               <a href="#contact" style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
@@ -1150,7 +1151,7 @@ export const EnergyPage = () => {
       <ProjectsSection />
       <WhySection />
       <ContactSection />
-      <EnergyFooter />
+      <NeoMinimalFooter variant="energy" />
     </div>
   )
 }
