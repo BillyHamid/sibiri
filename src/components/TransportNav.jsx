@@ -26,7 +26,6 @@ const navLinks = [
   { label: 'Atouts',           href: '#atouts'       },
   { label: 'Conformité',       href: '#conformite'   },
   { label: 'Projets futurs',   href: '#projets-futurs' },
-  { label: 'Contact',          href: '#contact'      },
 ]
 
 export const TransportNav = () => {

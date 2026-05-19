@@ -7,14 +7,14 @@ const GOLD = '#C9A84C'
 const SUBSIDIARIES = [
   {
     id: 'construction',
-    name: 'Sibiri Global Construction',
+    name: 'Sibiri Global Construction et Rénovation',
     tagline: 'BTP & Infrastructures',
     color: '#C0392B',
     colorLight: '#FDECEA',
     route: '/global-construction',
     logo: '/Sibiri-Construction.jpg',
     icon: '🏗️',
-    desc: "Sibiri Global Construction est le bras armé du Groupe SIBIRI dans le secteur des travaux publics et du génie civil. Spécialisée dans la conception et la réalisation de projets d'infrastructures de grande envergure, la filiale intervient sur des chantiers de bâtiments administratifs, de voiries, de réseaux divers et d'aménagements urbains au Burkina Faso et dans la sous-région ouest-africaine. Portée par des ingénieurs qualifiés et un parc de matériels moderne, elle répond aux exigences des standards internationaux de construction.",
+    desc: "Sibiri Global Construction et Rénovation est le bras armé du Groupe SIBIRI dans le secteur des travaux publics et du génie civil. Spécialisée dans la conception et la réalisation de projets d'infrastructures de grande envergure, la filiale intervient sur des chantiers de bâtiments administratifs, de voiries, de réseaux divers et d'aménagements urbains au Burkina Faso et dans la sous-région ouest-africaine. Portée par des ingénieurs qualifiés et un parc de matériels moderne, elle répond aux exigences des standards internationaux de construction.",
     highlights: [
       'Construction de bâtiments administratifs, commerciaux et industriels',
       'Aménagement de voiries, routes et réseaux divers',
@@ -42,11 +42,7 @@ const SUBSIDIARIES = [
       'Équipements médicaux, matériels de laboratoire et imagerie',
       'Service après-vente 24h/7j — maintenance & formation',
     ],
-    stats: [
-      { val: '2018', lab: 'Fondée en' },
-      { val: 'A1 → B4', lab: 'Agréments Santé' },
-      { val: '2 000 m²', lab: 'Stockage certifié' },
-    ],
+    stats: [],
   },
   {
     id: 'energy',
@@ -137,253 +133,182 @@ const Reveal = ({ children, delay = 0, y = 28 }) => {
   )
 }
 
-// ── Carte filiale détaillée ──────────────────────────────────────────────────
+// ── Carte filiale compacte ──────────────────────────────────────────────────
 const FilialeCard = ({ filiale, index }) => {
-  const isEven = index % 2 === 0
   const [imgOk, setImgOk] = useState(true)
 
   return (
-    <Reveal delay={0.1}>
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: isEven ? '1fr 1.5fr' : '1.5fr 1fr',
-        gap: 0,
-        borderRadius: 24,
-        overflow: 'hidden',
-        border: `1px solid ${filiale.color}28`,
-        boxShadow: `0 4px 40px ${filiale.color}12, 0 1px 3px rgba(0,0,0,0.06)`,
-        background: 'white',
-      }} className="filiale-card-grid">
+    <Reveal delay={index * 0.05}>
+      <motion.div
+        whileHover={{ y: -4, boxShadow: `0 12px 32px ${filiale.color}20` }}
+        transition={{ duration: 0.3 }}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 0,
+          borderRadius: 16,
+          overflow: 'hidden',
+          border: `1px solid ${filiale.color}28`,
+          boxShadow: `0 2px 16px ${filiale.color}08, 0 1px 3px rgba(0,0,0,0.04)`,
+          background: 'white',
+          height: '100%',
+        }} className="filiale-card-compact">
 
         {/* ── Visuel (logo + couleur) ── */}
         <div
-          style={{ order: isEven ? 0 : 1 }}
           className="filiale-visual"
-        >
-          <div style={{
-            height: '100%', minHeight: 340,
+          style={{
             background: filiale.colorLight,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '48px 32px',
+            padding: '24px 18px',
             position: 'relative',
             overflow: 'hidden',
-          }}>
-            {/* Fond déco cercle */}
-            <div style={{
-              position: 'absolute',
-              width: '200%', height: '200%',
-              top: '50%', left: '50%',
-              transform: 'translate(-50%, -50%)',
-              background: `radial-gradient(ellipse at center, ${filiale.color}18 0%, transparent 60%)`,
-              pointerEvents: 'none',
-            }} />
+            minHeight: 140,
+          }}
+        >
+          {/* Fond déco cercle */}
+          <div style={{
+            position: 'absolute',
+            width: '200%', height: '200%',
+            top: '50%', left: '50%',
+            transform: 'translate(-50%, -50%)',
+            background: `radial-gradient(ellipse at center, ${filiale.color}18 0%, transparent 60%)`,
+            pointerEvents: 'none',
+          }} />
 
-            {/* Logo */}
-            <motion.div
-              whileHover={{ scale: 1.04 }}
-              transition={{ duration: 0.3 }}
-              style={{
-                width: 160, height: 160,
-                borderRadius: 28,
-                background: 'white',
-                border: `2px solid ${filiale.color}30`,
-                boxShadow: `0 16px 48px ${filiale.color}25`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                overflow: 'hidden',
-                position: 'relative', zIndex: 1,
-              }}
-            >
-              <img
-                src={filiale.logo}
-                alt={filiale.name}
-                onError={e => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex' }}
-                style={{ width: '80%', height: '80%', objectFit: 'contain' }}
-              />
-              <div style={{
-                display: 'none', width: '100%', height: '100%',
-                alignItems: 'center', justifyContent: 'center',
-                fontSize: 56,
-              }}>{filiale.icon}</div>
-            </motion.div>
-
-            {/* Tag secteur */}
-            <div style={{
-              position: 'relative', zIndex: 1,
-              marginTop: 24,
-              padding: '6px 18px', borderRadius: 99,
-              background: `${filiale.color}18`,
-              border: `1px solid ${filiale.color}40`,
-              color: filiale.color,
-              fontSize: 11, fontWeight: 700,
-              letterSpacing: '0.14em', textTransform: 'uppercase',
-              fontFamily: "'Inter', sans-serif",
-            }}>
-              {filiale.tagline}
-            </div>
-
-            {/* Stats bar */}
-            <div style={{
-              position: 'relative', zIndex: 1,
-              display: 'flex', gap: 0,
-              marginTop: 32,
+          {/* Logo */}
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.3 }}
+            style={{
+              width: 90, height: 90,
               borderRadius: 14,
-              overflow: 'hidden',
-              border: `1px solid ${filiale.color}25`,
               background: 'white',
-              width: '100%',
-            }}>
-              {filiale.stats.map((s, i) => (
-                <div key={i} style={{
-                  flex: 1, padding: '14px 10px', textAlign: 'center',
-                  borderRight: i < filiale.stats.length - 1 ? `1px solid ${filiale.color}20` : 'none',
-                }}>
-                  <p style={{
-                    fontFamily: "'Playfair Display', serif",
-                    fontSize: 17, fontWeight: 700,
-                    color: filiale.color, margin: 0, lineHeight: 1.2,
-                  }}>{s.val}</p>
-                  <p style={{
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: 9, color: '#9CA3AF',
-                    margin: '4px 0 0', letterSpacing: '0.08em', textTransform: 'uppercase',
-                  }}>{s.lab}</p>
-                </div>
-              ))}
-            </div>
+              border: `1.5px solid ${filiale.color}30`,
+              boxShadow: `0 8px 24px ${filiale.color}20`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              overflow: 'hidden',
+              position: 'relative', zIndex: 1,
+            }}
+          >
+            <img
+              src={filiale.logo}
+              alt={filiale.name}
+              onError={e => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex' }}
+              style={{ width: '75%', height: '75%', objectFit: 'contain' }}
+            />
+            <div style={{
+              display: 'none', width: '100%', height: '100%',
+              alignItems: 'center', justifyContent: 'center',
+              fontSize: 36,
+            }}>{filiale.icon}</div>
+          </motion.div>
+
+          {/* Tag secteur */}
+          <div style={{
+            position: 'relative', zIndex: 1,
+            marginTop: 12,
+            padding: '4px 12px', borderRadius: 99,
+            background: `${filiale.color}18`,
+            border: `1px solid ${filiale.color}40`,
+            color: filiale.color,
+            fontSize: 9, fontWeight: 700,
+            letterSpacing: '0.1em', textTransform: 'uppercase',
+            fontFamily: "'Inter', sans-serif",
+          }}>
+            {filiale.tagline}
           </div>
         </div>
 
         {/* ── Contenu texte ── */}
         <div style={{
-          order: isEven ? 1 : 0,
-          padding: '52px 48px',
+          padding: '20px 16px',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center',
-          gap: 22,
+          justifyContent: 'flex-start',
+          gap: 12,
           background: filiale.colorLight,
           position: 'relative',
           overflow: 'hidden',
+          flex: 1,
         }} className="filiale-content">
 
           {/* Bande couleur top */}
           <div style={{
             position: 'absolute', top: 0, left: 0, right: 0,
-            height: 4,
-            background: `linear-gradient(90deg, ${filiale.colorAlt || filiale.color}, ${filiale.color})`,
+            height: 3,
+            background: filiale.color,
+            opacity: 0.4,
           }} />
 
           {/* Numéro watermark */}
           <div style={{
             fontFamily: "'Playfair Display', serif",
-            fontSize: 96, fontWeight: 900, lineHeight: 1,
-            color: `${filiale.color}18`,
+            fontSize: 48, fontWeight: 900, lineHeight: 1,
+            color: `${filiale.color}12`,
             userSelect: 'none',
-            marginBottom: -24,
+            marginBottom: -8,
             letterSpacing: '-0.04em',
           }}>{String(index + 1).padStart(2, '0')}</div>
 
-          {/* Nom + tagline */}
+          {/* Nom */}
           <div>
-            {/* Tagline badge */}
-            <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: 6,
-              padding: '4px 12px', borderRadius: 99, marginBottom: 10,
-              background: `${filiale.color}18`,
-              border: `1px solid ${filiale.color}35`,
-            }}>
-              <div style={{ width: 6, height: 6, borderRadius: '50%', background: filiale.color, flexShrink: 0 }} />
-              <span style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: 10, fontWeight: 700,
-                color: filiale.color,
-                letterSpacing: '0.15em', textTransform: 'uppercase',
-              }}>{filiale.tagline}</span>
-            </div>
-
-            <h2 style={{
+            <h3 style={{
               fontFamily: "'Playfair Display', serif",
-              fontSize: 'clamp(1.5rem, 2.5vw, 2.2rem)',
+              fontSize: 14,
               fontWeight: 700,
-              margin: '0 0 10px',
-              lineHeight: 1.2,
+              margin: '0 0 6px',
+              lineHeight: 1.3,
+              color: filiale.color,
             }}>
-              <span style={{
-                background: `linear-gradient(90deg, ${filiale.colorAlt || filiale.color} 0%, ${filiale.color} 100%)`,
-                WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-              }}>
-                {filiale.name.replace('Sibiri ', '')}
-              </span>
-            </h2>
+              {filiale.name.replace('Sibiri ', '')}
+            </h3>
             <div style={{
-              width: 52, height: 3, borderRadius: 3,
-              background: `linear-gradient(90deg, ${filiale.colorAlt || filiale.color}, ${filiale.color}22)`,
+              width: 32, height: 2, borderRadius: 2,
+              background: filiale.color,
+              opacity: 0.3,
             }} />
           </div>
 
-          {/* Description */}
-          <div style={{
-            borderLeft: `3px solid ${filiale.color}`,
-            paddingLeft: 16,
-            margin: '2px 0',
+          {/* Description courte */}
+          <p style={{
+            fontFamily: "'Inter', sans-serif",
+            fontSize: 11, lineHeight: 1.6,
+            color: '#6B7280', margin: 0,
           }}>
-            <p style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: 14, lineHeight: 1.85,
-              color: '#374151', margin: 0,
-            }}>
-              {filiale.desc}
-            </p>
-          </div>
-
-          {/* Highlights */}
-          <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {filiale.highlights.map((h, i) => (
-              <li key={i} style={{
-                display: 'flex', gap: 10, alignItems: 'flex-start',
-                padding: '9px 12px', borderRadius: 10,
-                background: `${filiale.color}0D`,
-                border: `1px solid ${filiale.color}1A`,
-                fontFamily: "'Inter', sans-serif",
-                fontSize: 13, color: '#1F2937',
-                lineHeight: 1.5,
-              }}>
-                <CheckIcon color={filiale.color} />
-                {h}
-              </li>
-            ))}
-          </ul>
+            {filiale.desc.substring(0, 120)}...
+          </p>
 
           {/* CTA */}
-          <div style={{ marginTop: 4 }}>
+          <div style={{ marginTop: 'auto' }}>
             <Link to={filiale.route} style={{ textDecoration: 'none' }}>
               <motion.div
-                whileHover={{ scale: 1.03, boxShadow: `0 14px 40px ${filiale.color}50` }}
-                whileTap={{ scale: 0.97 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 transition={{ duration: 0.2 }}
                 style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 10,
-                  padding: '13px 30px', borderRadius: 99,
+                  display: 'inline-flex', alignItems: 'center', gap: 6,
+                  padding: '9px 16px', borderRadius: 99,
                   background: filiale.color,
                   color: 'white',
                   fontFamily: "'Inter', sans-serif",
-                  fontWeight: 700, fontSize: 14,
-                  boxShadow: `0 6px 20px ${filiale.color}40`,
+                  fontWeight: 700, fontSize: 11,
+                  boxShadow: `0 4px 12px ${filiale.color}30`,
                   cursor: 'pointer',
                 }}
               >
-                Découvrir la filiale
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                Découvrir
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
                   <path d="M3 8h10M9 4l4 4-4 4" stroke="white" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </motion.div>
             </Link>
           </div>
         </div>
-      </div>
+      </motion.div>
     </Reveal>
   )
 }
@@ -394,9 +319,10 @@ export const SubsidiariesReel = () => {
   const inView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section style={{
+    <section id="nos-filiales" style={{
       background: '#fff',
-      padding: '92px 0 104px',
+      padding: '40px 0 104px',
+      marginTop: '-80px',
       position: 'relative',
       overflow: 'hidden',
     }}>
@@ -421,12 +347,13 @@ export const SubsidiariesReel = () => {
           style={{ textAlign: 'center', marginBottom: 56 }}
         >
           <p style={{
-            fontSize: 10, fontWeight: 800,
-            letterSpacing: '0.34em', textTransform: 'uppercase',
-            color: 'rgba(201,168,76,0.9)',
+            fontSize: 13, fontWeight: 900,
+            letterSpacing: '0.15em',
+            color: '#C9A84C',
             fontFamily: "'Inter', sans-serif",
-            margin: '0 0 16px',
-          }}>Nos Filiales</p>
+            margin: '0 0 20px',
+            textTransform: 'uppercase',
+          }}>Nos filiales</p>
 
           <h2 style={{
             fontSize: 'clamp(26px, 4vw, 42px)',
@@ -457,8 +384,12 @@ export const SubsidiariesReel = () => {
           }} />
         </motion.div>
 
-        {/* ── Liste des filiales détaillées ──────────────────────────────── */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+        {/* ── Grille des filiales compactes (5 colonnes) ──────────────────── */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(5, 1fr)',
+          gap: 18,
+        }} className="filiales-grid">
           {SUBSIDIARIES.map((f, i) => (
             <FilialeCard key={f.id} filiale={f} index={i} />
           ))}
@@ -466,17 +397,24 @@ export const SubsidiariesReel = () => {
       </div>
 
       <style>{`
-        @media (max-width: 960px) {
-          .filiale-card-grid {
+        @media (max-width: 1400px) {
+          .filiales-grid {
+            grid-template-columns: repeat(4, 1fr) !important;
+          }
+        }
+        @media (max-width: 1024px) {
+          .filiales-grid {
+            grid-template-columns: repeat(3, 1fr) !important;
+          }
+        }
+        @media (max-width: 768px) {
+          .filiales-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .filiales-grid {
             grid-template-columns: 1fr !important;
-          }
-          .filiale-visual {
-            order: 0 !important;
-            min-height: 280px !important;
-          }
-          .filiale-content {
-            order: 1 !important;
-            padding: 36px 28px !important;
           }
         }
       `}</style>

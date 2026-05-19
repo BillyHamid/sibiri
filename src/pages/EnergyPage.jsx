@@ -1096,7 +1096,7 @@ const EnergyFooter = () => (
         {[
           { title: 'Services', items: ['Distribution Pétroliers', 'Stations-Service', 'Éclairage Solaire', 'Travaux Électriques', 'Forages & Consulting'] },
           { title: 'Entreprise', items: ['À Propos', 'Nos Projets', 'Pourquoi Nous', 'Contact'] },
-          { title: 'Groupe', items: ['Sibiri Holding', 'Global Construction', 'Bio Medical', 'Agro Chemical'] },
+          { title: 'Groupe', items: ['Sibiri Holding', 'Global Construction et Rénovation', 'Bio Medical', 'Agro Chemical'] },
         ].map(col => (
           <div key={col.title}>
             <p style={{ margin: '0 0 18px', fontSize: 11, fontWeight: 700, color: '#fff', letterSpacing: '0.15em', textTransform: 'uppercase', fontFamily: "'Inter', sans-serif" }}>{col.title}</p>

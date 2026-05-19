@@ -70,7 +70,7 @@ const ARTICLES_DATA = [
   },
   {
     id: 6,
-    title: 'SIBIRI Global Construction remporte un prix d\'excellence',
+    title: 'SIBIRI Global Construction et Rénovation remporte un prix d\'excellence',
     excerpt: 'Reconnaissance internationale pour ses projets de construction durable.',
     content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
     category: 'Communiqués de Presse',

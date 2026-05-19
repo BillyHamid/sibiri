@@ -5,12 +5,9 @@ const GOLD = '#C9A84C'
 const DARK = '#1D1D1B'
 
 const PARTNERS = [
-  { id: 1, name: 'Partenaire 1', logo: '/partner1.png' },
-  { id: 2, name: 'Partenaire 2', logo: '/partner2.png' },
-  { id: 3, name: 'Partenaire 3', logo: '/partner3.png' },
-  { id: 4, name: 'Partenaire 4', logo: '/partner4.png' },
-  { id: 5, name: 'Partenaire 5', logo: '/partner5.png' },
-  { id: 6, name: 'Partenaire 6', logo: '/partner6.png' },
+  { id: 1, name: 'Partner Medical', logo: '/partners/medical-logo.svg' },
+  { id: 2, name: 'Arrefour Medical', logo: '/partners/arrefour-medical.svg' },
+  { id: 3, name: 'MILS', logo: '/partners/mils-logo.svg' },
 ]
 
 export const PartnersSection = () => {

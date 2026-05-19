@@ -7,7 +7,6 @@ const NAV_ITEMS = [
   { label: 'Accueil',           href: '/'          },
   { label: 'A propos de nous',  href: '/groupe'    },
   { label: 'Actualités',        href: '/actualites'},
-  { label: 'Contact',           href: '/contact'   },
 ];
 
 // ─── Couleurs brand ──────────────────────────────────────────────────────────

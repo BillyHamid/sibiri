@@ -1031,12 +1031,12 @@ const ProjetsFuturs = () => (
 // ─── ATOUTS ───────────────────────────────────────────────────────────────────
 const ATOUTS_ITEMS = [
   {
-    icon: "📋",
+    icon: "🌍",
     num: "01",
-    stat: "A1 → B4",
-    title: "Agréments complets",
-    desc: "Tous les agréments en matière de santé, couvrant l'ensemble des catégories réglementaires du secteur.",
-    badge: "8 certifications",
+    stat: "50+",
+    title: "Marques partenaires mondiales",
+    desc: "Collaboration avec plus de 50 marques internationales reconnues pour offrir les meilleures solutions en biomédicale et pharmaceutiques.",
+    badge: "Référence mondiale",
   },
   {
     icon: "🔄",
@@ -1055,12 +1055,12 @@ const ATOUTS_ITEMS = [
     badge: "365 jours / an",
   },
   {
-    icon: "📦",
+    icon: "🚀",
     num: "04",
-    stat: "2 000 m²",
-    title: "Capacité de stockage",
-    desc: "Magasins certifiés avec toutes les pièces de rechange de nos équipements disponibles en stock permanent.",
-    badge: "Pièces disponibles",
+    stat: "5+",
+    title: "Présence régionale établie",
+    desc: "Implantés dans plus de 5 pays d'Afrique de l'Ouest avec un réseau de distribution robuste et fiable pour servir les acteurs de santé.",
+    badge: "UEMOA",
   },
 ]
 

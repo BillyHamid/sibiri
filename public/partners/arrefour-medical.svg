@@ -1,0 +1,13 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- C shape blue -->
+  <path d="M 160 40 A 60 60 0 0 0 40 100 A 60 60 0 0 0 160 160"
+        fill="none" stroke="#003DA5" stroke-width="35" stroke-linecap="round"/>
+
+  <!-- C shape red (offset) -->
+  <path d="M 150 50 A 50 50 0 0 0 50 100 A 50 50 0 0 0 150 150"
+        fill="none" stroke="#D32F2F" stroke-width="28" stroke-linecap="round"/>
+
+  <!-- Text "Medical" -->
+  <text x="100" y="115" font-family="Arial, sans-serif" font-size="24" font-weight="bold"
+        text-anchor="middle" fill="#003DA5">Medical</text>
+</svg>

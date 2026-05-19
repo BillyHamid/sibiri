@@ -196,38 +196,6 @@ export function MedicalTailarkHeroSection() {
             </a>
           </motion.div>
 
-          {/* Stats bar */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.78 }}
-            style={{
-              display: 'flex', gap: 40, flexWrap: 'wrap',
-              paddingTop: 28,
-              borderTop: '1px solid rgba(255,255,255,0.12)',
-            }}
-          >
-            {[
-              { val: '2018',     lab: 'Fondée en' },
-              { val: 'A1 → B4', lab: 'Agréments santé' },
-              { val: '2 000 m²', lab: 'Stockage certifié' },
-            ].map(s => (
-              <div key={s.val}>
-                <p style={{
-                  fontFamily: "'Playfair Display', serif",
-                  fontSize: 22, fontWeight: 700,
-                  color: '#6DE8E0', margin: 0,
-                }}>{s.val}</p>
-                <p style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: 10, color: 'rgba(255,255,255,0.42)',
-                  margin: '4px 0 0',
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                }}>{s.lab}</p>
-              </div>
-            ))}
-          </motion.div>
         </div>
 
         {/* Responsive */}

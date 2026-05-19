@@ -339,8 +339,8 @@ export const ParticleHeroBanner = () => {
 
         {/* CTA */}
         <div className="phb-cta">
-          <Link
-            to="/global-construction"
+          <a
+            href="#nos-filiales"
             style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
               padding: '11px 28px', borderRadius: 99,
@@ -360,8 +360,8 @@ export const ParticleHeroBanner = () => {
               e.currentTarget.style.transform = 'scale(1)'
             }}
           >
-            Explorer nos filiales →
-          </Link>
+            Explorer nos filiales ↓
+          </a>
         </div>
 
         {/* Stats */}
@@ -392,23 +392,6 @@ export const ParticleHeroBanner = () => {
         </div>
       </div>
 
-      {/* ── Vague de transition → fond blanc (SubsidiariesReel) ──────────── */}
-      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 90, zIndex: 20, pointerEvents: 'none' }}>
-        <svg viewBox="0 0 1440 90" preserveAspectRatio="none"
-          style={{ width: '100%', height: '100%', display: 'block' }}>
-          <path
-            d="M0,45 C240,20 480,70 720,45 C960,20 1200,70 1440,45 L1440,90 L0,90 Z"
-            fill="#ffffff"
-          />
-          <path
-            d="M0,45 C240,20 480,70 720,45 C960,20 1200,70 1440,45"
-            fill="none"
-            stroke="rgba(201,168,76,0.45)"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-          />
-        </svg>
-      </div>
 
     </section>
   )

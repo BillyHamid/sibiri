@@ -26,7 +26,6 @@ const navLinks = [
   { label: 'Nos réalisations', href: '/medical/realisations'  },
   { label: 'Actualité',        href: '/medical/actualite'     },
   { label: 'Formation',        href: '/medical/formation'     },
-  { label: 'Contact',          href: '/medical#contact'       },
 ]
 
 export const MedicalNav = () => {

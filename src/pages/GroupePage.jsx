@@ -840,6 +840,7 @@ const Valeurs = () => (
   </section>
 )
 
+
 // ─── Page principale ──────────────────────────────────────────────────────────
 export const GroupePage = () => (
   <div className="w-full" style={{ background: DARK }}>

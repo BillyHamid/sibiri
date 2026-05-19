@@ -54,7 +54,7 @@ const CONTACT_INFOS = [
 
 const FILIALES_OPTIONS = [
   'SIBIRI Holding (Général)',
-  'Sibiri Global Construction',
+  'Sibiri Global Construction et Rénovation',
   'Sibiri Bio Medical Services',
   'Sibiri Energy',
   'Sibiri Transport & Logistics',

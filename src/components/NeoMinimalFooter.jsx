@@ -42,8 +42,8 @@ const THEMES = {
     panel: "rgba(166, 77, 66, 0.15)",
     border: "rgba(166, 77, 66, 0.25)",
     accent: "#A64D42",
-    title: "SIBIRI GLOBAL CONSTRUCTION",
-    subtitle: "Projets BTP, infrastructures et execution terrain maitrisee.",
+    title: "SIBIRI GLOBAL CONSTRUCTION ET RÉNOVATION",
+    subtitle: "Excellence en construction, rénovation et infrastructures majeures en Afrique de l'Ouest.",
     status: "Projects On Schedule",
   },
   logistic: {
@@ -61,7 +61,7 @@ const QUICK_LINKS_BY_VARIANT = {
   home: [
     { title: "Groupe", links: ["Accueil", "A propos de nous", "Actualites"] },
     { title: "Filiales", links: ["Medical", "Energy", "Construction"] },
-    { title: "Plus", links: ["Transport", "Agro-Chimie", "Contact"] },
+    { title: "Plus", links: ["Transport", "Agro-Chimie"] },
   ],
   medical: [
     { title: "Navigation", links: ["Presentation", "Nos prestations", "Nos realisations"] },
@@ -75,7 +75,7 @@ const QUICK_LINKS_BY_VARIANT = {
   ],
   construction: [
     { title: "Navigation", links: ["Presentation", "Activites", "Atouts"] },
-    { title: "Groupe", links: ["Conformite", "Projets futurs", "Contact"] },
+    { title: "Groupe", links: ["Notre philosophie", "Contact", "A Propos"] },
     { title: "Ressources", links: ["Accueil", "Filiales", "Support"] },
   ],
   logistic: [
@@ -124,7 +124,7 @@ export function NeoMinimalFooter({ variant = "home" }) {
               <div className="relative flex-1 max-w-xs">
                 <input
                   type="email"
-                  placeholder="Votre email..."
+                  placeholder="Entrer votre email pour recevoir les nouvelles"
                   className="w-full rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-slate-500 focus:outline-none transition-colors"
                   style={{ background: "rgba(255,255,255,0.05)", border: `1px solid ${theme.border}` }}
                 />

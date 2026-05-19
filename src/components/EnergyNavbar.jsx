@@ -28,7 +28,6 @@ const NAV_LINKS = [
   { label: "À Propos",            href: "#energy-about"        },
   { label: "Services / Produits", href: "#energy-content"      },
   { label: "Réalisations",        href: "#energy-realisations" },
-  { label: "Contact",             href: "#energy-contact"      },
 ]
 
 // ─── EnergyNavbar ─────────────────────────────────────────────────────────────

@@ -24,9 +24,6 @@ const navLinks = [
   { label: 'Présentation',     href: '#presentation' },
   { label: 'Activités',        href: '#activites'    },
   { label: 'Atouts',           href: '#atouts'       },
-  { label: 'Conformité',       href: '#conformite'   },
-  { label: 'Projets futurs',   href: '#projets-futurs' },
-  { label: 'Contact',          href: '#contact'      },
 ]
 
 export const ConstructionNav = () => {
@@ -60,7 +57,7 @@ export const ConstructionNav = () => {
             </a>
             <div className="w-px h-4 bg-white/20" />
             <span className="text-sm font-bold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
-              Global <span style={{ color: PRIMARY_LIGHT }}>Construction</span>
+              Global <span style={{ color: PRIMARY_LIGHT }}>Construction et Rénovation</span>
             </span>
           </div>
 

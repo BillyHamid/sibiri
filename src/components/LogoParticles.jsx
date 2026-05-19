@@ -198,7 +198,7 @@ const LogoParticlesCanvas = ({ logoSrc, className = "absolute inset-0 z-0" }) =>
 
 // ─── Filiales ─────────────────────────────────────────────────────────────────
 const SUBSIDIARIES = [
-  { name: "Global Construction",  color: "#8B2020", route: "/global-construction", logo: "/Sibiri-Construction.jpg", icon: "🏗️" },
+  { name: "Global Construction et Rénovation",  color: "#8B2020", route: "/global-construction", logo: "/Sibiri-Construction.jpg", icon: "🏗️" },
   { name: "Bio Medical Services", color: "#4CAF50", route: "/medical",             logo: "/Sibiri-Medical.jpg",      icon: "⚕️" },
   { name: "Transport & Logistics",color: "#1E6DA4", route: "/transport-logistic",  logo: "/Sibiri-Transport.png",    icon: "🚛" },
   { name: "Energy",               color: "#E62630", route: "/energy",              logo: "/Sibiri-Energy.png",       icon: "⚡" },
@@ -400,8 +400,8 @@ export const LogoParticlesHero = () => {
         </motion.p>
 
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.0, duration: 0.8 }}>
-          <Link
-            to="/global-construction"
+          <a
+            href="#nos-filiales"
             className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all hover:scale-105"
             style={{
               background: 'rgba(201,168,76,0.12)',
@@ -410,8 +410,8 @@ export const LogoParticlesHero = () => {
               fontFamily: "'Inter', sans-serif",
             }}
           >
-            Explorer nos filiales
-          </Link>
+            Explorer nos filiales ↓
+          </a>
         </motion.div>
       </div>
 
