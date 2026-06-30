@@ -15,7 +15,13 @@ import { MedicalPage }             from './pages/MedicalPage'
 import { MedicalRealisationsPage } from './pages/MedicalRealisationsPage'
 import { MedicalActualitePage }    from './pages/MedicalActualitePage'
 import { MedicalFormationPage }    from './pages/MedicalFormationPage'
-import { EnergyPage } from './pages/EnergyPage'
+import { EnergyLayout } from './pages/energy/EnergyLayout'
+import { EnergyHome } from './pages/energy/EnergyHome'
+import { EnergyServices } from './pages/energy/EnergyServices'
+import { EnergyAbout } from './pages/energy/EnergyAbout'
+import { EnergyProjects } from './pages/energy/EnergyProjects'
+import { EnergyWhy } from './pages/energy/EnergyWhy'
+import { EnergyContact } from './pages/energy/EnergyContact'
 import { AgroChemicalPage } from './pages/AgroChemicalPage'
 import { GlobalConstructionPage } from './pages/GlobalConstructionPage'
 import { TransportLogisticPage } from './pages/TransportLogisticPage'
@@ -56,7 +62,14 @@ function App() {
             <Route path="/medical/realisations"   element={<MedicalRealisationsPage />} />
             <Route path="/medical/actualite"      element={<MedicalActualitePage />} />
             <Route path="/medical/formation"      element={<MedicalFormationPage />} />
-            <Route path="/energy"              element={<EnergyPage />} />
+            <Route path="/energy" element={<EnergyLayout />}>
+              <Route index                    element={<EnergyHome />} />
+              <Route path="services"          element={<EnergyServices />} />
+              <Route path="a-propos"          element={<EnergyAbout />} />
+              <Route path="projets"           element={<EnergyProjects />} />
+              <Route path="pourquoi-nous"     element={<EnergyWhy />} />
+              <Route path="contact"           element={<EnergyContact />} />
+            </Route>
             <Route path="/agro-chemical"       element={<AgroChemicalPage />} />
             <Route path="/global-construction" element={<GlobalConstructionPage />} />
             <Route path="/transport-logistic"  element={<TransportLogisticPage />} />
