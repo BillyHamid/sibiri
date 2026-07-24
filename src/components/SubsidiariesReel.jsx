@@ -12,7 +12,7 @@ const SUBSIDIARIES = [
     color: '#C0392B',
     colorLight: '#FDECEA',
     route: '/global-construction',
-    logo: '/Sibiri-Construction.jpg',
+    logo: '/Sibiri-Construction.png',
     icon: '🏗️',
     desc: "Sibiri Global Construction et Rénovation est le bras armé du Groupe SIBIRI dans le secteur des travaux publics et du génie civil. Spécialisée dans la conception et la réalisation de projets d'infrastructures de grande envergure, la filiale intervient sur des chantiers de bâtiments administratifs, de voiries, de réseaux divers et d'aménagements urbains au Burkina Faso et dans la sous-région ouest-africaine. Portée par des ingénieurs qualifiés et un parc de matériels moderne, elle répond aux exigences des standards internationaux de construction.",
     highlights: [
@@ -34,7 +34,7 @@ const SUBSIDIARIES = [
     colorAlt: '#d9e25a',
     colorLight: '#F2FAE8',
     route: '/medical',
-    logo: '/Sibiri-Medical.jpg',
+    logo: '/Sibiri-Medical.png',
     icon: '🏥',
     desc: "Sibiri Bio Medical Services est spécialisée dans l'importation et la distribution de produits pharmaceutiques, de matériels et d'équipements médicaux au Burkina Faso. Agréée par le Ministère de la Santé pour les catégories A1 à B4, la filiale dessert aussi bien les acteurs publics que privés du système de santé national. Avec un entrepôt certifié de 2 000 m² aux normes BPD et une équipe dédiée au service après-vente disponible 24h/7j, elle s'impose comme un partenaire incontournable des professionnels de santé.",
     highlights: [
@@ -179,33 +179,26 @@ const FilialeCard = ({ filiale, index }) => {
             pointerEvents: 'none',
           }} />
 
-          {/* Logo */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
+          {/* Logo — sans case ni fond, juste l'image pour une meilleure visibilité */}
+          <motion.img
+            whileHover={{ scale: 1.08 }}
             transition={{ duration: 0.3 }}
+            src={filiale.logo}
+            alt={filiale.name}
+            onError={e => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex' }}
             style={{
-              width: 90, height: 90,
-              borderRadius: 14,
-              background: 'white',
-              border: `1.5px solid ${filiale.color}30`,
-              boxShadow: `0 8px 24px ${filiale.color}20`,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              overflow: 'hidden',
+              width: 104, height: 104,
+              objectFit: 'contain',
+              filter: `drop-shadow(0 6px 18px ${filiale.color}35)`,
               position: 'relative', zIndex: 1,
             }}
-          >
-            <img
-              src={filiale.logo}
-              alt={filiale.name}
-              onError={e => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex' }}
-              style={{ width: '75%', height: '75%', objectFit: 'contain' }}
-            />
-            <div style={{
-              display: 'none', width: '100%', height: '100%',
-              alignItems: 'center', justifyContent: 'center',
-              fontSize: 36,
-            }}>{filiale.icon}</div>
-          </motion.div>
+          />
+          <div style={{
+            display: 'none', width: 104, height: 104,
+            alignItems: 'center', justifyContent: 'center',
+            fontSize: 40,
+            position: 'relative', zIndex: 1,
+          }}>{filiale.icon}</div>
 
           {/* Tag secteur */}
           <div style={{
@@ -321,8 +314,7 @@ export const SubsidiariesReel = () => {
   return (
     <section id="nos-filiales" style={{
       background: '#fff',
-      padding: '40px 0 104px',
-      marginTop: '-80px',
+      padding: '88px 0 104px',
       position: 'relative',
       overflow: 'hidden',
     }}>

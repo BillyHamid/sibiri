@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { motion, useScroll } from 'framer-motion'
 
-const PRIMARY = '#0ea5e9'
-const PRIMARY_LIGHT = '#67e8f9'
+const GREEN = '#1f9d55'
+const GREEN_LIGHT = '#7ee787'
 
 const IconMenu = () => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -21,15 +21,14 @@ const IconArrowLeft = ({ size = 14 }) => (
 )
 
 const navLinks = [
-  { label: 'Présentation',     href: '#presentation' },
-  { label: 'Activités',        href: '#activites'    },
-  { label: 'Flotte',           href: '#flotte'       },
-  { label: 'Engagements',      href: '#engagements'  },
-  { label: 'Contact',          href: '#contact'      },
+  { label: 'Présentation',  href: '/agro-chemical#presentation'  },
+  { label: 'Expertise',     href: '/agro-chemical#expertise'      },
+  { label: 'Services',      href: '/agro-chemical#services'       },
+  { label: 'Réalisations',  href: '/agro-chemical#realisations'   },
 ]
 
-export const TransportNav = () => {
-  const [open, setOpen] = useState(false)
+export const AgroNav = () => {
+  const [open,     setOpen]     = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const { scrollYProgress } = useScroll()
 
@@ -43,10 +42,10 @@ export const TransportNav = () => {
       <nav
         className="mx-auto max-w-7xl rounded-3xl px-6 lg:px-10 transition-all duration-300"
         style={scrolled ? {
-          background: 'rgba(15,23,32,0.78)',
+          background: 'rgba(11,26,18,0.78)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          border: `1px solid rgba(255,255,255,0.08)`,
+          border: '1px solid rgba(255,255,255,0.08)',
         } : {}}
       >
         <div className={`flex items-center justify-between gap-6 py-3 transition-all duration-200 ${scrolled ? 'lg:py-3' : 'lg:py-5'}`}>
@@ -58,9 +57,7 @@ export const TransportNav = () => {
               <span className="hidden sm:inline">SIBIRI GROUP</span>
             </a>
             <div className="w-px h-4 bg-white/20" />
-            <span className="text-sm font-bold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
-              Transport <span style={{ color: PRIMARY_LIGHT }}>&amp; Logistique</span>
-            </span>
+            <img src="/Sibiri-Agro.png" alt="SIBIRI Agro Chemical" className="h-8 w-auto" draggable={false} />
           </div>
 
           {/* Desktop links */}
@@ -81,11 +78,11 @@ export const TransportNav = () => {
           {/* CTA */}
           <div className="hidden lg:flex items-center gap-3">
             <a
-              href="#contact"
+              href="/agro-chemical#contact"
               className="text-sm font-semibold px-5 py-2 rounded-full transition-all hover:brightness-110 hover:scale-105"
-              style={{ background: `linear-gradient(135deg, ${PRIMARY}, ${PRIMARY_LIGHT})`, color: '#0f1720', fontFamily: "'Inter', sans-serif" }}
+              style={{ background: `linear-gradient(135deg, ${GREEN}, ${GREEN_LIGHT})`, color: 'white', fontFamily: "'Inter', sans-serif" }}
             >
-              Contact
+              Nous contacter
             </a>
           </div>
 
@@ -107,8 +104,8 @@ export const TransportNav = () => {
                 </li>
               ))}
             </ul>
-            <a href="#contact" className="inline-flex mt-4 text-sm font-semibold px-5 py-2.5 rounded-full" style={{ background: `linear-gradient(135deg, ${PRIMARY}, ${PRIMARY_LIGHT})`, color: '#0f1720', fontFamily: "'Inter', sans-serif" }}>
-              Contact
+            <a href="/agro-chemical#contact" className="inline-flex mt-4 text-sm font-semibold px-5 py-2.5 rounded-full" style={{ background: `linear-gradient(135deg, ${GREEN}, ${GREEN_LIGHT})`, color: 'white', fontFamily: "'Inter', sans-serif" }}>
+              Nous contacter
             </a>
           </motion.div>
         )}

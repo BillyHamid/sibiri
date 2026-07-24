@@ -8,6 +8,9 @@ const PARTNERS = [
   { id: 1, name: 'Partner Medical', logo: '/partners/medical-logo.svg' },
   { id: 2, name: 'Arrefour Medical', logo: '/partners/arrefour-medical.svg' },
   { id: 3, name: 'MILS', logo: '/partners/mils-logo.svg' },
+  { id: 4, name: 'Wolf Lubricant', logo: '/partners/wolf.jpeg' },
+  { id: 5, name: 'NIPRO', logo: '/partners/nipro.jpg' },
+  { id: 6, name: 'SORUBAT', logo: '/partners/Soroubat-logo.png' },
 ]
 
 export const PartnersSection = () => {
@@ -25,27 +28,26 @@ export const PartnersSection = () => {
           <p style={{ fontSize: 14.5, color: '#9ca3af', maxWidth: 480, margin: '0 auto', lineHeight: 1.7, fontFamily: "'Inter', sans-serif" }}>En collaboration avec des acteurs clés du secteur pour une meilleure efficacité et un impact durable.</p>
           <div style={{ width: 48, height: 2, background: `linear-gradient(to right, transparent, ${GOLD}, transparent)`, margin: '20px auto 0', borderRadius: 99 }} />
         </motion.div>
-        <motion.div initial={{ opacity: 0, y: 40 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 0.2 }} style={{ position: 'relative', maxWidth: 1200, margin: '0 auto', overflow: 'hidden', padding: '0 24px' }}>
-          <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 200, background: 'linear-gradient(90deg, #faf8f3 0%, transparent 100%)', zIndex: 10, pointerEvents: 'none' }} />
-          <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 200, background: 'linear-gradient(90deg, transparent 0%, #faf8f3 100%)', zIndex: 10, pointerEvents: 'none' }} />
-          <div style={{ display: 'flex', gap: 48, overflow: 'hidden' }}>
-            <motion.div animate={{ x: ['0%', '-100%'] }} transition={{ duration: 30, repeat: Infinity, ease: 'linear' }} style={{ display: 'flex', gap: 48, minWidth: '100%' }}>
-              {PARTNERS.map((partner) => (
-                <motion.div key={`${partner.id}-1`} whileHover={{ scale: 1.08, y: -8 }} transition={{ duration: 0.3 }} style={{ minWidth: 180, height: 120, borderRadius: 20, background: 'white', border: `1.5px solid ${GOLD}28`, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, boxShadow: '0 2px 12px rgba(0,0,0,0.05)', cursor: 'pointer' }}>
-                  <img src={partner.logo} alt={partner.name} style={{ maxWidth: '85%', maxHeight: '85%', objectFit: 'contain' }} onError={(e) => { e.target.style.display = 'none'; if (e.target.nextSibling) e.target.nextSibling.style.display = 'flex' }} />
-                  <div style={{ display: 'none', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', fontSize: 48, color: GOLD }}>🤝</div>
-                </motion.div>
-              ))}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          style={{
+            maxWidth: 1200, margin: '0 auto', padding: '0 24px',
+            display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 28,
+          }}
+        >
+          {PARTNERS.map((partner) => (
+            <motion.div
+              key={partner.id}
+              whileHover={{ scale: 1.06, y: -6 }}
+              transition={{ duration: 0.25 }}
+              style={{ width: 220, height: 150, borderRadius: 22, background: 'white', border: `1.5px solid ${GOLD}28`, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 26, boxShadow: '0 2px 12px rgba(0,0,0,0.05)', cursor: 'pointer' }}
+            >
+              <img src={partner.logo} alt={partner.name} style={{ maxWidth: '85%', maxHeight: '85%', objectFit: 'contain' }} onError={(e) => { e.target.style.display = 'none'; if (e.target.nextSibling) e.target.nextSibling.style.display = 'flex' }} />
+              <div style={{ display: 'none', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', fontSize: 48, color: GOLD }}>🤝</div>
             </motion.div>
-            <motion.div animate={{ x: ['0%', '-100%'] }} transition={{ duration: 30, repeat: Infinity, ease: 'linear' }} style={{ display: 'flex', gap: 48, minWidth: '100%' }}>
-              {PARTNERS.map((partner) => (
-                <div key={`${partner.id}-2`} style={{ minWidth: 180, height: 120, borderRadius: 20, background: 'white', border: `1.5px solid ${GOLD}28`, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, boxShadow: '0 2px 12px rgba(0,0,0,0.05)' }}>
-                  <img src={partner.logo} alt={partner.name} style={{ maxWidth: '85%', maxHeight: '85%', objectFit: 'contain' }} onError={(e) => { e.target.style.display = 'none'; if (e.target.nextSibling) e.target.nextSibling.style.display = 'flex' }} />
-                  <div style={{ display: 'none', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', fontSize: 48, color: GOLD }}>🤝</div>
-                </div>
-              ))}
-            </motion.div>
-          </div>
+          ))}
         </motion.div>
         <motion.div initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ duration: 0.6, delay: 0.4 }} style={{ textAlign: 'center', marginTop: 56 }}>
           <p style={{ fontSize: 13, color: '#9ca3af', fontFamily: "'Inter', sans-serif", margin: 0 }}>Intéressé par un partenariat ? <span style={{ color: GOLD, fontWeight: 600, cursor: 'pointer' }}> Contactez-nous</span></p>

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
 // ─── Styles globaux injectés une seule fois ───────────────────────────────────
@@ -98,37 +98,14 @@ function injectStyles() {
   stylesInjected = true
 }
 
-// ─── Données stats ────────────────────────────────────────────────────────────
-const STATS = [
-  { target: 5,   suffix: '',  label: 'Filiales actives'     },
-  { target: 15,  suffix: '+', label: "Années d'expérience"  },
-  { target: 3,   suffix: '',  label: "Pays d'implantation"  },
-  { target: 500, suffix: '+', label: 'Collaborateurs'       },
+// ─── Filiales (affichées dans le HERO, à la place des statistiques) ───────────
+const FILIALES = [
+  { name: 'Construction', route: '/global-construction', logo: '/Sibiri-Construction.png' },
+  { name: 'Medical',      route: '/medical',             logo: '/Sibiri-Medical.png'      },
+  { name: 'Energy',       route: '/energy',               logo: '/Sibiri-Energy.png'       },
+  { name: 'Transport',    route: '/transport-logistic',   logo: '/Sibiri-Transport.png'    },
+  { name: 'Agro',         route: '/agro-chemical',        logo: '/Sibiri-Agro.png'         },
 ]
-
-// ─── Compteur animé ───────────────────────────────────────────────────────────
-// `start` est contrôlé par le parent (IntersectionObserver sur la section)
-const CountUp = ({ target, suffix = '', duration = 1800, start = false }) => {
-  const [count, setCount] = useState(0)
-  const rafRef            = useRef(null)
-
-  useEffect(() => {
-    if (!start) return
-    const startTime = performance.now()
-    const tick = (now) => {
-      const elapsed  = now - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      const eased    = 1 - Math.pow(1 - progress, 4) // ease-out quart
-      setCount(Math.floor(eased * target))
-      if (progress < 1) rafRef.current = requestAnimationFrame(tick)
-      else setCount(target)
-    }
-    rafRef.current = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(rafRef.current)
-  }, [start, target, duration])
-
-  return <span>{count}{suffix}</span>
-}
 
 // ─── ParticleHeroBanner ───────────────────────────────────────────────────────
 export const ParticleHeroBanner = () => {
@@ -136,29 +113,6 @@ export const ParticleHeroBanner = () => {
   const animationRef = useRef(null)
   const particlesRef = useRef([])
   const sectionRef   = useRef(null)
-  const mountTime    = useRef(Date.now())
-  const [counting, setCounting] = useState(false)
-
-  // ── Observer : synchronise le compteur avec le fade-in CSS des stats ────────
-  // .phb-stats a animation-delay: 3s depuis le montage du composant.
-  // On calcule le temps restant avant ce délai et on attend exactement ce moment.
-  useEffect(() => {
-    const el = sectionRef.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          observer.disconnect()
-          const elapsed   = Date.now() - mountTime.current
-          const remaining = Math.max(0, 3000 - elapsed) // délai restant avant stats visibles
-          setTimeout(() => setCounting(true), remaining)
-        }
-      },
-      { threshold: 0.15 }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
 
   useEffect(() => {
     injectStyles()
@@ -316,7 +270,7 @@ export const ParticleHeroBanner = () => {
           letterSpacing: '0.38em', textTransform: 'uppercase',
           color: 'rgba(201,168,76,0.65)',
         }}>
-          SIBIRI GROUP — HOLDING
+          GROUP SIBIRI HOLDING
         </p>
 
         {/* Titre principal animé */}
@@ -364,30 +318,39 @@ export const ParticleHeroBanner = () => {
           </a>
         </div>
 
-        {/* Stats */}
+        {/* Filiales — intégrées au HERO, à la place des statistiques */}
         <div className="phb-stats" style={{
-          display: 'flex', gap: 'clamp(24px, 4vw, 64px)',
-          marginTop: 12,
+          display: 'flex', flexWrap: 'wrap', justifyContent: 'center',
+          gap: 'clamp(20px, 4vw, 44px)',
+          marginTop: 16,
         }}>
-          {STATS.map(({ target, suffix, label }) => (
-            <div key={label} style={{ textAlign: 'center' }}>
-              <p style={{
-                fontSize: 'clamp(22px, 2.8vw, 36px)',
-                fontWeight: 700,
-                margin: 0,
-                background: 'linear-gradient(135deg, #C9A84C, #F5DFA0)',
-                backgroundClip: 'text', WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontFamily: "'Playfair Display', serif",
-              }}>
-                <CountUp target={target} suffix={suffix} duration={3200} start={counting} />
-              </p>
-              <p style={{
-                fontSize: 10, color: 'rgba(216,236,248,.5)',
-                margin: '4px 0 0', letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-              }}>{label}</p>
-            </div>
+          {FILIALES.map((f) => (
+            <Link
+              key={f.name}
+              to={f.route}
+              style={{ textDecoration: 'none', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}
+              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px) scale(1.06)' }}
+              onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0) scale(1)' }}
+            >
+              <img
+                src={f.logo}
+                alt={f.name}
+                draggable={false}
+                style={{
+                  height: 44,
+                  width: 'auto',
+                  maxWidth: 84,
+                  objectFit: 'contain',
+                  filter: 'drop-shadow(0 2px 10px rgba(0,0,0,0.35))',
+                  transition: 'transform .25s ease',
+                }}
+              />
+              <span style={{
+                fontSize: 9.5, fontWeight: 700,
+                letterSpacing: '0.12em', textTransform: 'uppercase',
+                color: 'rgba(201,168,76,0.65)',
+              }}>{f.name}</span>
+            </Link>
           ))}
         </div>
       </div>

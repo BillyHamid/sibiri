@@ -214,7 +214,7 @@ export const OrgChart = () => {
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          style={{ textAlign: 'center', marginBottom: 68 }}
+          style={{ textAlign: 'center', marginBottom: 40 }}
         >
           <p style={{
             fontSize: 10, fontWeight: 800, letterSpacing: '0.34em',
@@ -242,6 +242,25 @@ export const OrgChart = () => {
             background: `linear-gradient(to right, transparent, ${GOLD}, transparent)`,
             margin: '20px auto 0', borderRadius: 99,
           }} />
+        </motion.div>
+
+        {/* ── Illustration (placeholder, remplaçable) ───────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          style={{
+            maxWidth: 760, margin: '0 auto 64px',
+            borderRadius: 20, overflow: 'hidden',
+            border: `1px solid ${GOLD}28`,
+            boxShadow: '0 12px 40px rgba(0,0,0,0.08)',
+          }}
+        >
+          <img
+            src="/groupe/management-business-industrial-facilities-development-600w-2619309351.webp"
+            alt="Gouvernance et pilotage stratégique du Groupe SIBIRI Holding"
+            style={{ width: '100%', height: 220, objectFit: 'cover', display: 'block' }}
+          />
         </motion.div>
 
         {/* ══════════════════ ARBRE ═══════════════════════════════════════ */}

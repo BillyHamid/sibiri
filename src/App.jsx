@@ -4,7 +4,6 @@ import { Loader } from './components/Loader'
 import { Navbar } from './components/Navbar'
 import { LogoParticlesHero } from './components/LogoParticles'
 import { ParticleHeroBanner } from './components/ParticleHeroBanner'
-import { LogosTransition } from './components/FilialesLogoCarousel'
 import { SubsidiariesReel } from './components/SubsidiariesReel'
 import { OrgChart } from './components/OrgChart'
 import { PartnersSection } from './components/PartnersSection'
@@ -34,7 +33,6 @@ const HomePage = () => (
   <>
     <Navbar />
     <ParticleHeroBanner />
-    <LogosTransition />
     <SubsidiariesReel />
     <PresidentMessage />
     <OrgChart />

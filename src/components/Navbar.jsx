@@ -121,7 +121,7 @@ export const Navbar = () => {
                   src="/SIBIRI%20Holding.png"
                   alt="SIBIRI Holding"
                   className="w-auto select-none"
-                  style={{ height: scrolled ? 65 : 130, transition: 'height 0.3s ease' }}
+                  style={{ height: scrolled ? 80 : 160, transition: 'height 0.3s ease' }}
                   draggable={false}
                 />
               </a>

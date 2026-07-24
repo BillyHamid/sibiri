@@ -57,36 +57,96 @@ const THEMES = {
   },
 }
 
+// Liens vers chaque filiale — affichés dans la section "Groupe" du footer de
+// TOUTES les filiales, pour permettre une navigation directe entre elles.
+const FILIALES_LINKS = [
+  { label: "SIBIRI Holding", href: "/" },
+  { label: "Bio Medical", href: "/medical" },
+  { label: "Energy", href: "/energy" },
+  { label: "Global Construction", href: "/global-construction" },
+  { label: "Transport & Logistic", href: "/transport-logistic" },
+  { label: "Agro Chemical", href: "/agro-chemical" },
+]
+
 const QUICK_LINKS_BY_VARIANT = {
   home: [
-    { title: "Groupe", links: ["Accueil", "A propos de nous", "Actualites"] },
-    { title: "Filiales", links: ["Medical", "Energy", "Construction"] },
-    { title: "Plus", links: ["Transport", "Agro-Chimie"] },
+    { title: "Navigation", links: [
+      { label: "Accueil", href: "/" },
+      { label: "A propos de nous", href: "/groupe" },
+      { label: "Actualites", href: "/actualites" },
+      { label: "Contact", href: "/contact" },
+    ] },
+    { title: "Groupe", links: FILIALES_LINKS },
+    { title: "Ressources", links: [
+      { label: "sibiri.group", href: "/" },
+      { label: "Mentions legales", href: "/contact" },
+      { label: "Support", href: "/contact" },
+    ] },
   ],
   medical: [
-    { title: "Navigation", links: ["Presentation", "Nos prestations", "Nos realisations"] },
-    { title: "Groupe", links: ["Actualite", "Formation", "Contact"] },
-    { title: "Ressources", links: ["Accueil", "Filiales", "Support"] },
+    { title: "Navigation", links: [
+      { label: "Presentation", href: "/medical" },
+      { label: "Nos prestations", href: "/medical" },
+      { label: "Nos realisations", href: "/medical/realisations" },
+    ] },
+    { title: "Groupe", links: FILIALES_LINKS },
+    { title: "Ressources", links: [
+      { label: "Actualite", href: "/medical/actualite" },
+      { label: "Formation", href: "/medical/formation" },
+      { label: "Contact", href: "/contact" },
+    ] },
   ],
   energy: [
-    { title: "Navigation", links: ["Services", "A Propos", "Projets"] },
-    { title: "Groupe", links: ["Pourquoi nous", "Contact", "Accueil"] },
-    { title: "Ressources", links: ["Filiales", "Actualites", "Support"] },
+    { title: "Navigation", links: [
+      { label: "Services", href: "/energy/services" },
+      { label: "A Propos", href: "/energy/a-propos" },
+      { label: "Projets", href: "/energy/projets" },
+    ] },
+    { title: "Groupe", links: FILIALES_LINKS },
+    { title: "Ressources", links: [
+      { label: "Pourquoi nous", href: "/energy/pourquoi-nous" },
+      { label: "Contact", href: "/energy/contact" },
+      { label: "Actualites", href: "/actualites" },
+    ] },
   ],
   construction: [
-    { title: "Navigation", links: ["Presentation", "Activites", "Atouts"] },
-    { title: "Groupe", links: ["Notre philosophie", "Contact", "A Propos"] },
-    { title: "Ressources", links: ["Accueil", "Filiales", "Support"] },
+    { title: "Navigation", links: [
+      { label: "Presentation", href: "/global-construction" },
+      { label: "Activites", href: "/global-construction" },
+      { label: "Atouts", href: "/global-construction" },
+    ] },
+    { title: "Groupe", links: FILIALES_LINKS },
+    { title: "Ressources", links: [
+      { label: "Notre philosophie", href: "/global-construction" },
+      { label: "Contact", href: "/contact" },
+      { label: "Support", href: "/contact" },
+    ] },
   ],
   logistic: [
-    { title: "Navigation", links: ["Presentation", "Activites", "Atouts"] },
-    { title: "Groupe", links: ["Conformite", "Projets futurs", "Contact"] },
-    { title: "Ressources", links: ["Accueil", "Filiales", "Support"] },
+    { title: "Navigation", links: [
+      { label: "Presentation", href: "/transport-logistic" },
+      { label: "Activites", href: "/transport-logistic" },
+      { label: "Atouts", href: "/transport-logistic" },
+    ] },
+    { title: "Groupe", links: FILIALES_LINKS },
+    { title: "Ressources", links: [
+      { label: "Conformite", href: "/transport-logistic" },
+      { label: "Projets futurs", href: "/transport-logistic" },
+      { label: "Contact", href: "/contact" },
+    ] },
   ],
   agro: [
-    { title: "Navigation", links: ["Presentation", "Services", "Produits"] },
-    { title: "Groupe", links: ["Realisation", "Partenaires", "Contact"] },
-    { title: "Ressources", links: ["Accueil", "Filiales", "Support"] },
+    { title: "Navigation", links: [
+      { label: "Presentation", href: "/agro-chemical" },
+      { label: "Services", href: "/agro-chemical" },
+      { label: "Produits", href: "/agro-chemical" },
+    ] },
+    { title: "Groupe", links: FILIALES_LINKS },
+    { title: "Ressources", links: [
+      { label: "Realisation", href: "/agro-chemical" },
+      { label: "Partenaires", href: "/agro-chemical" },
+      { label: "Contact", href: "/contact" },
+    ] },
   ],
 }
 
@@ -144,10 +204,10 @@ export function NeoMinimalFooter({ variant = "home" }) {
               <h4 className="text-xs font-semibold text-white/70 uppercase tracking-widest">{section.title}</h4>
               <ul className="flex flex-col gap-3">
                 {section.links.map((link) => (
-                  <li key={link}>
-                    <a href="#" className="text-sm text-slate-400 hover:text-white transition-colors flex items-center gap-2 w-fit">
+                  <li key={link.label}>
+                    <a href={link.href} className="text-sm text-slate-400 hover:text-white transition-colors flex items-center gap-2 w-fit">
                       <span className="w-2 h-2 rounded-full transition-all duration-200" style={{ background: `${theme.accent}99` }} />
-                      {link}
+                      {link.label}
                     </a>
                   </li>
                 ))}

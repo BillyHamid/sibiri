@@ -21,9 +21,10 @@ const IconArrowLeft = ({ size = 14 }) => (
 )
 
 const navLinks = [
-  { label: 'Présentation',     href: '#presentation' },
-  { label: 'Activités',        href: '#activites'    },
-  { label: 'Atouts',           href: '#atouts'       },
+  { label: 'Présentation',     href: '#presentation'  },
+  { label: 'Activités',        href: '#activites'     },
+  { label: 'Organisation',     href: '#organisation'  },
+  { label: 'Contact',          href: '#contact'       },
 ]
 
 export const ConstructionNav = () => {

@@ -111,7 +111,7 @@ const Presentation = () => (
             <div style={{ position: 'absolute', top: -30, right: -30, width: 160, height: 160, borderRadius: '50%', border: `1px solid ${GREEN}22` }} />
             <div style={{ position: 'absolute', bottom: -40, left: -40, width: 200, height: 200, borderRadius: '50%', border: `1px solid ${GREEN}18` }} />
             <img
-              src="/Sibiri-Medical.jpg"
+              src="/Sibiri-Medical.png"
               alt="Sibiri Bio Médical Services — logo"
               style={{ position: 'relative', zIndex: 1, maxWidth: '75%', height: 'auto' }}
             />
