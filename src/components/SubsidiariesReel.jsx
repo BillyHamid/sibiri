@@ -1,6 +1,7 @@
-import { useRef, useState } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { useState } from 'react'
+import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { useContentValue } from '../lib/content/ContentProvider'
 
 const GOLD = '#C9A84C'
 
@@ -14,7 +15,7 @@ const SUBSIDIARIES = [
     route: '/global-construction',
     logo: '/Sibiri-Construction.png',
     icon: '🏗️',
-    desc: "Sibiri Global Construction et Rénovation est le bras armé du Groupe SIBIRI dans le secteur des travaux publics et du génie civil. Spécialisée dans la conception et la réalisation de projets d'infrastructures de grande envergure, la filiale intervient sur des chantiers de bâtiments administratifs, de voiries, de réseaux divers et d'aménagements urbains au Burkina Faso et dans la sous-région ouest-africaine. Portée par des ingénieurs qualifiés et un parc de matériels moderne, elle répond aux exigences des standards internationaux de construction.",
+    desc: "SIBIRI Global Construction et Rénovation est la filiale spécialisée dans le BTP.",
     highlights: [
       'Construction de bâtiments administratifs, commerciaux et industriels',
       'Aménagement de voiries, routes et réseaux divers',
@@ -36,7 +37,7 @@ const SUBSIDIARIES = [
     route: '/medical',
     logo: '/Sibiri-Medical.png',
     icon: '🏥',
-    desc: "Sibiri Bio Medical Services est spécialisée dans l'importation et la distribution de produits pharmaceutiques, de matériels et d'équipements médicaux au Burkina Faso. Agréée par le Ministère de la Santé pour les catégories A1 à B4, la filiale dessert aussi bien les acteurs publics que privés du système de santé national. Avec un entrepôt certifié de 2 000 m² aux normes BPD et une équipe dédiée au service après-vente disponible 24h/7j, elle s'impose comme un partenaire incontournable des professionnels de santé.",
+    desc: "SIBIRI BIO MEDICAL SERVICES SA est le spécialiste dans le domaine des équipements bio médicaux et des produits pharmaceutiques.",
     highlights: [
       'Importation et distribution de médicaments & consommables',
       'Équipements médicaux, matériels de laboratoire et imagerie',
@@ -53,7 +54,7 @@ const SUBSIDIARIES = [
     route: '/energy',
     logo: '/Sibiri-Energy.png',
     icon: '⚡',
-    desc: "Sibiri Energy est la filiale du Groupe dédiée à l'exploitation et à la valorisation des ressources énergétiques du continent africain. Positionnée sur le segment des hydrocarbures et des solutions énergétiques adaptées aux marchés émergents, elle contribue activement à la sécurité énergétique du Burkina Faso et de la sous-région. En alliant fiabilité des approvisionnements, flexibilité commerciale et engagement vers les énergies durables, Sibiri Energy se positionne comme un acteur clé de la transition énergétique africaine.",
+    desc: "SIBIRI ENERGY élabore des solutions liées aux questions énergétiques et dispose d'un réseau de stations-service.",
     highlights: [
       'Négoce et distribution de produits pétroliers & hydrocarbures',
       "Solutions énergétiques sur mesure pour l'industrie et les PME",
@@ -74,7 +75,7 @@ const SUBSIDIARIES = [
     route: '/transport-logistic',
     logo: '/Sibiri-Transport.png',
     icon: '🚛',
-    desc: "Sibiri Transport & Logistics offre des solutions de transport et de logistique intégrée à travers l'Afrique subsaharienne. La filiale coordonne l'acheminement de marchandises par voie terrestre et assure des prestations complètes de supply chain pour les entreprises, institutions et organismes internationaux opérant au Burkina Faso et dans les pays voisins. Dotée d'une flotte adaptée et d'équipes formées aux procédures douanières, elle garantit rapidité, traçabilité et sécurité de chaque livraison.",
+    desc: "SIBIRI TRANSPORT & LOGISTICS offre des solutions de transport & logistique aux secteurs industriel, minier et commercial.",
     highlights: [
       'Transport routier de marchandises — national & international',
       'Logistique intégrée : entreposage, gestion de stock et distribution',
@@ -95,7 +96,7 @@ const SUBSIDIARIES = [
     route: '/agro-chemical',
     logo: '/Sibiri-Agro.png',
     icon: '🌿',
-    desc: "Sibiri Agro Chemical répond aux besoins croissants du secteur agricole burkinabé en fournissant des intrants de qualité, des produits phytosanitaires homologués et des engrais adaptés aux cultures locales. Engagée dans une agriculture responsable et productive, la filiale accompagne agriculteurs, coopératives et agro-industries dans l'optimisation de leurs rendements tout en préservant les ressources naturelles. Sa gamme de produits couvre l'ensemble du cycle cultural, du sol à la récolte.",
+    desc: "SIBIRI AGRO CHEMICAL SA est le spécialiste dans le domaine des intrants agricoles et élabore des solutions pertinentes aux enjeux du secteur agricole.",
     highlights: [
       'Fourniture d\'intrants agricoles et produits phytosanitaires homologués',
       'Engrais minéraux et organiques adaptés aux sols africains',
@@ -118,20 +119,16 @@ const CheckIcon = ({ color }) => (
 )
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
-const Reveal = ({ children, delay = 0, y = 28 }) => {
-  const innerRef = useRef(null)
-  const inView = useInView(innerRef, { once: true, margin: '-60px' })
-  return (
-    <motion.div
-      ref={innerRef}
-      initial={{ opacity: 0, y }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay, ease: [0.2, 0.65, 0.3, 0.9] }}
-    >
-      {children}
-    </motion.div>
-  )
-}
+const Reveal = ({ children, delay = 0, y = 28 }) => (
+  <motion.div
+    initial={{ opacity: 0, y }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: '-60px' }}
+    transition={{ duration: 0.7, delay, ease: [0.2, 0.65, 0.3, 0.9] }}
+  >
+    {children}
+  </motion.div>
+)
 
 // ── Carte filiale compacte ──────────────────────────────────────────────────
 const FilialeCard = ({ filiale, index }) => {
@@ -166,7 +163,7 @@ const FilialeCard = ({ filiale, index }) => {
             padding: '24px 18px',
             position: 'relative',
             overflow: 'hidden',
-            minHeight: 140,
+            minHeight: 184,
           }}
         >
           {/* Fond déco cercle */}
@@ -187,16 +184,16 @@ const FilialeCard = ({ filiale, index }) => {
             alt={filiale.name}
             onError={e => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex' }}
             style={{
-              width: 104, height: 104,
+              width: 148, height: 148,
               objectFit: 'contain',
               filter: `drop-shadow(0 6px 18px ${filiale.color}35)`,
               position: 'relative', zIndex: 1,
             }}
           />
           <div style={{
-            display: 'none', width: 104, height: 104,
+            display: 'none', width: 148, height: 148,
             alignItems: 'center', justifyContent: 'center',
-            fontSize: 40,
+            fontSize: 52,
             position: 'relative', zIndex: 1,
           }}>{filiale.icon}</div>
 
@@ -272,7 +269,7 @@ const FilialeCard = ({ filiale, index }) => {
             fontSize: 11, lineHeight: 1.6,
             color: '#6B7280', margin: 0,
           }}>
-            {filiale.desc.substring(0, 120)}...
+            {filiale.desc}
           </p>
 
           {/* CTA */}
@@ -308,8 +305,8 @@ const FilialeCard = ({ filiale, index }) => {
 
 // ── Section principale ───────────────────────────────────────────────────────
 export const SubsidiariesReel = () => {
-  const ref    = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
+  const title    = useContentValue('home.filiales.title', 'Un Groupe, 5 expertises')
+  const subtitle = useContentValue('home.filiales.subtitle', "Chaque filiale incarne un secteur clé du développement africain, avec une stratégie d'excellence propre à son domaine.")
 
   return (
     <section id="nos-filiales" style={{
@@ -329,12 +326,13 @@ export const SubsidiariesReel = () => {
         pointerEvents: 'none',
       }} />
 
-      <div ref={ref} style={{ maxWidth: 1180, margin: '0 auto', padding: '0 28px' }}>
+      <div style={{ maxWidth: 1180, margin: '0 auto', padding: '0 28px' }}>
 
         {/* ── Header ─────────────────────────────────────────────────────── */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6 }}
           style={{ textAlign: 'center', marginBottom: 56 }}
         >
@@ -354,7 +352,7 @@ export const SubsidiariesReel = () => {
             margin: '0 0 14px',
             fontFamily: "'Playfair Display', serif",
             lineHeight: 1.15,
-          }}>Un groupe, cinq expertises</h2>
+          }}>{title}</h2>
 
           <p style={{
             fontSize: 15,
@@ -364,8 +362,7 @@ export const SubsidiariesReel = () => {
             lineHeight: 1.7,
             fontFamily: "'Inter', sans-serif",
           }}>
-            Chaque filiale incarne un secteur clé du développement africain,
-            avec une stratégie d'excellence propre à son domaine.
+            {subtitle}
           </p>
 
           <div style={{

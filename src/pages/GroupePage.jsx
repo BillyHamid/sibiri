@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { motion, useInView, useScroll, useTransform } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import { Navbar } from '../components/Navbar'
 import { NeoMinimalFooter } from '../components/NeoMinimalFooter'
 
@@ -252,12 +253,12 @@ const SecondBanner = () => {
       {/* ── Overlay cinématique ── */}
       <div style={{
         position: 'absolute', inset: 0, zIndex: 1,
-        background: 'linear-gradient(160deg, rgba(4,3,1,0.82) 0%, rgba(6,4,1,0.55) 50%, rgba(4,3,1,0.84) 100%)',
+        background: 'linear-gradient(160deg, rgba(4,3,1,0.46) 0%, rgba(6,4,1,0.28) 50%, rgba(4,3,1,0.48) 100%)',
       }} />
       {/* Vignette bords */}
       <div style={{
         position: 'absolute', inset: 0, zIndex: 2,
-        background: 'radial-gradient(ellipse at center, transparent 30%, rgba(4,3,1,0.72) 100%)',
+        background: 'radial-gradient(ellipse at center, transparent 30%, rgba(4,3,1,0.40) 100%)',
         pointerEvents: 'none',
       }} />
 
@@ -307,8 +308,7 @@ const SecondBanner = () => {
             lineHeight: 1.75,
           }}
         >
-          Investissements, gestion et contrôle d'actifs —<br />
-          au service des économies africaines depuis sa fondation.
+          Investissements, gestion et contrôle d'actifs.
         </motion.p>
 
         {/* Bouton Découvrir */}
@@ -488,27 +488,53 @@ const Histoire = () => (
 
           <Reveal delay={0.3}>
             <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, lineHeight: 1.85, color: '#4B5563', marginBottom: 20 }}>
-              Elle est une <strong style={{ color: '#0D1117' }}>société d'investissements, de gestion et de contrôle</strong> d'actifs mobiliers et immobiliers. SIBIRI Group est né d'une stratégie d'unité d'actions impulsée par Monsieur OUEDRAOGO Mahamadou Lamine, bien connu du milieu des Affaires au Burkina Faso et dans la sous-région.
+              Elle est une <strong style={{ color: '#0D1117' }}>société d'investissements, de gestion et de contrôle</strong> d'actifs mobiliers et immobiliers.
             </p>
           </Reveal>
 
           <Reveal delay={0.4}>
-            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, lineHeight: 1.85, color: '#4B5563', marginBottom: 36 }}>
-              Lui-même fils du <strong style={{ color: GOLD }}>premier Président de la Chambre de Commerce et d'Industrie de la Haute Volta</strong> (Feu El Hadj Ousmane <em>Sibiri</em> OUEDRAOGO) — d'où le nom de la Holding —, il porte et défend l'ensemble des intérêts du Groupe SIBIRI. Présent dans le <strong style={{ color: '#0D1117' }}>BTP, les Hydrocarbures, le Négoce international</strong> et le commerce général.
+            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, lineHeight: 1.85, color: '#4B5563', marginBottom: 20 }}>
+              <strong style={{ color: '#0D1117' }}>Monsieur Mahamadou Lamine OUEDRAOGO</strong> est un fils du <strong style={{ color: GOLD }}>premier Président de la Chambre de Commerce et d'Industrie de la Haute Volta</strong> (Feu El Hadj Ousmane <em>Sibiri</em> OUEDRAOGO) — d'où le nom de la Holding —, il porte et défend l'ensemble des intérêts du Groupe SIBIRI.
             </p>
           </Reveal>
 
-          {/* Secteurs pills */}
+          <Reveal delay={0.45}>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, lineHeight: 1.85, color: '#4B5563', marginBottom: 36 }}>
+              Le Groupe est présent dans le domaine du <strong style={{ color: '#0D1117' }}>BTP, du biomédical, des Hydrocarbures, du transport, des intrants agricoles et du Négoce international</strong>.
+            </p>
+          </Reveal>
+
+          {/* Secteurs pills — cliquables vers chaque filiale */}
           <Reveal delay={0.5}>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-              {['BTP & Génie Civil', 'Hydrocarbures', 'Négoce international', 'Commerce général', 'Représentation exclusive'].map(s => (
-                <span key={s} style={{
+              {[
+                { label: 'BTP',                 href: '/global-construction' },
+                { label: 'Biomédical',           href: '/medical'             },
+                { label: 'Hydrocarbures',        href: '/energy'              },
+                { label: 'Transport',            href: '/transport-logistic'  },
+                { label: 'Intrants agricoles',   href: '/agro-chemical'       },
+                { label: 'Négoce international', href: null                  },
+              ].map(({ label, href }) => {
+                const pillStyle = {
                   padding: '7px 16px', borderRadius: 99,
                   background: `${GOLD}18`, border: `1px solid ${GOLD}44`,
                   color: '#7A5010', fontSize: 12, fontWeight: 600,
                   fontFamily: "'Inter', sans-serif",
-                }}>{s}</span>
-              ))}
+                  textDecoration: 'none', display: 'inline-block',
+                  transition: 'all 0.2s ease',
+                }
+                return href ? (
+                  <Link
+                    key={label}
+                    to={href}
+                    style={pillStyle}
+                    onMouseEnter={e => { e.currentTarget.style.background = GOLD; e.currentTarget.style.color = '#fff' }}
+                    onMouseLeave={e => { e.currentTarget.style.background = `${GOLD}18`; e.currentTarget.style.color = '#7A5010' }}
+                  >{label}</Link>
+                ) : (
+                  <span key={label} style={pillStyle}>{label}</span>
+                )
+              })}
             </div>
           </Reveal>
         </div>
@@ -558,7 +584,7 @@ const Vision = () => (
           fontSize: 'clamp(2rem, 4vw, 3.5rem)',
           fontWeight: 700, color: 'white', lineHeight: 1.15, margin: '0 0 20px',
         }}>
-          Devenir un Groupe<br /><G>Respecté et de Référence</G><br />en Afrique
+          Être un groupe <G>de référence</G> en Afrique
         </h2>
         <div style={{
           width: 60, height: 2, borderRadius: 2, margin: '0 auto',
@@ -624,130 +650,13 @@ const Vision = () => (
   </section>
 )
 
-// ─── Nos Missions ──────────────────────────────────────────────────────────────
-const MISSIONS = [
-  { num: '01', title: 'Orientations stratégiques', desc: "Identifier, proposer et mettre en œuvre des orientations stratégiques susceptibles d'influencer durablement le groupe ou une filiale." },
-  { num: '02', title: 'Axes de croissance', desc: "Prospecter et identifier des axes de croissance pour le groupe dans la sous-région africaine." },
-  { num: '03', title: 'Appui opérationnel', desc: "Mettre en place un mécanisme d'appui opérationnel aux filiales en création, en réorganisation ou en difficulté." },
-  { num: '04', title: 'Suivi & Contrôle', desc: "Mettre en place un dispositif de suivi et contrôle de l'ensemble des filiales du groupe." },
-  { num: '05', title: "Identité & Appartenance", desc: "Renforcer l'identité du groupe et cultiver un sentiment d'appartenance fort parmi les équipes." },
-]
-
-const Missions = () => (
-  <section id="missions" style={{
-    position: 'relative', overflow: 'hidden',
-    background: '#F8F7F4', padding: '120px 40px',
-  }}>
-    <div style={{
-      position: 'absolute', top: '5%', left: '-2%',
-      fontFamily: "'Playfair Display', serif",
-      fontSize: 'clamp(8rem, 18vw, 16rem)', fontWeight: 900,
-      color: 'rgba(180,140,50,0.07)', userSelect: 'none', lineHeight: 1,
-      letterSpacing: '-0.04em', pointerEvents: 'none',
-    }}>MISSIONS</div>
-    <div style={{
-      position: 'absolute', top: '20%', right: '-5%', zIndex: 0,
-      width: '35%', height: '50%',
-      background: `radial-gradient(ellipse, ${GOLD}08 0%, transparent 65%)`,
-      filter: 'blur(80px)', pointerEvents: 'none',
-    }} />
-
-    <div style={{ position: 'relative', zIndex: 1, maxWidth: 1200, margin: '0 auto' }}>
-
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 80, alignItems: 'start' }} className="missions-grid">
-
-        {/* LEFT : header */}
-        <div style={{ position: 'sticky', top: 120 }}>
-          <Reveal>
-            <GoldTag>Nos Missions</GoldTag>
-            <h2 style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: 'clamp(2rem, 3vw, 3rem)',
-              fontWeight: 700, color: '#0D1117', lineHeight: 1.15, margin: '0 0 4px',
-            }}>
-              Organiser.<br /><G>Appuyer.</G><br />Suivre.
-            </h2>
-            <GoldLine />
-            <p style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: 14, lineHeight: 1.8,
-              color: '#4B5563',
-              marginBottom: 32,
-            }}>
-              SIBIRI Holding SA porte les aspirations du Consul Lamine OUEDRAOGO : bâtir un groupe de sociétés Burkinabé, respecté et de dimension internationale, orienté vers l'excellence au service des économies africaines.
-            </p>
-            {/* Ligne accent */}
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: 14,
-              padding: '16px 20px', borderRadius: 14,
-              background: `${GOLD}14`, border: `1px solid ${GOLD}44`,
-            }}>
-              <span style={{ fontSize: 22 }}>🌍</span>
-              <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: '#7A5010', fontWeight: 600 }}>
-                Dimension internationale
-              </span>
-            </div>
-          </Reveal>
-        </div>
-
-        {/* RIGHT : liste missions */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-          {MISSIONS.map((m, i) => (
-            <Reveal key={m.num} delay={i * 0.1}>
-              <motion.div
-                whileHover={{ x: 8, borderColor: `${GOLD}66` }}
-                transition={{ duration: 0.2 }}
-                style={{
-                  display: 'flex', gap: 28, alignItems: 'flex-start',
-                  padding: '28px 32px', borderRadius: 16,
-                  background: 'white',
-                  border: `1px solid ${GOLD}28`,
-                  boxShadow: '0 2px 16px rgba(0,0,0,0.06)',
-                  marginBottom: 12,
-                  cursor: 'default',
-                }}
-              >
-                {/* Numéro */}
-                <div style={{
-                  flexShrink: 0,
-                  fontFamily: "'Playfair Display', serif",
-                  fontSize: 42, fontWeight: 900, lineHeight: 1,
-                  background: `linear-gradient(135deg, ${GOLD}88, ${GOLD_L}44)`,
-                  WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-                }}>{m.num}</div>
-
-                <div>
-                  <h3 style={{
-                    fontFamily: "'Playfair Display', serif",
-                    fontSize: 19, fontWeight: 700, color: '#0D1117',
-                    margin: '0 0 10px',
-                  }}>{m.title}</h3>
-                  <p style={{
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: 14, lineHeight: 1.75,
-                    color: '#4B5563',
-                    margin: 0,
-                  }}>{m.desc}</p>
-                </div>
-              </motion.div>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </div>
-
-    <style>{`@media(max-width:900px){.missions-grid{grid-template-columns:1fr !important;} .missions-grid>div:first-child{position:static !important;}}`}</style>
-  </section>
-)
-
 // ─── Nos Valeurs ───────────────────────────────────────────────────────────────
 const VALEURS = [
-  { icon: '🏛️', title: 'Confiance',     desc: "Bâtir des entreprises de confiance dans tous les secteurs d'activités à travers l'Afrique." },
-  { icon: '⭐', title: 'Qualité',        desc: "Offrir des services modernes, de qualité et adaptés aux besoins des marchés africains." },
-  { icon: '📊', title: 'Croissance',     desc: "Créer des entreprises axées sur la croissance, dynamiques et attractives pour les investisseurs." },
-  { icon: '♾️', title: 'Durabilité',    desc: "Offrir des avantages durables à nos partenaires, clients et communautés." },
-  { icon: '🌿', title: 'Environnement', desc: "Assurer et veiller au respect de l'environnement dans chacune de nos activités." },
-  { icon: '❤️', title: 'Fidélité',      desc: "Fidéliser nos clients par l'excellence et la constance de la qualité de nos services." },
+  { icon: '🏛️', title: 'Confiance',     desc: "Par la fiabilité de nos prestations et le respect des engagements." },
+  { icon: '⭐', title: 'Qualité',        desc: "Par la recherche de l'excellence." },
+  { icon: '📊', title: 'Croissance',     desc: "Par l'investissement dans des secteurs à forte valeur ajoutée." },
+  { icon: '🌿', title: 'Environnement', desc: "Par le respect des normes environnementales." },
+  { icon: '❤️', title: 'Fidélité',      desc: "Par le développement de la qualité auprès de nos clients." },
 ]
 
 const Valeurs = () => (
@@ -848,7 +757,6 @@ export const GroupePage = () => (
     <SecondBanner />
     <Histoire />
     <Vision />
-    <Missions />
     <Valeurs />
     <NeoMinimalFooter variant="home" />
   </div>

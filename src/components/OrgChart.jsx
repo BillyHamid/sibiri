@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { useState } from 'react'
+import { motion } from 'framer-motion'
 
 const GOLD = '#C9A84C'
 const DARK = '#1D1D1B'
@@ -171,9 +171,6 @@ const DashH = ({ side = 'left', delay = 0 }) => (
 
 // ── Organigramme ─────────────────────────────────────────────────────────────
 export const OrgChart = () => {
-  const ref    = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
-
   const DAF = [
     { title: 'DAF 1', role: 'SH'   },
     { title: 'DAF 2', role: 'SBMS' },
@@ -207,35 +204,21 @@ export const OrgChart = () => {
         pointerEvents: 'none',
       }} />
 
-      <div ref={ref} style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', position: 'relative', zIndex: 1 }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', position: 'relative', zIndex: 1 }}>
 
         {/* ── Header ─────────────────────────────────────────────────────── */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6 }}
           style={{ textAlign: 'center', marginBottom: 40 }}
         >
-          <p style={{
-            fontSize: 10, fontWeight: 800, letterSpacing: '0.34em',
-            textTransform: 'uppercase', color: 'rgba(201,168,76,0.9)',
-            fontFamily: "'Inter', sans-serif", margin: '0 0 14px',
-          }}>Gouvernance</p>
-
           <h2 style={{
             fontSize: 'clamp(26px, 4vw, 42px)', fontWeight: 700,
             color: DARK, margin: '0 0 14px',
             fontFamily: "'Playfair Display', serif", lineHeight: 1.15,
-          }}>Organigramme Hiérarchique</h2>
-
-          <p style={{
-            fontSize: 14.5, color: '#9ca3af', maxWidth: 440,
-            margin: '0 auto', lineHeight: 1.7,
-            fontFamily: "'Inter', sans-serif",
-          }}>
-            Structure organisationnelle de SIBIRI Holding, reflet de
-            notre engagement pour une gouvernance rigoureuse.
-          </p>
+          }}>Organigramme</h2>
 
           <div style={{
             width: 48, height: 2,
@@ -247,7 +230,8 @@ export const OrgChart = () => {
         {/* ── Illustration (placeholder, remplaçable) ───────────────────── */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6, delay: 0.1 }}
           style={{
             maxWidth: 760, margin: '0 auto 64px',

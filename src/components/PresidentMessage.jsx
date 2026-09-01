@@ -1,21 +1,21 @@
-import { useRef, useState } from 'react'
-import { motion, useInView, AnimatePresence } from 'framer-motion'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const GOLD  = '#C9A84C'
 const GOLDF = 'rgba(201,168,76,'
+const DARK  = '#1D1D1B'
 
 const PARAGRAPHS_SHORT = [
-  `C'est avec une grande fierté que je prends la parole au nom du Groupe Sibiri Holding, une organisation bâtie sur une histoire forte, portée par une ambition claire et guidée par des valeurs solides.`,
-  `Notre vision est sans équivoque : faire du Groupe Sibiri Holding un acteur économique de référence en Afrique. Nous aspirons à être reconnus non seulement pour la qualité de nos réalisations, mais aussi pour la fiabilité de nos engagements et notre contribution concrète au développement de nos économies.`,
-  `Cette vision s'incarne au quotidien à travers notre mission : concevoir, développer et piloter des activités performantes dans des secteurs stratégiques, tout en créant une valeur durable pour nos partenaires, nos clients et les États dans lesquels nous opérons.`,
+  `C'est avec fierté que je prends la parole au nom du Groupe Sibiri Holding, une entreprise bâtie sur une histoire forte, portée par une ambition et des valeurs solides.`,
+  `Notre vision est de faire du Groupe Sibiri Holding un acteur économique de référence en Afrique.`,
+  `Nous aspirons à être reconnus pour la qualité de nos réalisations, la fidélité de nos engagements et notre contribution au développement économique et social de nos pays.`,
 ]
 
 const PARAGRAPHS_FULL = [
-  `Nous ne nous contentons pas d'investir ; nous structurons, nous accompagnons, et nous bâtissons des projets qui s'inscrivent dans la durée.`,
-  `Mais au-delà des performances économiques, ce sont nos valeurs qui définissent véritablement notre identité. Nous plaçons l'intégrité au cœur de chacune de nos actions, en veillant au respect strict de nos engagements et des normes qui encadrent nos activités.`,
-  `Nous poursuivons l'excellence, avec une exigence constante de qualité et de professionnalisme dans tout ce que nous entreprenons. Notre engagement se traduit par une implication totale de nos équipes et une culture orientée vers les résultats.`,
-  `Dans un environnement en constante évolution, nous restons résolument tournés vers l'avenir, avec la volonté de consolider notre position, d'élargir notre présence et de contribuer activement à la transformation économique de notre région.`,
-  `Je tiens à remercier l'ensemble de nos partenaires et collaborateurs pour leur confiance et leur engagement, qui sont les véritables moteurs de notre réussite collective.`,
+  `Cette vision s'incarne à travers les domaines d'expertise dans lesquels nous nous sommes engagés et pour lesquels nous recherchons l'excellence et une valeur ajoutée partagée avec nos partenaires et nos clients.`,
+  `Nous sommes attachés à l'excellence, avec une exigence constante de professionnalisme et de respect de nos engagements.`,
+  `Dans un environnement en constante évolution, nous restons tournés vers l'avenir, avec la volonté de consolider notre position et de développer des projets pouvant contribuer à la croissance économique et au développement social de nos régions.`,
+  `Je tiens à remercier l'ensemble de nos partenaires et de nos collaborateurs pour leur confiance et leur engagement, qui sont les véritables moteurs de notre réussite collective.`,
 ]
 
 const VALUES = [
@@ -49,13 +49,11 @@ const fadeRight = (delay = 0) => ({
 
 // ── Composant principal ───────────────────────────────────────────────────────
 export const PresidentMessage = () => {
-  const ref    = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
   const [expanded, setExpanded] = useState(false)
 
   return (
     <section style={{
-      background: '#08080f',
+      background: 'linear-gradient(160deg, #faf8f3 0%, #fff 55%, #faf8f3 100%)',
       position: 'relative',
       overflow: 'hidden',
       padding: '108px 0 120px',
@@ -83,12 +81,13 @@ export const PresidentMessage = () => {
         opacity: 0.35,
       }} />
 
-      <div ref={ref} style={{ maxWidth: 1180, margin: '0 auto', padding: '0 28px', position: 'relative', zIndex: 1 }}>
+      <div style={{ maxWidth: 1180, margin: '0 auto', padding: '0 28px', position: 'relative', zIndex: 1 }}>
 
         {/* ── Header centré ─────────────────────────────────────────────────── */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6 }}
           style={{ textAlign: 'center', marginBottom: 72 }}
         >
@@ -100,7 +99,7 @@ export const PresidentMessage = () => {
 
           <h2 style={{
             fontSize: 'clamp(28px, 4vw, 46px)', fontWeight: 700,
-            color: '#ffffff', margin: '0 0 14px',
+            color: DARK, margin: '0 0 14px',
             fontFamily: "'Playfair Display', serif", lineHeight: 1.12,
           }}>
             Mot du{' '}
@@ -235,7 +234,7 @@ export const PresidentMessage = () => {
               {...fadeRight(0.2)}
               style={{
                 fontSize: 140, lineHeight: 1,
-                color: `${GOLDF}0.15)`,
+                color: `${GOLDF}0.28)`,
                 fontFamily: "'Playfair Display', serif",
                 userSelect: 'none',
                 marginBottom: -28,
@@ -265,7 +264,7 @@ export const PresidentMessage = () => {
                     margin: 0,
                     fontSize: 15,
                     lineHeight: 1.85,
-                    color: 'rgba(220,220,230,0.82)',
+                    color: '#4b5563',
                     fontFamily: "'Inter', sans-serif",
                     fontWeight: 400,
                   }}
@@ -287,7 +286,7 @@ export const PresidentMessage = () => {
                         margin: 0,
                         fontSize: 15,
                         lineHeight: 1.85,
-                        color: 'rgba(220,220,230,0.82)',
+                        color: '#4b5563',
                         fontFamily: "'Inter', sans-serif",
                       }}>{p}</p>
                     ))}
@@ -362,10 +361,10 @@ export const PresidentMessage = () => {
                       display: 'inline-flex', alignItems: 'center', gap: 7,
                       padding: '7px 16px',
                       borderRadius: 99,
-                      border: `1px solid ${GOLDF}0.28)`,
-                      background: `${GOLDF}0.07)`,
+                      border: `1px solid ${GOLDF}0.30)`,
+                      background: `${GOLDF}0.09)`,
                       fontSize: 12, fontWeight: 600,
-                      color: 'rgba(240,230,200,0.88)',
+                      color: '#5a4614',
                       fontFamily: "'Inter', sans-serif",
                     }}
                   >
@@ -401,7 +400,7 @@ export const PresidentMessage = () => {
                 <p style={{
                   margin: 0,
                   fontSize: 15, fontWeight: 700,
-                  color: '#ffffff',
+                  color: DARK,
                   fontFamily: "'Playfair Display', serif",
                 }}>Administrateur Général</p>
                 <p style={{

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 
 // ── Palette ──────────────────────────────────────────────────────────────────
@@ -27,17 +27,14 @@ export const useEnergyFonts = () => {
 }
 
 // ── Fade-in helper ───────────────────────────────────────────────────────────
-export const Reveal = ({ children, delay = 0, x = 0, y = 24 }) => {
-  const ref    = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-50px' })
-  return (
-    <motion.div ref={ref}
-      initial={{ opacity: 0, y, x }}
-      animate={inView ? { opacity: 1, y: 0, x: 0 } : {}}
-      transition={{ duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] }}
-    >{children}</motion.div>
-  )
-}
+export const Reveal = ({ children, delay = 0, x = 0, y = 24 }) => (
+  <motion.div
+    initial={{ opacity: 0, y, x }}
+    whileInView={{ opacity: 1, y: 0, x: 0 }}
+    viewport={{ once: true, margin: '-50px' }}
+    transition={{ duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] }}
+  >{children}</motion.div>
+)
 
 // ── CountUp ──────────────────────────────────────────────────────────────────
 export const CountUp = ({ target, suffix = '', duration = 2200, start = false }) => {
@@ -97,7 +94,7 @@ export const PageHero = ({ title, accent, subtitle, image, current }) => (
     {/* Voile dégradé directionnel */}
     <div style={{
       position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none',
-      background: `linear-gradient(110deg, rgba(6,6,8,0.90) 0%, rgba(6,6,8,0.74) 50%, rgba(6,6,8,0.52) 100%)`,
+      background: `linear-gradient(110deg, rgba(6,6,8,0.55) 0%, rgba(6,6,8,0.40) 50%, rgba(6,6,8,0.22) 100%)`,
     }} />
     {/* Texture grille */}
     <div style={{

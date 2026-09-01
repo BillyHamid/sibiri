@@ -55,8 +55,8 @@ const IDENTITY = [
 ]
 
 const ACTIVITES = [
-  { img: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?fm=jpg&q=80&w=900&auto=format&fit=crop", title: "Construction neuve", desc: "Bâtiments tous corps d'état : aggloméré de ciment, matériaux locaux, construction métallique." },
-  { img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?fm=jpg&q=80&w=900&auto=format&fit=crop", title: "Rénovation de bâtiment", desc: "Réhabilitation en aggloméré de ciment, matériaux locaux ou construction métallique." },
+  { img: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?fm=jpg&q=80&w=900&auto=format&fit=crop", title: "Construction neuve", desc: "Bâtiment tout corps d'état en béton armé, aggloméré de ciment, matériaux locaux ou construction métallique." },
+  { img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?fm=jpg&q=80&w=900&auto=format&fit=crop", title: "Rénovation de bâtiment", desc: "Réhabilitation en béton armé, en aggloméré de ciment, matériaux locaux ou construction métallique." },
   { img: "https://images.unsplash.com/photo-1780389098001-e641e50aeebd?fm=jpg&q=80&w=900&auto=format&fit=crop", title: "Routes & ouvrages d'art", desc: "Construction de routes en terre, ouvrages d'art et reprofilage." },
   { img: "https://images.unsplash.com/photo-1693907986952-3cd372e4c9d8?fm=jpg&q=80&w=900&auto=format&fit=crop", title: "Assainissement", desc: "Drainage des eaux pluviales, réseaux d'égouts." },
   { img: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?fm=jpg&q=80&w=900&auto=format&fit=crop", title: "Adduction d'eau potable", desc: "Conception et réalisation de réseaux d'accès à l'eau potable." },
@@ -64,13 +64,13 @@ const ACTIVITES = [
 ]
 
 const ATOUTS = [
-  { title: "Solidité financière", desc: "Adossée au groupe SIBIRI HOLDING, une synergie forte entre les filiales." },
-  { title: "Équipe pluridisciplinaire", desc: "Une organisation complète, du conducteur de travaux aux ouvriers spécialisés." },
+  { title: "Solidité financière", desc: "Adossée au groupe SIBIRI HOLDING, une synergie forte entre les filiales, et un bon partenariat avec les structures de financement." },
+  { title: "Équipe pluridisciplinaire", desc: "Une organisation complète, du directeur des travaux aux ouvriers spécialisés, en passant par les conducteurs de travaux, les chefs de chantier et les chefs d'équipe." },
   { title: "Parc matériel étoffé", desc: "Adapté aux chantiers BTP comme aux aménagements hydro-agricoles." },
-  { title: "Maîtrise réglementaire", desc: "Bonne connaissance des procédures administratives et des marchés publics." },
+  { title: "Maîtrise réglementaire", desc: "Maîtrise de la réglementation en matière de construction au Burkina Faso." },
 ]
 
-const VALEURS = ["Intégrité", "Loyauté", "Endurance dans l'action", "Qualité"]
+const VALEURS = ["Qualité", "Intégrité", "Endurance dans l'action", "Loyauté"]
 
 const CONTACT_INFO = [
   { icon: "📍", label: "Siège", value: "Nationale 5, Zone Wend Panga, Kouba — Commune de Koubri" },
@@ -82,9 +82,11 @@ const CONTACT_INFO = [
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 const Hero = () => (
   <section id="home" style={{ position: "relative", width: "100%", minHeight: "100vh", overflow: "hidden", display: "flex", alignItems: "center" }}>
-    <video autoPlay muted loop playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}>
-      <source src="/construction/3741-174188012_large.mp4" type="video/mp4" />
-    </video>
+    <img
+      src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?fm=jpg&q=80&w=1800&auto=format&fit=crop"
+      alt="Chantier de construction de bâtiment"
+      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
+    />
     <div style={{ position: "absolute", inset: 0, zIndex: 1, background: `linear-gradient(100deg, rgba(20,22,26,.90) 0%, rgba(20,22,26,.68) 55%, rgba(20,22,26,.3) 100%)` }} />
     <div style={{ position: "absolute", inset: 0, zIndex: 2, backgroundImage: `linear-gradient(rgba(166,77,66,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(166,77,66,0.06) 1px, transparent 1px)`, backgroundSize: "64px 64px" }} />
     <motion.div
@@ -96,7 +98,7 @@ const Hero = () => (
     <div style={{ position: "relative", zIndex: 10, width: "100%", maxWidth: 1280, margin: "0 auto", padding: "150px 40px 70px" }}>
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.15 }}>
         <span style={{ display: "inline-block", padding: "6px 18px", borderRadius: 3, background: PRIMARY, color: "white", fontSize: 11.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", fontFamily: "'Inter', sans-serif", marginBottom: 22 }}>
-          BTP · Génie civil · Aménagement hydro-agricole
+          BTP · Aménagement hydro-agricole
         </span>
       </motion.div>
 
@@ -263,7 +265,7 @@ const Organisation = () => (
 
 // ─── Slogan ───────────────────────────────────────────────────────────────────
 const Slogan = () => (
-  <section style={{ background: `linear-gradient(120deg, ${DARK}, #1b1d22)`, padding: "90px 24px", textAlign: "center", position: "relative", overflow: "hidden" }}>
+  <section style={{ background: `linear-gradient(120deg, ${PRIMARY} 0%, #6b2a1f 55%, #3d1712 100%)`, padding: "90px 24px", textAlign: "center", position: "relative", overflow: "hidden" }}>
     <div style={{ position: "absolute", top: "-15%", right: "-10%", pointerEvents: "none", width: "50%", height: "70%", background: `radial-gradient(ellipse, ${PRIMARY}18 0%, transparent 65%)`, filter: "blur(90px)" }} />
     <div style={{ position: "relative", zIndex: 1, maxWidth: 760, margin: "0 auto" }}>
       <Reveal>
@@ -272,7 +274,7 @@ const Slogan = () => (
           « Tout passe mais la qualité demeure »
         </h2>
         <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: "#c8c8c8", maxWidth: 560, margin: "0 auto", lineHeight: 1.7 }}>
-          Nous faisons de la qualité notre priorité : que la qualité de vos ouvrages demeure dans le temps, bien au-delà de l'effort financier consenti lors de leur réalisation.
+          Nous faisons de la qualité notre priorité : savoir que la qualité de vos ouvrages demeure dans le temps, bien au-delà de l'effort financier consenti lors de leur réalisation.
         </p>
       </Reveal>
     </div>

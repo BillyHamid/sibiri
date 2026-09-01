@@ -1,27 +1,66 @@
 import { useState } from 'react'
-import { RED, DARK2, DARK3, GRAY, Reveal, SectionLabel, PageHero } from './shared'
+import { RED, DARK, DARK2, DARK3, GRAY, Reveal, SectionLabel, PageHero } from './shared'
 
-const SERVICES = [
+// ─── Produits (Carburant / Lubrifiant) ─────────────────────────────────────────
+const PRODUITS = [
   {
+    id: 'carburant',
+    title: 'Carburant',
+    tagline: 'Essence · Gasoil · Cuves portatives',
+    desc: "Ravitaillement en carburant (essence, gasoil) des grandes entreprises des secteurs Transport, BTP et Industrie, ainsi que du grand public via notre réseau de stations-service à Ouagadougou. Location et mise à disposition de cuves portatives pour vos besoins spécifiques.",
     icon: (
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-        <path d="M3 12h2m14 0h2M12 3v2m0 14v2M5.6 5.6l1.4 1.4m9.9 9.9 1.4 1.4M5.6 18.4l1.4-1.4m9.9-9.9 1.4-1.4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
-        <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.8"/>
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+        <path d="M3 22V6a2 2 0 012-2h6a2 2 0 012 2v16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M3 22h10M13 11h2a2 2 0 012 2v2.5a1.5 1.5 0 003 0V9.5a2 2 0 00-.586-1.414L17 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M6 6h4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
       </svg>
     ),
-    title: 'Distribution Produits Pétroliers',
-    desc: 'Ravitaillement en carburant des grandes entreprises des secteurs Transport, BTP et Industrie. Location et mise à disposition de cuves portatives.',
   },
   {
+    id: 'lubrifiant',
+    title: 'Lubrifiant',
+    tagline: 'Tourisme · Bus & camions · Engins miniers',
+    desc: "Distribution de lubrifiants pour véhicules de tourisme, bus, camions et engins miniers, en partenariat avec Wolf Lubricants — une marque internationale de référence pour la performance et la protection moteur.",
     icon: (
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M9 22V12h6v10" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2c2 3 5 6.5 5 10.5A5 5 0 017 12.5C7 8.5 10 5 12 2z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M12 15v6M9 21h6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
       </svg>
     ),
-    title: 'Réseau de Stations-Service',
-    desc: 'Quatre stations-service dans la zone de Ouagadougou, dont la première à Kouba (commune de KOUBRI), ouverte en 2022.',
   },
+]
+
+// ─── Services annexes (B2B, réseaux, stockage...) ─────────────────────────────
+const SERVICES_LIST = [
+  {
+    id: 'b2b',
+    title: 'B2B',
+    desc: "Solutions de ravitaillement et de fourniture énergétique dédiées aux entreprises des secteurs Transport, BTP et Industrie.",
+  },
+  {
+    id: 'reseau-stations',
+    title: 'Réseau de Stations',
+    desc: "Quatre stations-service dans la zone de Ouagadougou, dont la première à Kouba (commune de KOUBRI), ouverte en 2022.",
+  },
+  {
+    id: 'reseau-distribution-lubrifiant',
+    title: 'Réseau de Distribution Lubrifiant',
+    desc: "Un réseau de distribution dédié à l'approvisionnement en lubrifiants auprès de nos partenaires et points de vente.",
+  },
+  {
+    id: 'post-consommateur',
+    title: 'Post Consommateur',
+    desc: "Accompagnement et service après-vente pour nos clients particuliers et professionnels.",
+  },
+  {
+    id: 'solution-stockage',
+    title: 'Solution de Stockage',
+    desc: "Location et mise à disposition de cuves portatives et solutions de stockage adaptées à vos besoins.",
+  },
+]
+
+// ─── Autres domaines d'expertise (hors carburant / lubrifiant) ────────────────
+const AUTRES_EXPERTISES = [
   {
     icon: (
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
@@ -62,6 +101,57 @@ const SERVICES = [
     desc: 'Étude et réalisation de forages. Consulting en solutions énergétiques, accompagnement stratégique et technique des entreprises.',
   },
 ]
+
+// ─── Carte produit (grande, Carburant / Lubrifiant) ────────────────────────────
+const ProduitCard = ({ id, title, tagline, desc, icon, delay }) => {
+  const [hov, setHov] = useState(false)
+  return (
+    <Reveal delay={delay}>
+      <a
+        href={`#${id}`}
+        onMouseEnter={() => setHov(true)}
+        onMouseLeave={() => setHov(false)}
+        style={{
+          display: 'block', padding: '36px 32px', borderRadius: 20, textDecoration: 'none',
+          background: hov ? DARK3 : 'rgba(255,255,255,0.03)',
+          border: `1.5px solid ${hov ? `${RED}55` : 'rgba(255,255,255,0.08)'}`,
+          boxShadow: hov ? `0 28px 64px -14px ${RED}30` : '0 2px 16px rgba(0,0,0,0.2)',
+          transform: hov ? 'translateY(-6px)' : 'translateY(0)',
+          transition: 'all 0.3s cubic-bezier(0.22,1,0.36,1)',
+        }}
+      >
+        <div style={{
+          width: 60, height: 60, borderRadius: 16,
+          background: hov ? `${RED}22` : 'rgba(255,255,255,0.05)',
+          border: `1px solid ${hov ? `${RED}45` : 'rgba(255,255,255,0.08)'}`,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          color: hov ? RED : GRAY, marginBottom: 22, transition: 'all 0.3s ease',
+        }}>{icon}</div>
+        <h3 style={{ margin: '0 0 6px', fontSize: 22, fontWeight: 800, color: '#fff', fontFamily: "'Inter', sans-serif" }}>{title}</h3>
+        <p style={{ margin: '0 0 12px', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: RED }}>{tagline}</p>
+        <p style={{ margin: 0, fontSize: 13.5, color: GRAY, lineHeight: 1.7 }}>{desc}</p>
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 18, fontSize: 12.5, fontWeight: 700, color: hov ? RED : 'rgba(255,255,255,0.5)', transition: 'color 0.2s' }}>
+          En savoir plus
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </span>
+      </a>
+    </Reveal>
+  )
+}
+
+// ─── Carte service (petite, grille de 5) ───────────────────────────────────────
+const ServiceMiniCard = ({ title, desc, delay }) => (
+  <Reveal delay={delay}>
+    <div style={{
+      padding: '24px 22px', borderRadius: 16,
+      background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)',
+      height: '100%',
+    }}>
+      <h4 style={{ margin: '0 0 8px', fontSize: 14.5, fontWeight: 700, color: '#fff', fontFamily: "'Inter', sans-serif" }}>{title}</h4>
+      <p style={{ margin: 0, fontSize: 12.5, color: GRAY, lineHeight: 1.65 }}>{desc}</p>
+    </div>
+  </Reveal>
+)
 
 const ServiceCard = ({ icon, title, desc, delay }) => {
   const [hov, setHov] = useState(false)
@@ -107,26 +197,93 @@ const ServiceCard = ({ icon, title, desc, delay }) => {
 export const EnergyServices = () => (
   <>
     <PageHero
-      current="Services"
-      title="Une expertise énergétique"
+      current="Produits"
+      title="Une expertise"
       accent="complète et intégrée"
-      subtitle="De la distribution pétrolière aux solutions solaires, en passant par les travaux électriques et le consulting, nous couvrons tous les domaines de l'énergie."
+      subtitle="De la distribution à la proposition de solution, nous couvrons tous les domaines de l'énergie."
       image="/energy/SIBIRI%20ENERGY-15.JPG.jpeg"
     />
 
-    <section style={{ background: DARK2, padding: '90px 0 108px', position: 'relative', overflow: 'hidden' }}>
+    {/* ── Nos Produits (Carburant / Lubrifiant) ─────────────────────────── */}
+    <section id="produits" style={{ background: DARK2, padding: '90px 0 100px', position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, backgroundImage: `radial-gradient(circle, rgba(230,38,48,0.04) 1px, transparent 1px)`, backgroundSize: '40px 40px', pointerEvents: 'none' }} />
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 40px', position: 'relative', zIndex: 1 }}>
+        <Reveal>
+          <SectionLabel>Nos Produits</SectionLabel>
+          <h2 style={{ fontSize: 'clamp(24px, 3.4vw, 38px)', fontWeight: 800, color: '#fff', margin: '0 0 48px', fontFamily: "'Inter', sans-serif", letterSpacing: '-0.02em', lineHeight: 1.15 }}>
+            Carburant &amp; Lubrifiant
+          </h2>
+        </Reveal>
 
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 20 }}>
+          {PRODUITS.map((p, i) => (
+            <ProduitCard key={p.id} {...p} delay={i * 0.1} />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* ── Détail Carburant ──────────────────────────────────────────────── */}
+    <section id="carburant" style={{ background: DARK, padding: '90px 0 100px' }}>
+      <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 40px' }}>
+        <Reveal>
+          <SectionLabel>Produit</SectionLabel>
+          <h2 style={{ fontSize: 'clamp(24px, 3.4vw, 36px)', fontWeight: 800, color: '#fff', margin: '0 0 20px', fontFamily: "'Inter', sans-serif" }}>Carburant</h2>
+          <p style={{ fontSize: 15, color: GRAY, lineHeight: 1.85, maxWidth: 700 }}>
+            Ravitaillement en carburant (essence, gasoil) des grandes entreprises des secteurs Transport, BTP et Industrie,
+            ainsi que du grand public via notre réseau de stations-service à Ouagadougou. Location et mise à disposition
+            de cuves portatives pour vos besoins spécifiques.
+          </p>
+        </Reveal>
+      </div>
+    </section>
+
+    {/* ── Détail Lubrifiant ─────────────────────────────────────────────── */}
+    <section id="lubrifiant" style={{ background: DARK2, padding: '90px 0 100px' }}>
+      <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 40px' }}>
+        <Reveal>
+          <SectionLabel>Produit</SectionLabel>
+          <h2 style={{ fontSize: 'clamp(24px, 3.4vw, 36px)', fontWeight: 800, color: '#fff', margin: '0 0 20px', fontFamily: "'Inter', sans-serif" }}>Lubrifiant</h2>
+          <p style={{ fontSize: 15, color: GRAY, lineHeight: 1.85, maxWidth: 700 }}>
+            Distribution de lubrifiants pour véhicules de tourisme, bus, camions et engins miniers, en partenariat avec{' '}
+            <strong style={{ color: '#fff' }}>Wolf Lubricants</strong> — une marque internationale de référence pour la
+            performance et la protection moteur.
+          </p>
+        </Reveal>
+      </div>
+    </section>
+
+    {/* ── Nos Services ──────────────────────────────────────────────────── */}
+    <section id="services-list" style={{ background: DARK, padding: '90px 0 108px', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', inset: 0, backgroundImage: `radial-gradient(circle, rgba(230,38,48,0.04) 1px, transparent 1px)`, backgroundSize: '40px 40px', pointerEvents: 'none' }} />
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 40px', position: 'relative', zIndex: 1 }}>
         <Reveal>
           <SectionLabel>Nos Services</SectionLabel>
           <h2 style={{ fontSize: 'clamp(24px, 3.4vw, 38px)', fontWeight: 800, color: '#fff', margin: '0 0 48px', fontFamily: "'Inter', sans-serif", letterSpacing: '-0.02em', lineHeight: 1.15 }}>
-            Six pôles d'activité au service de l'énergie
+            Un accompagnement à chaque étape
+          </h2>
+        </Reveal>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: 16 }}>
+          {SERVICES_LIST.map((s, i) => (
+            <ServiceMiniCard key={s.id} {...s} delay={i * 0.07} />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* ── Autres domaines d'expertise ───────────────────────────────────── */}
+    <section style={{ background: DARK2, padding: '90px 0 108px', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 40px', position: 'relative', zIndex: 1 }}>
+        <Reveal>
+          <SectionLabel>Autres domaines</SectionLabel>
+          <h2 style={{ fontSize: 'clamp(24px, 3.4vw, 38px)', fontWeight: 800, color: '#fff', margin: '0 0 48px', fontFamily: "'Inter', sans-serif", letterSpacing: '-0.02em', lineHeight: 1.15 }}>
+            Une expertise énergétique élargie
           </h2>
         </Reveal>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 18 }}>
-          {SERVICES.map((s, i) => (
+          {AUTRES_EXPERTISES.map((s, i) => (
             <ServiceCard key={s.title} {...s} delay={i * 0.08} />
           ))}
         </div>

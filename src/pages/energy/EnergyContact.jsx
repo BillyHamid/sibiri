@@ -1,5 +1,31 @@
 import { useState } from 'react'
-import { RED, RED_D, DARK2, GRAY, Reveal, SectionLabel, PageHero } from './shared'
+import { RED, RED_D, DARK, DARK2, GRAY, Reveal, SectionLabel, PageHero } from './shared'
+
+// ─── Parcours de contact (structure inspirée de wolflubes.com/fr-fr/contactez-nous) ─
+const PATHWAYS = [
+  {
+    icon: '⛽',
+    title: 'Stations-service & Grand public',
+    desc: "Vous êtes un particulier ? Retrouvez nos stations-service à Ouagadougou pour vos besoins en carburant et lubrifiants.",
+  },
+  {
+    icon: '🏢',
+    title: 'Entreprises & B2B',
+    desc: "Ravitaillement, cuves portatives, solutions de stockage : parlons de vos besoins en carburant et lubrifiants pour votre activité.",
+  },
+  {
+    icon: '🤝',
+    title: 'Devenir partenaire / revendeur',
+    desc: "Vous souhaitez rejoindre notre réseau de distribution de carburant ou de lubrifiants WOLF ? Contactez notre équipe partenariats.",
+  },
+]
+
+// ─── Contacts par service ──────────────────────────────────────────────────────
+const DEPARTMENTS = [
+  { icon: '✉️', label: 'Renseignements généraux', val: 'energy@sibiri.group' },
+  { icon: '📰', label: 'Presse & partenariats',    val: 'presse@sibiri.group' },
+  { icon: '🛠️', label: 'Support technique / SAV',  val: 'support@sibiri.group' },
+]
 
 export const EnergyContact = () => {
   const [form, setForm]   = useState({ name: '', email: '', subject: '', message: '' })
@@ -27,7 +53,45 @@ export const EnergyContact = () => {
         image="/energy/SIBIRI%20ENERGY-10.JPG.jpeg"
       />
 
-      <section style={{ background: DARK2, padding: '96px 0 108px', position: 'relative', overflow: 'hidden' }}>
+      {/* ── Comment pouvons-nous vous aider ? ─────────────────────────────── */}
+      <section style={{ background: DARK, padding: '90px 0 100px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 40px' }}>
+          <Reveal>
+            <SectionLabel>Comment pouvons-nous vous aider ?</SectionLabel>
+            <h2 style={{ fontSize: 'clamp(24px, 3.4vw, 38px)', fontWeight: 800, color: '#fff', margin: '0 0 48px', fontFamily: "'Inter', sans-serif", letterSpacing: '-0.02em', lineHeight: 1.15 }}>
+              Trois façons de nous contacter
+            </h2>
+          </Reveal>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
+            {PATHWAYS.map((p, i) => (
+              <Reveal key={p.title} delay={i * 0.1}>
+                <a href="#formulaire" style={{
+                  display: 'block', height: '100%', textDecoration: 'none',
+                  padding: '30px 26px', borderRadius: 18,
+                  background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
+                  transition: 'all 0.25s',
+                }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = `${RED}55`; e.currentTarget.style.transform = 'translateY(-4px)' }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.transform = 'translateY(0)' }}
+                >
+                  <div style={{
+                    width: 50, height: 50, borderRadius: 14,
+                    background: `${RED}18`, border: `1px solid ${RED}35`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: 22, marginBottom: 18,
+                  }}>{p.icon}</div>
+                  <h3 style={{ margin: '0 0 10px', fontSize: 16, fontWeight: 700, color: '#fff', fontFamily: "'Inter', sans-serif" }}>{p.title}</h3>
+                  <p style={{ margin: 0, fontSize: 13, color: GRAY, lineHeight: 1.7 }}>{p.desc}</p>
+                </a>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Formulaire + coordonnées ───────────────────────────────────────── */}
+      <section id="formulaire" style={{ background: DARK2, padding: '96px 0 108px', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', bottom: '-15%', left: '50%', transform: 'translateX(-50%)', width: 700, height: 400, background: `radial-gradient(ellipse, ${RED}10, transparent 70%)`, pointerEvents: 'none' }} />
 
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 40px', position: 'relative', zIndex: 1 }}>
@@ -43,11 +107,10 @@ export const EnergyContact = () => {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: 56, alignItems: 'start' }} className="contact-grid">
             {/* Infos */}
             <Reveal x={-20} delay={0.1}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 28, marginBottom: 32 }}>
                 {[
                   { icon: '📍', label: 'Adresse', val: 'Ouagadougou, Burkina Faso\nAfrique de l\'Ouest' },
                   { icon: '📞', label: 'Téléphone', val: '+226 XX XX XX XX' },
-                  { icon: '✉️', label: 'Email', val: 'energy@sibiriholding.com' },
                   { icon: '🕐', label: 'Disponibilité', val: 'Lun – Ven : 08h00 – 18h00' },
                 ].map(({ icon, label, val }) => (
                   <div key={label} style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
@@ -63,6 +126,31 @@ export const EnergyContact = () => {
                     </div>
                   </div>
                 ))}
+              </div>
+
+              {/* Contacts par service */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 28, paddingTop: 24, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                <p style={{ margin: '0 0 4px', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', fontFamily: "'Inter', sans-serif" }}>Contacts par service</p>
+                {DEPARTMENTS.map(d => (
+                  <a key={d.label} href={`mailto:${d.val}`} style={{
+                    display: 'flex', alignItems: 'center', gap: 10,
+                    padding: '10px 12px', borderRadius: 10,
+                    background: 'rgba(255,255,255,0.03)', textDecoration: 'none',
+                  }}>
+                    <span style={{ fontSize: 15 }}>{d.icon}</span>
+                    <span style={{ fontSize: 12.5, color: '#fff', fontFamily: "'Inter', sans-serif" }}>{d.label}</span>
+                    <span style={{ marginLeft: 'auto', fontSize: 12, color: RED, fontFamily: "'Inter', sans-serif" }}>{d.val}</span>
+                  </a>
+                ))}
+              </div>
+
+              {/* Carte (placeholder — à remplacer par Google Maps) */}
+              <div style={{ borderRadius: 16, overflow: 'hidden', minHeight: 180 }}>
+                <img
+                  src="https://images.unsplash.com/photo-1524661135-423995f22d0b?fm=jpg&q=80&w=800&auto=format&fit=crop"
+                  alt="Localisation Sibiri Energy — Ouagadougou"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
               </div>
             </Reveal>
 

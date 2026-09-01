@@ -100,19 +100,19 @@ export const Navbar = () => {
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0,   opacity: 1 }}
         transition={{ delay: 0.3, duration: 0.7, ease: [0.2, 0.65, 0.3, 0.9] }}
-        className="fixed top-0 left-0 right-0 z-50 pt-3 transition-all duration-300"
+        className="fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300"
       >
         <nav
-          className="mx-auto max-w-7xl rounded-3xl px-6 lg:px-8 transition-all duration-300"
+          className="w-full px-6 lg:px-10 transition-all duration-300"
           style={{
-            background: scrolled ? 'rgba(29, 29, 27, 0.86)' : 'transparent',
+            background: scrolled ? 'rgba(29, 29, 27, 0.94)' : 'transparent',
             backdropFilter: scrolled ? 'blur(18px)' : 'none',
             WebkitBackdropFilter: scrolled ? 'blur(18px)' : 'none',
-            border: scrolled ? `1.5px solid ${GOLD}28` : '1.5px solid transparent',
-            boxShadow: scrolled ? `0 8px 32px rgba(201, 168, 76, 0.12)` : 'none',
+            borderBottom: scrolled ? `1.5px solid ${GOLD}28` : '1.5px solid transparent',
+            boxShadow: scrolled ? `0 8px 32px rgba(0, 0, 0, 0.25)` : 'none',
           }}
         >
-          <div className={`flex items-center justify-between gap-6 transition-all duration-200 ${scrolled ? 'py-3' : 'py-5 lg:py-6'}`}>
+          <div className={`mx-auto max-w-7xl flex items-center justify-between gap-6 transition-all duration-200 ${scrolled ? 'py-3' : 'py-5 lg:py-6'}`}>
 
             {/* Logo + retour */}
             <div className="flex items-center gap-3 shrink-0">

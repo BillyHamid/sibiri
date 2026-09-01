@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Loader } from './components/Loader'
 import { Navbar } from './components/Navbar'
 import { LogoParticlesHero } from './components/LogoParticles'
@@ -18,8 +18,7 @@ import { EnergyLayout } from './pages/energy/EnergyLayout'
 import { EnergyHome } from './pages/energy/EnergyHome'
 import { EnergyServices } from './pages/energy/EnergyServices'
 import { EnergyAbout } from './pages/energy/EnergyAbout'
-import { EnergyProjects } from './pages/energy/EnergyProjects'
-import { EnergyWhy } from './pages/energy/EnergyWhy'
+import { EnergyActualite } from './pages/energy/EnergyActualite'
 import { EnergyContact } from './pages/energy/EnergyContact'
 import { AgroChemicalPage } from './pages/AgroChemicalPage'
 import { GlobalConstructionPage } from './pages/GlobalConstructionPage'
@@ -27,6 +26,10 @@ import { TransportLogisticPage } from './pages/TransportLogisticPage'
 import { GroupePage } from './pages/GroupePage'
 import { ContactPage } from './pages/ContactPage'
 import { NewsPage } from './pages/NewsPage'
+import { ContentProvider } from './lib/content/ContentProvider'
+import { AdminLayout } from './pages/admin/AdminLayout'
+import { AdminLogin } from './pages/admin/AdminLogin'
+import { AdminDashboard } from './pages/admin/AdminDashboard'
 
 // ─── Page d'accueil ───────────────────────────────────────────────────────────
 const HomePage = () => (
@@ -41,15 +44,19 @@ const HomePage = () => (
   </>
 )
 
+// L'admin saute l'écran de chargement animé — on veut y accéder immédiatement.
+const isAdminRoute = typeof window !== 'undefined' && window.location.pathname.startsWith('/admin')
+
 // ─── App avec routing ─────────────────────────────────────────────────────────
 function App() {
   const [loaded, setLoaded] = useState(false)
+  const ready = loaded || isAdminRoute
 
   return (
-    <>
-      {!loaded && <Loader onDone={() => setLoaded(true)} />}
+    <ContentProvider>
+      {!ready && <Loader onDone={() => setLoaded(true)} />}
 
-      {loaded && (
+      {ready && (
         <BrowserRouter>
           <Routes>
             <Route path="/"                    element={<HomePage />} />
@@ -64,17 +71,23 @@ function App() {
               <Route index                    element={<EnergyHome />} />
               <Route path="services"          element={<EnergyServices />} />
               <Route path="a-propos"          element={<EnergyAbout />} />
-              <Route path="projets"           element={<EnergyProjects />} />
-              <Route path="pourquoi-nous"     element={<EnergyWhy />} />
+              <Route path="actualite"         element={<EnergyActualite />} />
+              <Route path="projets"           element={<Navigate to="/energy/actualite" replace />} />
+              <Route path="pourquoi-nous"     element={<Navigate to="/energy/a-propos" replace />} />
               <Route path="contact"           element={<EnergyContact />} />
             </Route>
             <Route path="/agro-chemical"       element={<AgroChemicalPage />} />
             <Route path="/global-construction" element={<GlobalConstructionPage />} />
             <Route path="/transport-logistic"  element={<TransportLogisticPage />} />
+
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route path="login"  element={<AdminLogin />} />
+              <Route index         element={<AdminDashboard />} />
+            </Route>
           </Routes>
         </BrowserRouter>
       )}
-    </>
+    </ContentProvider>
   )
 }
 

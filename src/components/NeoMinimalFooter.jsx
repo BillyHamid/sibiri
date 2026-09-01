@@ -1,18 +1,16 @@
 import { ArrowRight, Globe, Hexagon, Mail, Phone } from "lucide-react"
 
+// Fond noir uniforme pour tous les footers — seul l'accent de couleur change par filiale.
+const BLACK = "#000000"
+
 const THEMES = {
   home: {
-    bg: "#1D1D1B",
-    panel: "rgba(15, 23, 42, 0.45)",
     border: "rgba(255,255,255,0.10)",
     accent: "#c9a84c",
-    title: "SIBIRI GROUP",
-    subtitle: "Un groupe multi-sectoriel tourne vers la performance durable.",
+    title: "GROUPE SIBIRI HOLDING",
     status: "Ecosystem Active",
   },
   medical: {
-    bg: "#0f1f14",
-    panel: "rgba(28, 56, 35, 0.45)",
     border: "rgba(125, 235, 160, 0.22)",
     accent: "#3daa52",
     title: "SIBIRI BIO MEDICAL SERVICES",
@@ -20,17 +18,13 @@ const THEMES = {
     status: "Health Systems Operational",
   },
   energy: {
-    bg: "#09090b",
-    panel: "rgba(39, 20, 7, 0.45)",
     border: "rgba(249, 115, 22, 0.25)",
     accent: "#E62630",
     title: "SIBIRI ENERGY",
-    subtitle: "Distribution petroliere, stations-service et partenariats strategiques.",
+    logo: "/Sibiri-Energy.png",
     status: "Energy Network Stable",
   },
   agro: {
-    bg: "#0b1a12",
-    panel: "rgba(16, 47, 26, 0.45)",
     border: "rgba(126, 231, 135, 0.25)",
     accent: "#1f9d55",
     title: "SIBIRI AGRO CHEMICAL",
@@ -38,8 +32,6 @@ const THEMES = {
     status: "Agro Supply Online",
   },
   construction: {
-    bg: "#2D2D2D",
-    panel: "rgba(166, 77, 66, 0.15)",
     border: "rgba(166, 77, 66, 0.25)",
     accent: "#A64D42",
     title: "SIBIRI GLOBAL CONSTRUCTION ET RÉNOVATION",
@@ -47,8 +39,6 @@ const THEMES = {
     status: "Projects On Schedule",
   },
   logistic: {
-    bg: "#0f1720",
-    panel: "rgba(14, 165, 233, 0.12)",
     border: "rgba(103, 232, 249, 0.25)",
     accent: "#0ea5e9",
     title: "SIBIRI TRANSPORT & LOGISTIC",
@@ -70,12 +60,6 @@ const FILIALES_LINKS = [
 
 const QUICK_LINKS_BY_VARIANT = {
   home: [
-    { title: "Navigation", links: [
-      { label: "Accueil", href: "/" },
-      { label: "A propos de nous", href: "/groupe" },
-      { label: "Actualites", href: "/actualites" },
-      { label: "Contact", href: "/contact" },
-    ] },
     { title: "Groupe", links: FILIALES_LINKS },
     { title: "Ressources", links: [
       { label: "sibiri.group", href: "/" },
@@ -84,11 +68,6 @@ const QUICK_LINKS_BY_VARIANT = {
     ] },
   ],
   medical: [
-    { title: "Navigation", links: [
-      { label: "Presentation", href: "/medical" },
-      { label: "Nos prestations", href: "/medical" },
-      { label: "Nos realisations", href: "/medical/realisations" },
-    ] },
     { title: "Groupe", links: FILIALES_LINKS },
     { title: "Ressources", links: [
       { label: "Actualite", href: "/medical/actualite" },
@@ -97,25 +76,15 @@ const QUICK_LINKS_BY_VARIANT = {
     ] },
   ],
   energy: [
-    { title: "Navigation", links: [
-      { label: "Services", href: "/energy/services" },
-      { label: "A Propos", href: "/energy/a-propos" },
-      { label: "Projets", href: "/energy/projets" },
-    ] },
     { title: "Groupe", links: FILIALES_LINKS },
     { title: "Ressources", links: [
-      { label: "Pourquoi nous", href: "/energy/pourquoi-nous" },
+      { label: "À propos", href: "/energy/a-propos" },
       { label: "Contact", href: "/energy/contact" },
-      { label: "Actualites", href: "/actualites" },
+      { label: "Actualite", href: "/energy/actualite" },
     ] },
   ],
   construction: [
-    { title: "Navigation", links: [
-      { label: "Presentation", href: "/global-construction" },
-      { label: "Activites", href: "/global-construction" },
-      { label: "Atouts", href: "/global-construction" },
-    ] },
-    { title: "Groupe", links: FILIALES_LINKS },
+    { title: "Groupe", links: FILIALES_LINKS.filter(l => l.label !== "Global Construction") },
     { title: "Ressources", links: [
       { label: "Notre philosophie", href: "/global-construction" },
       { label: "Contact", href: "/contact" },
@@ -123,11 +92,6 @@ const QUICK_LINKS_BY_VARIANT = {
     ] },
   ],
   logistic: [
-    { title: "Navigation", links: [
-      { label: "Presentation", href: "/transport-logistic" },
-      { label: "Activites", href: "/transport-logistic" },
-      { label: "Atouts", href: "/transport-logistic" },
-    ] },
     { title: "Groupe", links: FILIALES_LINKS },
     { title: "Ressources", links: [
       { label: "Conformite", href: "/transport-logistic" },
@@ -136,11 +100,6 @@ const QUICK_LINKS_BY_VARIANT = {
     ] },
   ],
   agro: [
-    { title: "Navigation", links: [
-      { label: "Presentation", href: "/agro-chemical" },
-      { label: "Services", href: "/agro-chemical" },
-      { label: "Produits", href: "/agro-chemical" },
-    ] },
     { title: "Groupe", links: FILIALES_LINKS },
     { title: "Ressources", links: [
       { label: "Realisation", href: "/agro-chemical" },
@@ -156,8 +115,8 @@ export function NeoMinimalFooter({ variant = "home" }) {
 
   return (
     <footer
-      className="max-w-7xl mx-auto border-t rounded-t-2xl flex flex-wrap pt-14 pb-8 px-6 relative overflow-hidden"
-      style={{ background: theme.panel, borderColor: theme.border }}
+      className="w-full border-t flex flex-wrap pt-14 pb-8 px-6 relative overflow-hidden"
+      style={{ background: BLACK, borderColor: theme.border }}
     >
       <div
         className="absolute inset-0"
@@ -171,14 +130,18 @@ export function NeoMinimalFooter({ variant = "home" }) {
 
       <div className="max-w-6xl mx-auto w-full relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 mb-14">
-          <div className="col-span-1 md:col-span-5 flex flex-col gap-5">
+          <div className="col-span-1 md:col-span-6 flex flex-col gap-5">
             <div className="flex items-center gap-2">
               <Hexagon style={{ color: theme.accent, fill: `${theme.accent}22` }} size={24} />
               <h2 className="text-xl md:text-2xl font-bold tracking-tight text-white">{theme.title}</h2>
             </div>
-            <p className="text-sm text-slate-300 leading-relaxed max-w-sm" style={{ fontFamily: "'Inter', sans-serif" }}>
-              {theme.subtitle}
-            </p>
+            {theme.logo ? (
+              <img src={theme.logo} alt={theme.title} className="h-14 w-auto" draggable={false} />
+            ) : theme.subtitle ? (
+              <p className="text-sm text-slate-300 leading-relaxed max-w-sm" style={{ fontFamily: "'Inter', sans-serif" }}>
+                {theme.subtitle}
+              </p>
+            ) : null}
 
             <div className="flex items-center gap-2 mt-1">
               <div className="relative flex-1 max-w-xs">
@@ -200,7 +163,7 @@ export function NeoMinimalFooter({ variant = "home" }) {
           </div>
 
           {quickLinks.map((section) => (
-            <div key={section.title} className="col-span-6 md:col-span-2 flex flex-col gap-4">
+            <div key={section.title} className="col-span-6 md:col-span-3 flex flex-col gap-4">
               <h4 className="text-xs font-semibold text-white/70 uppercase tracking-widest">{section.title}</h4>
               <ul className="flex flex-col gap-3">
                 {section.links.map((link) => (
@@ -239,8 +202,6 @@ export function NeoMinimalFooter({ variant = "home" }) {
           </div>
         </div>
       </div>
-
-      <div className="absolute inset-0 -z-10" style={{ background: theme.bg }} />
     </footer>
   )
 }

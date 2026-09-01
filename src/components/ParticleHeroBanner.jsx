@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
+import { useContentValue } from '../lib/content/ContentProvider'
 
 // ─── Styles globaux injectés une seule fois ───────────────────────────────────
 const BANNER_STYLES = `
@@ -113,6 +114,10 @@ export const ParticleHeroBanner = () => {
   const animationRef = useRef(null)
   const particlesRef = useRef([])
   const sectionRef   = useRef(null)
+
+  const heroTitle    = useContentValue('home.hero.title', 'Un Groupe Multisectoriel')
+  const heroSubtitle = useContentValue('home.hero.subtitle', "Bâtisseurs d'Avenir")
+  const heroCta      = useContentValue('home.hero.cta', 'Accéder à nos filiales')
 
   useEffect(() => {
     injectStyles()
@@ -275,7 +280,7 @@ export const ParticleHeroBanner = () => {
 
         {/* Titre principal animé */}
         <div className="phb-heading">
-          <h2 className="phb-title">Bâtisseurs d'Avenir</h2>
+          <h2 className="phb-title">{heroTitle}</h2>
         </div>
 
         {/* Sous-titre */}
@@ -287,8 +292,7 @@ export const ParticleHeroBanner = () => {
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
         }}>
-          Un groupe multisectoriel engagé pour le<br />
-          développement durable de l'Afrique.
+          {heroSubtitle}
         </p>
 
         {/* CTA */}
@@ -314,7 +318,7 @@ export const ParticleHeroBanner = () => {
               e.currentTarget.style.transform = 'scale(1)'
             }}
           >
-            Explorer nos filiales ↓
+            {heroCta} ↓
           </a>
         </div>
 
@@ -337,9 +341,9 @@ export const ParticleHeroBanner = () => {
                 alt={f.name}
                 draggable={false}
                 style={{
-                  height: 44,
+                  height: 64,
                   width: 'auto',
-                  maxWidth: 84,
+                  maxWidth: 120,
                   objectFit: 'contain',
                   filter: 'drop-shadow(0 2px 10px rgba(0,0,0,0.35))',
                   transition: 'transform .25s ease',
