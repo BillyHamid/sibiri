@@ -87,6 +87,13 @@ const BANNER_STYLES = `
     opacity: 0;
     animation: phb-fadein 2s ease-out 3s forwards;
   }
+
+  /* Sur mobile, le logo de la nav (fixe, superposé) est proportionnellement plus
+     grand que le contenu du hero — on pousse le contenu vers le bas pour éviter
+     tout chevauchement avec le logo/tagline. */
+  @media (max-width: 640px) {
+    .phb-content { padding-top: 130px !important; justify-content: flex-start !important; }
+  }
 `
 
 // ─── Injecteur de styles ──────────────────────────────────────────────────────
@@ -261,7 +268,7 @@ export const ParticleHeroBanner = () => {
       </div>
 
       {/* ── Contenu central ──────────────────────────────────────────────── */}
-      <div style={{
+      <div className="phb-content" style={{
         position: 'absolute', inset: 0, zIndex: 10,
         display: 'flex', flexDirection: 'column',
         alignItems: 'center', justifyContent: 'center',

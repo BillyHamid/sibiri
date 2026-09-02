@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { motion, useScroll } from 'framer-motion'
 
 const GREEN = '#00A99D'
@@ -53,10 +54,10 @@ export const MedicalNav = () => {
 
           {/* Logo + retour */}
           <div className="flex items-center gap-4">
-            <a href="/" className="flex items-center gap-2 text-xs font-semibold text-white/60 hover:text-white transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>
+            <Link to="/" className="flex items-center gap-2 text-xs font-semibold text-white/60 hover:text-white transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>
               <IconArrowLeft size={14} />
               <span className="hidden sm:inline">SIBIRI GROUP</span>
-            </a>
+            </Link>
             <div className="w-px h-4 bg-white/20" />
             <span className="text-sm font-bold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
               Bio <span style={{ color: '#6DE8E0' }}>Médical</span>
@@ -67,26 +68,26 @@ export const MedicalNav = () => {
           <ul className="hidden lg:flex gap-7 text-sm">
             {navLinks.map(l => (
               <li key={l.label}>
-                <a
-                  href={l.href}
+                <Link
+                  to={l.href}
                   className="text-white/60 hover:text-white transition-colors duration-150"
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
                   {l.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
 
           {/* CTA */}
           <div className="hidden lg:flex items-center gap-3">
-            <a
-              href="/medical#contact"
+            <Link
+              to="/medical#contact"
               className="text-sm font-semibold px-5 py-2 rounded-full transition-all hover:brightness-110 hover:scale-105"
               style={{ background: `linear-gradient(135deg, ${GREEN}, ${GREEN_LIGHT})`, color: 'white', fontFamily: "'Inter', sans-serif" }}
             >
               Nous contacter
-            </a>
+            </Link>
           </div>
 
           {/* Burger */}
@@ -101,15 +102,15 @@ export const MedicalNav = () => {
             <ul className="flex flex-col gap-4">
               {navLinks.map(l => (
                 <li key={l.label}>
-                  <a href={l.href} onClick={() => setOpen(false)} className="block text-white/70 hover:text-white text-sm py-1 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  <Link to={l.href} onClick={() => setOpen(false)} className="block text-white/70 hover:text-white text-sm py-1 transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>
                     {l.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
-            <a href="/medical#contact" className="inline-flex mt-4 text-sm font-semibold px-5 py-2.5 rounded-full" style={{ background: `linear-gradient(135deg, ${GREEN}, ${GREEN_LIGHT})`, color: 'white', fontFamily: "'Inter', sans-serif" }}>
+            <Link to="/medical#contact" onClick={() => setOpen(false)} className="inline-flex mt-4 text-sm font-semibold px-5 py-2.5 rounded-full" style={{ background: `linear-gradient(135deg, ${GREEN}, ${GREEN_LIGHT})`, color: 'white', fontFamily: "'Inter', sans-serif" }}>
               Nous contacter
-            </a>
+            </Link>
           </motion.div>
         )}
       </nav>

@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { motion, useInView } from 'framer-motion'
 import { MedicalNav } from '../components/MedicalNav'
 
@@ -178,11 +179,11 @@ export const MedicalActualitePage = () => (
       <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: 'rgba(255,255,255,0.45)', marginBottom: 20 }}>
         Vous avez une question sur nos activités ?
       </p>
-      <a href="/medical#contact" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '14px 32px',
+      <Link to="/medical#contact" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '14px 32px',
         borderRadius: 99, textDecoration: 'none', background: `linear-gradient(135deg, ${GREEN}, ${GREEN_LIGHT})`,
         color: 'white', fontFamily: "'Inter', sans-serif", fontSize: 14, fontWeight: 700, boxShadow: `0 8px 28px ${GREEN}44` }}>
         Nous contacter →
-      </a>
+      </Link>
     </section>
   </div>
 )

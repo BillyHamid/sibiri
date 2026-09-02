@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from "react"
+import { Link } from "react-router-dom"
 import { motion, useInView, useScroll, AnimatePresence } from "framer-motion"
 import { MedicalTailarkHeroSection } from "../components/MedicalTailarkHeroSection"
 import { MedicalNav } from "../components/MedicalNav"
@@ -1564,9 +1565,9 @@ const Contact = () => (
         </div>
       </Reveal>
       <Reveal delay={0.2} className="mt-8">
-        <a href="/" className="inline-flex items-center gap-2 text-sm font-semibold transition-all hover:gap-3" style={{ color: "#6DE8E0", fontFamily: "'Inter', sans-serif" }}>
+        <Link to="/" className="inline-flex items-center gap-2 text-sm font-semibold transition-all hover:gap-3" style={{ color: "#6DE8E0", fontFamily: "'Inter', sans-serif" }}>
           <IconArrowLeft size={14} /> Retour au Groupe SIBIRI
-        </a>
+        </Link>
       </Reveal>
     </div>
   </section>
@@ -1745,6 +1746,7 @@ export const MedicalPage = () => (
     <MissionVision />
     <Services />
     <Atouts />
+    <Contact />
     <NeoMinimalFooter variant="medical" />
   </div>
 )

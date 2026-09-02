@@ -19,6 +19,8 @@ const Card = ({ title, role, level = 2, delay = 0, dashed = false, icon = '👤'
 
   return (
     <motion.div
+      className="oc-card"
+      data-level={level}
       initial={{ opacity: 0, y: 22, scale: 0.94 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, margin: '-30px' }}
@@ -153,6 +155,7 @@ const HBar = ({ delay = 0 }) => (
 // ── Ligne pointillée horizontale ─────────────────────────────────────────────
 const DashH = ({ side = 'left', delay = 0 }) => (
   <motion.div
+    className="oc-dash"
     initial={{ scaleX: 0, opacity: 0 }}
     whileInView={{ scaleX: 1, opacity: 1 }}
     viewport={{ once: true, margin: '-30px' }}
@@ -227,36 +230,17 @@ export const OrgChart = () => {
           }} />
         </motion.div>
 
-        {/* ── Illustration (placeholder, remplaçable) ───────────────────── */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          style={{
-            maxWidth: 760, margin: '0 auto 64px',
-            borderRadius: 20, overflow: 'hidden',
-            border: `1px solid ${GOLD}28`,
-            boxShadow: '0 12px 40px rgba(0,0,0,0.08)',
-          }}
-        >
-          <img
-            src="/groupe/management-business-industrial-facilities-development-600w-2619309351.webp"
-            alt="Gouvernance et pilotage stratégique du Groupe SIBIRI Holding"
-            style={{ width: '100%', height: 220, objectFit: 'cover', display: 'block' }}
-          />
-        </motion.div>
-
         {/* ══════════════════ ARBRE ═══════════════════════════════════════ */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0 }}>
+        <div className="oc-tree" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0 }}>
 
           {/* ── Niveau 1 ─────────────────────────────────────────────── */}
           <Card title="Administrateur Général" role="Direction Générale" level={1} icon="👑" delay={0.1} />
           <VLine h={36} delay={0.3} />
 
           {/* ── Niveau 2 : Conseillers ↔ Secrétaire Général ─────────── */}
-          <div style={{ display: 'flex', alignItems: 'center', width: '100%', maxWidth: 900, gap: 0 }}>
+          <div className="oc-l2-row" style={{ display: 'flex', alignItems: 'center', width: '100%', maxWidth: 900, gap: 0 }}>
             <motion.div
+              className="oc-l2-branch"
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -270,6 +254,7 @@ export const OrgChart = () => {
             <Card title="Secrétaire Général" role="Secrétariat Général" level={2} icon="🏛️" delay={0.42} />
 
             <motion.div
+              className="oc-l2-branch"
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -284,12 +269,12 @@ export const OrgChart = () => {
           <VLine h={36} delay={0.6} />
 
           {/* ── Connecteur 3 branches ─────────────────────────────────── */}
-          <div style={{ width: '80%', maxWidth: 720 }}>
+          <div className="oc-hbar-wrap" style={{ width: '80%', maxWidth: 720 }}>
             <HBar delay={0.65} />
           </div>
 
           {/* ── Niveau 3 : 3 managers ────────────────────────────────── */}
-          <div style={{
+          <div className="oc-l3-grid" style={{
             display: 'grid',
             gridTemplateColumns: '1fr 1fr 1fr',
             gap: 20,
@@ -319,6 +304,7 @@ export const OrgChart = () => {
 
               {/* Descentes vers DAF */}
               <motion.div
+                className="oc-daf-descents"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
@@ -338,7 +324,7 @@ export const OrgChart = () => {
               </motion.div>
 
               {/* 5 DAF */}
-              <div style={{ display: 'flex', gap: 6, flexWrap: 'nowrap', justifyContent: 'center' }}>
+              <div className="oc-daf-row" style={{ display: 'flex', gap: 6, flexWrap: 'nowrap', justifyContent: 'center' }}>
                 {DAF.map(({ title, role }, i) => (
                   <Card key={title} title={title} role={role} level={4} delay={1.05 + i * 0.07} />
                 ))}
@@ -395,6 +381,23 @@ export const OrgChart = () => {
         </motion.div>
 
       </div>
+
+      <style>{`
+        /* Sur mobile, l'arbre hiérarchique passe d'un tracé horizontal
+           (branches + colonnes côte à côte) à une liste verticale empilée :
+           les connecteurs horizontaux n'ont plus lieu d'être et sont masqués. */
+        @media (max-width: 720px) {
+          .oc-card { width: min(100%, 300px) !important; }
+          .oc-card[data-level="4"] { width: 104px !important; }
+          .oc-l2-row { flex-direction: column !important; gap: 14px !important; }
+          .oc-l2-branch { flex-direction: column !important; flex: none !important; }
+          .oc-dash { display: none !important; }
+          .oc-hbar-wrap { display: none !important; }
+          .oc-l3-grid { grid-template-columns: 1fr !important; max-width: 320px !important; gap: 32px !important; }
+          .oc-daf-row { flex-wrap: wrap !important; justify-content: center !important; }
+          .oc-daf-descents { display: none !important; }
+        }
+      `}</style>
     </section>
   )
 }

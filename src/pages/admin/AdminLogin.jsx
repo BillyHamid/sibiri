@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { useAdminAuth } from '../../lib/admin/useAdminAuth'
 
-const GOLD = '#C9A84C'
-const DARK = '#1D1D1B'
+const GOLD = '#B8923E'
+const INK  = '#18181B'
+const LINE = '#E7E5DF'
 
 export const AdminLogin = () => {
   const { signIn } = useAdminAuth()
@@ -20,32 +21,48 @@ export const AdminLogin = () => {
     if (error) setError(error.message)
   }
 
-  return (
-    <div style={{ minHeight: '100vh', background: DARK, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
-      <form onSubmit={submit} style={{ width: '100%', maxWidth: 380, background: '#252523', borderRadius: 20, padding: '40px 32px', border: `1px solid ${GOLD}25` }}>
-        <img src="/SIBIRI%20Holding.png" alt="SIBIRI Holding" style={{ height: 48, width: 'auto', margin: '0 auto 24px', display: 'block' }} />
-        <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 22, color: '#fff', textAlign: 'center', margin: '0 0 6px' }}>Back-office</h1>
-        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: 'rgba(255,255,255,0.45)', textAlign: 'center', margin: '0 0 28px' }}>Connexion administrateur</p>
+  const inputStyle = {
+    width: '100%', boxSizing: 'border-box', padding: '10px 13px', borderRadius: 8,
+    border: `1.5px solid ${LINE}`, background: '#fff', color: INK, fontSize: 14,
+    marginBottom: 16, fontFamily: "'Inter', sans-serif",
+  }
 
-        <label style={{ display: 'block', fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: 6, fontFamily: "'Inter', sans-serif" }}>Email</label>
+  return (
+    <div style={{ minHeight: '100vh', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, fontFamily: "'Inter', sans-serif" }}>
+      <form onSubmit={submit} style={{ width: '100%', maxWidth: 360 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginBottom: 28 }}>
+          <span style={{ width: 8, height: 8, borderRadius: 2, background: GOLD, display: 'inline-block' }} />
+          <span style={{ fontSize: 14, fontWeight: 700, color: INK, letterSpacing: '-0.01em' }}>
+            SIBIRI <span style={{ fontWeight: 500, color: '#71717A' }}>Back-office</span>
+          </span>
+        </div>
+
+        <h1 style={{ fontSize: 20, fontWeight: 700, color: INK, margin: '0 0 4px' }}>Connexion</h1>
+        <p style={{ fontSize: 13.5, color: '#71717A', margin: '0 0 24px' }}>Accès réservé aux administrateurs.</p>
+
+        <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#3F3F46', marginBottom: 6 }}>Email</label>
         <input
           type="email" required value={email} onChange={e => setEmail(e.target.value)}
-          style={{ width: '100%', boxSizing: 'border-box', padding: '11px 14px', borderRadius: 10, border: '1.5px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 14, marginBottom: 16, fontFamily: "'Inter', sans-serif" }}
+          style={inputStyle}
         />
 
-        <label style={{ display: 'block', fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: 6, fontFamily: "'Inter', sans-serif" }}>Mot de passe</label>
+        <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#3F3F46', marginBottom: 6 }}>Mot de passe</label>
         <input
           type="password" required value={password} onChange={e => setPassword(e.target.value)}
-          style={{ width: '100%', boxSizing: 'border-box', padding: '11px 14px', borderRadius: 10, border: '1.5px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontSize: 14, marginBottom: 20, fontFamily: "'Inter', sans-serif" }}
+          style={inputStyle}
         />
 
         {error && (
-          <p style={{ color: '#f87171', fontSize: 12.5, margin: '0 0 16px', fontFamily: "'Inter', sans-serif" }}>{error}</p>
+          <p style={{ color: '#B4453A', fontSize: 12.5, margin: '0 0 16px' }}>{error}</p>
         )}
 
         <button
           type="submit" disabled={busy}
-          style={{ width: '100%', padding: '13px', borderRadius: 10, border: 'none', background: GOLD, color: '#1D1D1B', fontWeight: 700, fontSize: 14, cursor: busy ? 'default' : 'pointer', opacity: busy ? 0.6 : 1, fontFamily: "'Inter', sans-serif" }}
+          style={{
+            width: '100%', padding: '11px', borderRadius: 8, border: 'none',
+            background: busy ? '#D9D6CC' : GOLD, color: '#fff', fontWeight: 600, fontSize: 14,
+            cursor: busy ? 'default' : 'pointer', fontFamily: "'Inter', sans-serif",
+          }}
         >
           {busy ? 'Connexion…' : 'Se connecter'}
         </button>

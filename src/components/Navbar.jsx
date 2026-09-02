@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // ─── Données de navigation ───────────────────────────────────────────────────
@@ -16,13 +17,13 @@ const GOLD_L = '#e6c76b';
 // ─── Item desktop ────────────────────────────────────────────────────────────
 const NavItem = ({ item }) => (
   <li className="relative">
-    <a
-      href={item.href}
+    <Link
+      to={item.href}
       className="flex items-center px-3 py-2 text-sm font-medium text-slate-200 hover:text-white transition-colors select-none"
       style={{ fontFamily: "'Inter', sans-serif" }}
     >
       {item.label}
-    </a>
+    </Link>
   </li>
 );
 
@@ -55,27 +56,28 @@ const MobileMenu = ({ open, onClose }) => (
           {/* Links */}
           <nav className="flex-1 overflow-y-auto py-4">
             {NAV_ITEMS.map((item) => (
-              <a
+              <Link
                 key={item.href}
-                href={item.href}
+                to={item.href}
                 onClick={onClose}
                 className="flex items-center px-5 py-3.5 text-sm font-semibold text-slate-200 hover:text-white transition-colors"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
           </nav>
 
           {/* CTA */}
           <div className="p-5 border-t border-white/10">
-            <a
-              href="/contact"
+            <Link
+              to="/contact"
+              onClick={onClose}
               className="block w-full text-center py-3 rounded-full text-sm font-semibold text-black transition-all hover:brightness-110"
               style={{ background: `linear-gradient(135deg, ${GOLD}, ${GOLD_L})`, fontFamily: "'Inter', sans-serif" }}
             >
               Nous contacter
-            </a>
+            </Link>
           </div>
         </motion.div>
       </>
@@ -116,36 +118,39 @@ export const Navbar = () => {
 
             {/* Logo + retour */}
             <div className="flex items-center gap-3 shrink-0">
-              <a href="/" className="flex items-center gap-2">
+              <Link to="/" className="flex items-center gap-2">
                 <img
                   src="/SIBIRI%20Holding.png"
                   alt="SIBIRI Holding"
                   className="w-auto select-none"
-                  style={{ height: scrolled ? 80 : 160, transition: 'height 0.3s ease' }}
+                  style={{
+                    height: scrolled ? 'clamp(48px, 9vw, 80px)' : 'clamp(56px, 14vw, 160px)',
+                    transition: 'height 0.3s ease',
+                  }}
                   draggable={false}
                 />
-              </a>
+              </Link>
             </div>
 
             {/* Nav desktop */}
             <ul className="hidden lg:flex items-center gap-6">
               {NAV_ITEMS.map((item) => (
                 <li key={item.href}>
-                  <a
-                    href={item.href}
+                  <Link
+                    to={item.href}
                     className="text-sm font-medium text-slate-200 hover:text-white transition-colors"
                     style={{ fontFamily: "'Inter', sans-serif" }}
                   >
                     {item.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
 
             {/* CTA desktop + Burger mobile */}
             <div className="flex items-center gap-3">
-              <a
-                href="/contact"
+              <Link
+                to="/contact"
                 className="hidden lg:inline-flex items-center px-5 py-2 rounded-full text-sm font-semibold text-black transition-all hover:brightness-110 hover:scale-105"
                 style={{
                   background: `linear-gradient(135deg, ${GOLD}, ${GOLD_L})`,
@@ -153,7 +158,7 @@ export const Navbar = () => {
                 }}
               >
                 Nous contacter
-              </a>
+              </Link>
 
               {/* Burger */}
               <button

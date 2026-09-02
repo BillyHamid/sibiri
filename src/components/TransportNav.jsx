@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { motion, useScroll } from 'framer-motion'
 
 const PRIMARY = '#0ea5e9'
@@ -53,10 +54,10 @@ export const TransportNav = () => {
 
           {/* Logo + retour */}
           <div className="flex items-center gap-4">
-            <a href="/" className="flex items-center gap-2 text-xs font-semibold text-white/60 hover:text-white transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>
+            <Link to="/" className="flex items-center gap-2 text-xs font-semibold text-white/60 hover:text-white transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>
               <IconArrowLeft size={14} />
               <span className="hidden sm:inline">SIBIRI GROUP</span>
-            </a>
+            </Link>
             <div className="w-px h-4 bg-white/20" />
             <span className="text-sm font-bold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
               Transport <span style={{ color: PRIMARY_LIGHT }}>&amp; Logistique</span>

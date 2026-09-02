@@ -99,10 +99,10 @@ const EnergyNav = () => {
         transition={{ duration: 0.7, delay: 0.1 }}
         style={{
           position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-          height: 116,
+          height: 'clamp(72px, 15vw, 116px)',
           display: 'flex', alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '0 40px',
+          padding: '0 clamp(18px, 5vw, 40px)',
           background: scrolled
             ? 'rgba(6,6,8,0.94)'
             : 'linear-gradient(180deg, rgba(6,6,8,0.62) 0%, rgba(6,6,8,0.18) 60%, transparent 100%)',
@@ -112,12 +112,12 @@ const EnergyNav = () => {
         }}
       >
         {/* Logo officiel */}
-        <Link to="/energy" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-          <img src={ENERGY_LOGO} alt="SIBIRI Energy" style={{ height: 104, width: 'auto', display: 'block' }} />
+        <Link to="/energy" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', minWidth: 0 }}>
+          <img src={ENERGY_LOGO} alt="SIBIRI Energy" style={{ height: 'clamp(48px, 11vw, 104px)', width: 'auto', maxWidth: 'none', aspectRatio: '594 / 420', flexShrink: 0, display: 'block' }} />
         </Link>
 
         {/* Desktop links */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 28 }} className="hidden md:flex">
+        <div style={{ alignItems: 'center', gap: 28 }} className="hidden md:flex">
           {NAV_LINKS.map(l => (
             l.dropdown
               ? <NavDropdown key={l.to} item={l} />

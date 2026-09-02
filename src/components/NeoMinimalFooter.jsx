@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { ArrowRight, Globe, Hexagon, Mail, Phone } from "lucide-react"
 
 // Fond noir uniforme pour tous les footers — seul l'accent de couleur change par filiale.
@@ -168,10 +169,10 @@ export function NeoMinimalFooter({ variant = "home" }) {
               <ul className="flex flex-col gap-3">
                 {section.links.map((link) => (
                   <li key={link.label}>
-                    <a href={link.href} className="text-sm text-slate-400 hover:text-white transition-colors flex items-center gap-2 w-fit">
+                    <Link to={link.href} className="text-sm text-slate-400 hover:text-white transition-colors flex items-center gap-2 w-fit">
                       <span className="w-2 h-2 rounded-full transition-all duration-200" style={{ background: `${theme.accent}99` }} />
                       {link.label}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
