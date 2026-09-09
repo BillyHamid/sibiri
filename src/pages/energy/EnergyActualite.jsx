@@ -1,108 +1,93 @@
-import { motion } from 'framer-motion'
-import { RED, DARK2, DARK3, GRAY, Reveal, SectionLabel, PageHero } from './shared'
+import { Link } from 'react-router-dom'
+import { Reveal, SectionLabel, PageHero } from './shared'
+import './EnergyEditorial.css'
 
-// ─── Actualités (structure inspirée de wolflubes.com/fr-fr/actualites) ────────
 const ACTUS = [
   {
-    date: '2025',
-    tag: 'Exclusivité',
-    accent: '#00C878',
-    title: 'WOLF LUBRICANTS — Distribution Nationale',
-    desc: "Exclusivité de distribution au Burkina Faso de la marque belge WOLF LUBRICANTS (WOLF OIL CORPORATION). Une gamme premium de lubrifiants pour véhicules de tourisme, bus, camions et engins miniers, disponible depuis 1955.",
-    gradient: `linear-gradient(135deg, #001a0a 0%, #003020 40%, #004d32 100%)`,
-  },
-  {
+    id: 'station-kouba',
     date: '2022',
     tag: 'Inauguration',
-    accent: RED,
-    title: 'Station-service Kouba — KOUBRI',
-    desc: "Première station grand public de SIBIRI ENERGY SA, inaugurée en 2022 dans la commune de KOUBRI. Point de départ de l'expansion du réseau dans la zone de Ouagadougou, aujourd'hui composé de quatre stations-service.",
-    gradient: `linear-gradient(135deg, #1a0500 0%, #3d1000 40%, #7a2000 100%)`,
+    title: 'Kouba–Koubri : le début d’une nouvelle proximité.',
+    desc: 'Inaugurée en 2022 dans la commune de Koubri, la première station grand public de SIBIRI ENERGY SA marque le point de départ du développement de notre réseau dans la zone de Ouagadougou, aujourd’hui composé de quatre stations-service.',
+    image: '/energy/SIBIRI%20ENERGY-5.JPG.jpeg',
+    alt: 'Vue de la station-service Sibiri Energy à Kouba–Koubri',
+    link: '/energy/a-propos',
+    linkLabel: 'Découvrir notre parcours',
   },
   {
+    id: 'approvisionnement-b2b',
     date: '2022',
     tag: 'Partenariat B2B',
-    accent: '#7B9FFF',
-    title: 'Ravitaillement Grandes Entreprises',
-    desc: "Distribution et approvisionnement en produits pétroliers des grandes entreprises des secteurs Transport, BTP et Industrie. Solutions de cuves portatives sur mesure pour accompagner nos clients professionnels.",
-    gradient: `linear-gradient(135deg, #0a0a1a 0%, #12122a 40%, #1e1e40 100%)`,
+    title: 'Accompagner l’énergie des entreprises.',
+    desc: 'Transport, BTP et industrie : Sibiri Energy accompagne les professionnels dans leur approvisionnement en produits pétroliers. La location et la mise à disposition de cuves portatives complètent les solutions de ravitaillement selon les besoins de chaque activité.',
+    image: '/energy/SIBIRI%20ENERGY-27.JPG.jpeg',
+    alt: 'Équipement de distribution de carburant Sibiri Energy',
+    link: '/energy/services#services-list',
+    linkLabel: 'Explorer nos services B2B',
   },
 ]
 
-const ActuRow = ({ date, tag, accent, title, desc, gradient, delay }) => (
-  <Reveal delay={delay}>
-    <motion.div
-      whileHover={{ x: 4 }}
-      transition={{ duration: 0.25 }}
-      style={{
-        display: 'grid', gridTemplateColumns: '1fr 1.8fr', gap: 40,
-        padding: '40px 0', borderBottom: '1px solid rgba(255,255,255,0.08)',
-        alignItems: 'start',
-      }}
-      className="actu-row"
-    >
-      {/* Vignette + meta */}
-      <div>
-        <div style={{
-          borderRadius: 16, overflow: 'hidden', marginBottom: 16, height: 180,
-          background: gradient, position: 'relative',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-        }}>
-          <div style={{
-            position: 'absolute', inset: 0,
-            backgroundImage: `linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)`,
-            backgroundSize: '30px 30px',
-          }} />
-          <span style={{ fontSize: 30, position: 'relative', opacity: 0.7 }}>⚡</span>
-        </div>
-        <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
-          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: GRAY, fontWeight: 600, letterSpacing: '0.05em' }}>{date}</span>
-          <span style={{ width: 3, height: 3, borderRadius: '50%', background: 'rgba(255,255,255,0.25)' }} />
-          <span style={{
-            padding: '3px 10px', borderRadius: 99,
-            background: `${accent}18`, border: `1px solid ${accent}44`,
-            fontFamily: "'Inter', sans-serif", fontSize: 10.5, fontWeight: 700, color: accent,
-          }}>{tag}</span>
-        </div>
-      </div>
-
-      {/* Contenu */}
-      <div style={{ paddingTop: 8 }}>
-        <h3 style={{ fontFamily: "'Inter', sans-serif", fontSize: 20, fontWeight: 800, color: '#fff', margin: '0 0 14px', lineHeight: 1.3 }}>{title}</h3>
-        <div style={{ width: 44, height: 2, borderRadius: 2, marginBottom: 16, background: RED }} />
-        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: GRAY, lineHeight: 1.78, margin: 0 }}>{desc}</p>
-      </div>
-    </motion.div>
-  </Reveal>
-)
-
 export const EnergyActualite = () => (
-  <>
+  <div className="energy-editorial">
     <PageHero
-      current="Actualité"
-      title="Nos dernières"
-      accent="actualités"
-      subtitle="Inaugurations, partenariats et exclusivités qui structurent le développement de Sibiri Energy."
-      image="/energy/SIBIRI%20ENERGY-8.JPG.jpeg"
+      current="Actualités"
+      title="L’énergie avance."
+      accent="Notre histoire aussi."
+      subtitle="Partenariats, ouvertures et vie du réseau : les temps forts de Sibiri Energy au Burkina Faso."
+      image="/energy/SIBIRI%20ENERGY-10.JPG.jpeg"
     />
 
-    <section style={{ background: DARK2, padding: '90px 0 108px' }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 40px' }}>
+    <section className="ee-section">
+      <div className="ee-container">
+        <div className="ee-journal-heading">
+          <Reveal><SectionLabel>Le journal Energy</SectionLabel><h2>À la <em>une.</em></h2></Reveal>
+          <span className="ee-edition">Partenariats &amp; vie du réseau</span>
+        </div>
         <Reveal>
-          <div style={{ marginBottom: 20 }}>
-            <SectionLabel>Actualité</SectionLabel>
-            <h2 style={{ fontSize: 'clamp(24px, 3.4vw, 40px)', fontWeight: 800, color: '#fff', margin: 0, fontFamily: "'Inter', sans-serif", letterSpacing: '-0.02em', lineHeight: 1.12 }}>
-              Toutes les actualités
-            </h2>
-          </div>
+          <article className="ee-feature" aria-labelledby="wolf-news-title">
+            <div className="ee-feature-image">
+              <img src="/energy/wolf-officialtech-hd.png" alt="Lubrifiant WOLF Official Tech" loading="lazy" />
+              <span className="ee-image-label">Partenariat · WOLF Lubricants</span>
+            </div>
+            <div className="ee-feature-copy">
+              <div className="ee-meta"><time dateTime="2025">2025</time><span>Exclusivité</span></div>
+              <h3 id="wolf-news-title">WOLF Lubricants.<br />Une nouvelle dimension pour Sibiri Energy.</h3>
+              <p>En 2025, Sibiri Energy obtient l’exclusivité de distribution au Burkina Faso de la marque belge WOLF LUBRICANTS, de WOLF OIL CORPORATION.</p>
+              <p>Une marque présente depuis 1955, avec une gamme de lubrifiants pour véhicules de tourisme, bus, camions et engins miniers.</p>
+              <Link className="ee-link" to="/energy/services#lubrifiant">Découvrir les lubrifiants <span aria-hidden="true">↗</span></Link>
+            </div>
+          </article>
         </Reveal>
+      </div>
+    </section>
 
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          {ACTUS.map((a, i) => <ActuRow key={a.title} {...a} delay={i * 0.08} />)}
+    <section className="ee-section ee-tinted">
+      <div className="ee-container">
+        <div className="ee-section-heading">
+          <Reveal><SectionLabel>Dans nos archives</SectionLabel><h2>Les étapes qui <em>comptent.</em></h2></Reveal>
+          <p>Retour sur les initiatives qui accompagnent le développement de notre réseau et de nos services.</p>
+        </div>
+        <div className="ee-news-grid">
+          {ACTUS.map((item, i) => (
+            <Reveal key={item.id} delay={i * 0.08}>
+              <article className="ee-news-card" aria-labelledby={item.id}>
+                <div className="ee-news-image"><img src={item.image} alt={item.alt} loading="lazy" /></div>
+                <div className="ee-news-copy">
+                  <div className="ee-meta"><time dateTime={item.date}>{item.date}</time><span>{item.tag}</span></div>
+                  <h3 id={item.id}>{item.title}</h3>
+                  <p>{item.desc}</p>
+                  <Link className="ee-link" to={item.link}>{item.linkLabel} <span aria-hidden="true">↗</span></Link>
+                </div>
+              </article>
+            </Reveal>
+          ))}
         </div>
       </div>
-
-      <style>{`@media (max-width: 700px) { .actu-row { grid-template-columns: 1fr !important; gap: 20px !important; } }`}</style>
     </section>
-  </>
+
+    <section className="ee-container ee-closing">
+      <div><SectionLabel>Restons en contact</SectionLabel><h2>Une question,<br /><em>un projet à partager ?</em></h2></div>
+      <Link className="ee-button" to="/energy/contact">Échanger avec notre équipe <span aria-hidden="true">↗</span></Link>
+    </section>
+  </div>
 )

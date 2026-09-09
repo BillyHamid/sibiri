@@ -1,75 +1,81 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
+import { Link, Outlet, useLocation } from 'react-router-dom'
 import { NeoMinimalFooter } from '../../components/NeoMinimalFooter'
-import { RED, DARK, DARK2, GRAY, ENERGY_LOGO, useEnergyFonts } from './shared'
+import { RED, RED_D, DARK, CHROME, ENERGY_LOGO, ENERGY_LOGO_BOX, useEnergyFonts } from './shared'
 
-// ── Liens de navigation (onglet → route) ─────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════════════════
+// NAVIGATION — reprise du langage de Sibiri Bio Médical (MedicalNav)
+//
+// Îlot arrondi centré, transparent au-dessus du héros et vitré dès qu'on défile.
+// À gauche : retour « SIBIRI GROUP », un séparateur, puis le logo de la filiale.
+// À droite : les liens en texte simple et un bouton dégradé. Sur mobile le menu
+// se déplie DANS l'îlot — pas de tiroir latéral, comme sur Bio.
+// ══════════════════════════════════════════════════════════════════════════════
+
 const NAV_LINKS = [
-  { label: 'Accueil',       to: '/energy',               end: true  },
+  { label: 'Accueil',   to: '/energy', end: true },
   {
     label: 'Produits', to: '/energy/services',
     dropdown: [
-      { label: 'Carburant',   to: '/energy/services#carburant'   },
-      { label: 'Lubrifiants', to: '/energy/services#lubrifiant'  },
+      { label: 'Carburant',   to: '/energy/services#carburant'     },
+      { label: 'Lubrifiants', to: '/energy/services#lubrifiant'    },
       { label: 'Services',    to: '/energy/services#services-list' },
     ],
   },
-  { label: 'À Propos',      to: '/energy/a-propos'                  },
-  { label: 'Actualité',     to: '/energy/actualite'                 },
+  { label: 'À Propos',  to: '/energy/a-propos'  },
+  { label: 'Actualité', to: '/energy/actualite' },
 ]
 
-// ── Item desktop avec dropdown ─────────────────────────────────────────────
-const NavDropdown = ({ item }) => {
-  const [open, setOpen] = useState(false)
-  const timeout = useRef(null)
+const isLinkActive = (link, pathname) =>
+  link.end ? pathname === link.to : pathname.startsWith(link.to)
 
-  const show = () => { clearTimeout(timeout.current); setOpen(true) }
-  const hide = () => { timeout.current = setTimeout(() => setOpen(false), 150) }
+// Recadrage du logo OFFICIEL à l'affichage. Le fichier n'est pas modifié : on
+// l'utilise en fond, agrandi et décalé de façon à ne montrer que la marque.
+// Tout est exprimé en multiples de la hauteur voulue (--lh), pour que les
+// tailles restent pilotables en CSS (défilement, media queries).
+const { W, H, X, Y, MW, MH } = ENERGY_LOGO_BOX
+const LOGO_VARS = {
+  '--logo':  `url("${ENERGY_LOGO}")`,
+  '--l-box': MW / MH,     // largeur du cadre visible, en hauteurs de marque
+  '--l-w':   W  / MH,     // largeur de l'image entière, idem
+  '--l-h':   H  / MH,     // hauteur de l'image entière, idem
+  '--l-x':   -X / MH,     // décalage pour amener la marque au bord gauche
+  '--l-y':   -Y / MH,     // idem en haut
+}
+
+const NavItem = ({ link, active }) => {
+  const [open, setOpen] = useState(false)
+  const timer = useRef(null)
+
+  const show = () => { clearTimeout(timer.current); setOpen(true) }
+  const hide = () => { timer.current = setTimeout(() => setOpen(false), 140) }
 
   return (
-    <div style={{ position: 'relative' }} onMouseEnter={show} onMouseLeave={hide}>
-      <NavLink to={item.to}
-        style={({ isActive }) => ({
-          position: 'relative', display: 'inline-flex', alignItems: 'center', gap: 5,
-          color: isActive ? '#fff' : 'rgba(255,255,255,0.65)',
-          fontSize: 12.5, fontWeight: isActive ? 700 : 500,
-          fontFamily: "'Inter', sans-serif", textDecoration: 'none',
-          letterSpacing: '0.02em', transition: 'color 0.2s',
-          paddingBottom: 4,
-          borderBottom: `2px solid ${isActive ? RED : 'transparent'}`,
-        })}
-      >
-        {item.label}
-        <svg width="10" height="10" viewBox="0 0 12 12" fill="none" style={{ transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
-          <path d="M2.5 4.5L6 8l3.5-3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      </NavLink>
+    <div
+      className="enav__item"
+      onMouseEnter={link.dropdown ? show : undefined}
+      onMouseLeave={link.dropdown ? hide : undefined}
+    >
+      <Link to={link.to} className={`enav__link${active ? ' is-active' : ''}`}>
+        {link.label}
+        {link.dropdown && (
+          <svg width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden
+            style={{ transform: open ? 'rotate(180deg)' : 'none', transition: 'transform .22s' }}>
+            <path d="M2.5 4.5L6 8l3.5-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        )}
+      </Link>
 
       <AnimatePresence>
-        {open && (
+        {link.dropdown && open && (
           <motion.div
             initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 6 }}
             transition={{ duration: 0.18 }}
-            style={{
-              position: 'absolute', top: '100%', left: '50%', transform: 'translateX(-50%)',
-              marginTop: 14, minWidth: 200, borderRadius: 12, overflow: 'hidden',
-              background: 'rgba(10,10,12,0.97)', backdropFilter: 'blur(16px)',
-              border: `1px solid ${RED}30`, boxShadow: '0 20px 48px rgba(0,0,0,0.5)',
-              padding: 6, zIndex: 50,
-            }}
+            className="enav__menu"
           >
-            {item.dropdown.map(d => (
-              <Link key={d.label} to={d.to} onClick={() => setOpen(false)}
-                style={{
-                  display: 'block', padding: '10px 14px', borderRadius: 8,
-                  color: 'rgba(255,255,255,0.78)', fontSize: 13, fontWeight: 500,
-                  fontFamily: "'Inter', sans-serif", textDecoration: 'none',
-                  transition: 'background 0.15s, color 0.15s',
-                }}
-                onMouseEnter={e => { e.currentTarget.style.background = `${RED}18`; e.currentTarget.style.color = '#fff' }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.78)' }}
-              >
+            {link.dropdown.map(d => (
+              <Link key={d.label} to={d.to} onClick={() => setOpen(false)} className="enav__menu-link">
                 {d.label}
               </Link>
             ))}
@@ -81,139 +87,247 @@ const NavDropdown = ({ item }) => {
 }
 
 const EnergyNav = () => {
+  const { pathname } = useLocation()
   const [scrolled, setScrolled] = useState(false)
-  const [mobile, setMobile]     = useState(false)
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 60)
+    const fn = () => setScrolled(window.scrollY > 40)
     fn()
     window.addEventListener('scroll', fn, { passive: true })
     return () => window.removeEventListener('scroll', fn)
   }, [])
 
-  return (
-    <>
-      <motion.nav
-        initial={{ y: -90, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, delay: 0.1 }}
-        style={{
-          position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-          height: 'clamp(72px, 15vw, 116px)',
-          display: 'flex', alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '0 clamp(18px, 5vw, 40px)',
-          background: scrolled
-            ? 'rgba(6,6,8,0.94)'
-            : 'linear-gradient(180deg, rgba(6,6,8,0.62) 0%, rgba(6,6,8,0.18) 60%, transparent 100%)',
-          backdropFilter: scrolled ? 'blur(18px)' : 'none',
-          borderBottom: scrolled ? `1px solid rgba(230,38,48,0.18)` : '1px solid transparent',
-          transition: 'all 0.35s ease',
-        }}
-      >
-        {/* Logo officiel */}
-        <Link to="/energy" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', minWidth: 0 }}>
-          <img src={ENERGY_LOGO} alt="SIBIRI Energy" style={{ height: 'clamp(48px, 11vw, 104px)', width: 'auto', maxWidth: 'none', aspectRatio: '594 / 420', flexShrink: 0, display: 'block' }} />
-        </Link>
+  // Le menu déplié se referme quand on change de page.
+  useEffect(() => { setOpen(false) }, [pathname])
 
-        {/* Desktop links */}
-        <div style={{ alignItems: 'center', gap: 28 }} className="hidden md:flex">
-          {NAV_LINKS.map(l => (
-            l.dropdown
-              ? <NavDropdown key={l.to} item={l} />
-              : (
-                <NavLink key={l.to} to={l.to} end={l.end}
-                  style={({ isActive }) => ({
-                    position: 'relative',
-                    color: isActive ? '#fff' : 'rgba(255,255,255,0.65)',
-                    fontSize: 12.5, fontWeight: isActive ? 700 : 500,
-                    fontFamily: "'Inter', sans-serif", textDecoration: 'none',
-                    letterSpacing: '0.02em', transition: 'color 0.2s',
-                    paddingBottom: 4,
-                    borderBottom: `2px solid ${isActive ? RED : 'transparent'}`,
-                  })}
-                >
-                  {l.label}
-                </NavLink>
-              )
-          ))}
-          <Link to="/energy/contact" style={{
-            background: 'transparent', color: '#fff', padding: '10px 21px',
-            borderRadius: 9, fontSize: 12.5, fontWeight: 700,
-            fontFamily: "'Inter', sans-serif", textDecoration: 'none',
-            border: `1.5px solid rgba(255,255,255,0.35)`,
-          }}>Nous contacter</Link>
+  return (
+    <header
+      className={`enav${scrolled ? ' is-scrolled' : ''}`}
+      style={{ '--fg': CHROME.fg, '--muted': CHROME.muted, '--drawer': CHROME.drawer, ...LOGO_VARS }}
+    >
+      <motion.nav
+        initial={{ y: -70, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+        className={`enav__island${scrolled || open ? ' is-solid' : ''}`}
+      >
+        <div className={`enav__bar${scrolled ? ' is-scrolled' : ''}`}>
+          {/* Retour groupe + logo filiale */}
+          <div className="enav__brand">
+            <Link to="/" className="enav__back">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <path d="M19 12H5M12 5l-7 7 7 7"/>
+              </svg>
+              <span>SIBIRI GROUP</span>
+            </Link>
+            <span className="enav__sep" />
+            <Link to="/energy" className="enav__logo" aria-label="Accueil Sibiri Energy">
+              <span className="enav__mark" role="img" aria-label="SIBIRI Energy" />
+            </Link>
+          </div>
+
+          {/* Liens */}
+          <nav className="enav__rail">
+            {NAV_LINKS.map(l => (
+              <NavItem key={l.to} link={l} active={isLinkActive(l, pathname)} />
+            ))}
+          </nav>
+
+          <Link to="/energy/contact" className="enav__cta">Nous contacter</Link>
+
+          <button
+            className="enav__burger" onClick={() => setOpen(o => !o)}
+            aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'} aria-expanded={open}
+          >
+            {open ? (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <path d="M18 6L6 18M6 6l12 12"/>
+              </svg>
+            ) : (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <path d="M3 6h18M3 12h18M3 18h18"/>
+              </svg>
+            )}
+          </button>
         </div>
 
-        {/* Mobile burger */}
-        <button className="md:hidden" onClick={() => setMobile(true)}
-          style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer', padding: 4 }}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
-          </svg>
-        </button>
-      </motion.nav>
-
-      {/* Mobile drawer */}
-      <AnimatePresence>
-        {mobile && (
-          <>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              onClick={() => setMobile(false)}
-              style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(0,0,0,0.75)' }} />
-            <motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              style={{
-                position: 'fixed', top: 0, right: 0, bottom: 0, zIndex: 201,
-                width: 280, background: DARK2, borderLeft: `1px solid ${RED}25`,
-                display: 'flex', flexDirection: 'column', padding: 24,
-                overflowY: 'auto',
-              }}>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 32 }}>
-                <button onClick={() => setMobile(false)} style={{ background: 'none', border: 'none', color: GRAY, cursor: 'pointer' }}>
-                  <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                    <path d="M4 4l14 14M18 4L4 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
-                  </svg>
-                </button>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        {/* Menu mobile : il se déplie dans l'îlot */}
+        <AnimatePresence>
+          {open && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+              className="enav__panel"
+            >
+              <div className="enav__panel-inner">
                 {NAV_LINKS.map(l => (
                   <div key={l.to}>
-                    <NavLink to={l.to} end={l.end} onClick={() => setMobile(false)}
-                      style={({ isActive }) => ({
-                        display: 'block',
-                        color: isActive ? RED : '#fff', fontSize: 15, fontWeight: 600, textDecoration: 'none',
-                        fontFamily: "'Inter', sans-serif", padding: '13px 0',
-                        borderBottom: l.dropdown ? 'none' : '1px solid rgba(255,255,255,0.07)',
-                      })}
-                    >{l.label}</NavLink>
+                    <Link to={l.to} className={`enav__mlink${isLinkActive(l, pathname) ? ' is-active' : ''}`}>
+                      {l.label}
+                    </Link>
                     {l.dropdown && (
-                      <div style={{ display: 'flex', flexDirection: 'column', paddingBottom: 8, borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+                      <div className="enav__msub">
                         {l.dropdown.map(d => (
-                          <Link key={d.label} to={d.to} onClick={() => setMobile(false)}
-                            style={{
-                              color: 'rgba(255,255,255,0.6)', fontSize: 13.5, fontWeight: 500,
-                              textDecoration: 'none', fontFamily: "'Inter', sans-serif",
-                              padding: '8px 0 8px 16px',
-                            }}
-                          >— {d.label}</Link>
+                          <Link key={d.label} to={d.to} className="enav__msublink">{d.label}</Link>
                         ))}
                       </div>
                     )}
                   </div>
                 ))}
-                <Link to="/energy/contact" onClick={() => setMobile(false)} style={{
-                  background: RED, color: '#fff', padding: '14px',
-                  borderRadius: 8, fontSize: 14, fontWeight: 700,
-                  fontFamily: "'Inter', sans-serif", textDecoration: 'none',
-                  textAlign: 'center', marginTop: 20,
-                }}>Nous contacter</Link>
+                <Link to="/energy/contact" className="enav__mcta">Nous contacter</Link>
               </div>
             </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-    </>
+          )}
+        </AnimatePresence>
+      </motion.nav>
+
+      <style>{`
+        .enav {
+          position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+          padding: 8px clamp(12px, 3vw, 24px) 0;
+          pointer-events: none;
+        }
+        /* Voile de haut de page. Les photos du héros sont désormais claires :
+           sans lui, les liens blancs de l'îlot transparent deviennent illisibles.
+           Il s'efface dès que l'îlot devient opaque — sinon il poserait une
+           bande grise sur les sections blanches. */
+        .enav::before {
+          content: ''; position: absolute; inset: 0 0 auto 0; height: 170px;
+          background: linear-gradient(180deg, rgba(29,29,27,0.60) 0%, rgba(29,29,27,0) 100%);
+          pointer-events: none; opacity: 1; transition: opacity .3s ease;
+        }
+        .enav.is-scrolled::before { opacity: 0; }
+        .enav__island {
+          pointer-events: auto;
+          max-width: 1280px; margin: 0 auto;
+          border-radius: 24px; border: 1px solid transparent;
+          padding: 0 clamp(16px, 3vw, 40px);
+          transition: background .3s ease, border-color .3s ease;
+        }
+        /* 0,88 et non 0,72 comme Bio : ici l'îlot passe au-dessus de sections
+           BLANCHES. À 0,72 il virait au gris et la plaque du logo s'y fondait. */
+        .enav__island.is-solid {
+          background: rgba(29,29,27,0.88);
+          border-color: rgba(255,255,255,0.08);
+          backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        }
+
+        .enav__bar {
+          display: flex; align-items: center; justify-content: space-between; gap: 24px;
+          padding: 20px 0; transition: padding .2s ease;
+        }
+        .enav__bar.is-scrolled { padding: 12px 0; }
+
+        /* ── Marque ──────────────────────────────────────────────────────── */
+        .enav__brand { display: flex; align-items: center; gap: 16px; min-width: 0; }
+        .enav__back {
+          display: inline-flex; align-items: center; gap: 8px;
+          font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+          color: rgba(255,255,255,0.60); text-decoration: none; white-space: nowrap;
+          transition: color .18s;
+        }
+        .enav__back:hover { color: #fff; }
+        .enav__sep { width: 1px; height: 16px; background: rgba(255,255,255,0.20); }
+        /* Logo posé directement sur la barre, sans plaque ni fond. */
+        .enav__logo { display: flex; align-items: center; }
+        /* --lh est la hauteur de la MARQUE, pas celle du fichier : le reste du
+           PNG officiel est du vide transparent, écarté par le recadrage. */
+        .enav__mark {
+          --lh: 34px;
+          display: block;
+          width: calc(var(--lh) * var(--l-box));
+          height: var(--lh);
+          background-image: var(--logo);
+          background-repeat: no-repeat;
+          background-size: calc(var(--lh) * var(--l-w)) calc(var(--lh) * var(--l-h));
+          background-position: calc(var(--lh) * var(--l-x)) calc(var(--lh) * var(--l-y));
+          transition: width .25s ease, height .25s ease,
+                      background-size .25s ease, background-position .25s ease;
+        }
+        .enav__bar.is-scrolled .enav__mark { --lh: 28px; }
+
+        /* ── Liens ───────────────────────────────────────────────────────── */
+        .enav__rail { display: flex; align-items: center; gap: 28px; }
+        .enav__item { position: relative; }
+        .enav__link {
+          display: inline-flex; align-items: center; gap: 5px;
+          font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500;
+          color: rgba(255,255,255,0.60); text-decoration: none; white-space: nowrap;
+          transition: color .15s;
+        }
+        .enav__link:hover { color: #fff; }
+        .enav__link.is-active { color: #fff; }
+
+        .enav__menu {
+          position: absolute; top: calc(100% + 16px); left: 50%; translate: -50% 0;
+          min-width: 196px; padding: 6px; border-radius: 14px;
+          background: rgba(29,29,27,0.94);
+          border: 1px solid rgba(255,255,255,0.10);
+          backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+          box-shadow: 0 22px 50px -22px rgba(0,0,0,0.8);
+          z-index: 60;
+        }
+        .enav__menu-link {
+          display: block; padding: 10px 14px; border-radius: 9px;
+          font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500;
+          color: rgba(255,255,255,0.62); text-decoration: none;
+          transition: background .15s, color .15s;
+        }
+        .enav__menu-link:hover { background: rgba(230,38,48,0.16); color: #fff; }
+
+        /* ── Bouton ──────────────────────────────────────────────────────── */
+        .enav__cta {
+          display: inline-flex; align-items: center; flex-shrink: 0;
+          padding: 9px 22px; border-radius: 99px;
+          background: linear-gradient(135deg, ${RED}, ${RED_D});
+          color: #fff; text-decoration: none; white-space: nowrap;
+          font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600;
+          transition: filter .2s, transform .2s;
+        }
+        .enav__cta:hover { filter: brightness(1.1); transform: scale(1.04); }
+
+        .enav__burger {
+          display: none; padding: 6px; background: none; border: 0;
+          color: #fff; cursor: pointer;
+        }
+
+        @media (max-width: 1023px) {
+          .enav__rail, .enav__cta { display: none; }
+          .enav__burger { display: block; }
+          .enav__mark { --lh: 28px; }
+          .enav__bar.is-scrolled .enav__mark { --lh: 25px; }
+        }
+
+        /* ── Menu déplié ─────────────────────────────────────────────────── */
+        .enav__panel { overflow: hidden; }
+        .enav__panel-inner {
+          display: flex; flex-direction: column; gap: 2px; padding-bottom: 22px;
+        }
+        .enav__mlink {
+          display: block; padding: 11px 0;
+          font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 500;
+          color: rgba(255,255,255,0.72); text-decoration: none;
+          transition: color .15s;
+        }
+        .enav__mlink:hover, .enav__mlink.is-active { color: #fff; }
+        .enav__msub { display: flex; flex-direction: column; padding: 0 0 8px 16px; }
+        .enav__msublink {
+          padding: 7px 0; font-family: 'Inter', sans-serif; font-size: 13px;
+          color: rgba(255,255,255,0.48); text-decoration: none;
+        }
+        .enav__mcta {
+          align-self: flex-start; margin-top: 14px;
+          padding: 10px 22px; border-radius: 99px;
+          background: linear-gradient(135deg, ${RED}, ${RED_D});
+          color: #fff; text-decoration: none;
+          font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600;
+        }
+      `}</style>
+    </header>
   )
 }
 
@@ -237,7 +351,7 @@ export const EnergyLayout = () => {
     <div style={{ background: DARK, minHeight: '100vh' }}>
       <EnergyNav />
       <Outlet />
-      <NeoMinimalFooter variant="energy" />
+      <NeoMinimalFooter variant="energy" surface={CHROME.footer} />
     </div>
   )
 }

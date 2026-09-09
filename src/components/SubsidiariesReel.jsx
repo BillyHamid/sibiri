@@ -1,412 +1,163 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { useContentValue } from '../lib/content/ContentProvider'
-
-const GOLD = '#C9A84C'
+import './SubsidiariesReel.css'
 
 const SUBSIDIARIES = [
   {
     id: 'construction',
     name: 'Sibiri Global Construction et Rénovation',
+    shortName: 'Global Construction',
     tagline: 'BTP & Infrastructures',
-    color: '#C0392B',
-    colorLight: '#FDECEA',
+    color: '#A64D42',
     route: '/global-construction',
     logo: '/Sibiri-Construction.png',
-    icon: '🏗️',
-    desc: "SIBIRI Global Construction et Rénovation est la filiale spécialisée dans le BTP.",
-    highlights: [
-      'Construction de bâtiments administratifs, commerciaux et industriels',
-      'Aménagement de voiries, routes et réseaux divers',
-      'Génie civil et infrastructures urbaines & rurales',
-    ],
-    stats: [
-      { val: '10+', lab: 'Projets livrés' },
-      { val: 'Norme ISO', lab: 'Standards qualité' },
-      { val: 'UEMOA', lab: "Zone d'opération" },
-    ],
+    image: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?fm=jpg&q=80&w=1200&auto=format&fit=crop',
+    imageAlt: 'Chantier de construction et engins de travaux publics',
+    headline: 'Bâtir les espaces de demain.',
+    desc: 'Bâtiments, voiries et génie civil : une expertise au service des infrastructures, de la construction à la rénovation.',
+    fields: ['Construction', 'Rénovation', 'Génie civil'],
   },
   {
     id: 'medical',
     name: 'Sibiri Bio Medical',
+    shortName: 'Bio Medical',
     tagline: 'Santé & Biomédical',
-    color: '#45b757',
-    colorAlt: '#d9e25a',
-    colorLight: '#F2FAE8',
+    color: '#31823e',
     route: '/medical',
     logo: '/Sibiri-Medical.png',
-    icon: '🏥',
-    desc: "SIBIRI BIO MEDICAL SERVICES SA est le spécialiste dans le domaine des équipements bio médicaux et des produits pharmaceutiques.",
-    highlights: [
-      'Importation et distribution de médicaments & consommables',
-      'Équipements médicaux, matériels de laboratoire et imagerie',
-      'Service après-vente 24h/7j — maintenance & formation',
-    ],
-    stats: [],
+    image: '/medical/scientist-black-woman-beaker-microscope-600nw-2555614553.webp',
+    imageAlt: 'Scientifique au travail dans un laboratoire',
+    headline: 'Accompagner celles et ceux qui soignent.',
+    desc: 'Équipements biomédicaux, produits pharmaceutiques et maintenance : des solutions pour les professionnels de santé.',
+    fields: ['Équipements médicaux', 'Laboratoire', 'Maintenance'],
   },
   {
     id: 'energy',
     name: 'Sibiri Energy',
+    shortName: 'Energy',
     tagline: 'Énergie & Ressources',
     color: '#E62630',
-    colorLight: '#FDEBEC',
     route: '/energy',
     logo: '/Sibiri-Energy.png',
-    icon: '⚡',
-    desc: "SIBIRI ENERGY élabore des solutions liées aux questions énergétiques et dispose d'un réseau de stations-service.",
-    highlights: [
-      'Négoce et distribution de produits pétroliers & hydrocarbures',
-      "Solutions énergétiques sur mesure pour l'industrie et les PME",
-      'Développement progressif vers les énergies renouvelables',
-    ],
-    stats: [
-      { val: '5+', lab: 'Pays desservis' },
-      { val: 'B2B', lab: 'Marché principal' },
-      { val: '24/7', lab: 'Disponibilité logistique' },
-    ],
+    image: '/energy/SIBIRI%20ENERGY-5.JPG.jpeg',
+    imageAlt: 'Station-service Sibiri Energy à Kouba–Koubri',
+    headline: 'Faire avancer toutes les énergies.',
+    desc: 'Carburants, lubrifiants et solutions énergétiques pour accompagner les entreprises comme le grand public.',
+    fields: ['Carburants', 'Lubrifiants', 'Solaire'],
   },
   {
     id: 'transport',
     name: 'Sibiri Transport & Logistics',
-    tagline: 'Mobilité & Supply Chain',
+    shortName: 'Transport & Logistics',
+    tagline: 'Transport & Logistique',
     color: '#0070b3',
-    colorLight: '#E5F2FB',
     route: '/transport-logistic',
     logo: '/Sibiri-Transport.png',
-    icon: '🚛',
-    desc: "SIBIRI TRANSPORT & LOGISTICS offre des solutions de transport & logistique aux secteurs industriel, minier et commercial.",
-    highlights: [
-      'Transport routier de marchandises — national & international',
-      'Logistique intégrée : entreposage, gestion de stock et distribution',
-      'Transit douanier, dédouanement et affrètement',
-    ],
-    stats: [
-      { val: '6+', lab: 'Pays couverts' },
-      { val: '100 T+', lab: 'Capacité mensuelle' },
-      { val: 'GPS', lab: 'Traçabilité temps réel' },
-    ],
+    image: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?fm=jpg&q=80&w=1200&auto=format&fit=crop',
+    imageAlt: 'Camion de transport de marchandises sur la route',
+    headline: 'Relier les marchés et les opportunités.',
+    desc: 'Transport de marchandises et logistique pour les secteurs industriel, minier et commercial, au national comme à l’international.',
+    fields: ['Transport routier', 'Logistique', 'Distribution'],
   },
   {
     id: 'agro',
     name: 'Sibiri Agro Chemical',
+    shortName: 'Agro Chemical',
     tagline: 'Agriculture & Chimie',
-    color: '#6B9E1F',
-    colorLight: '#F1F8E4',
+    color: '#527d17',
     route: '/agro-chemical',
     logo: '/Sibiri-Agro.png',
-    icon: '🌿',
-    desc: "SIBIRI AGRO CHEMICAL SA est le spécialiste dans le domaine des intrants agricoles et élabore des solutions pertinentes aux enjeux du secteur agricole.",
-    highlights: [
-      'Fourniture d\'intrants agricoles et produits phytosanitaires homologués',
-      'Engrais minéraux et organiques adaptés aux sols africains',
-      'Conseil agronomique et accompagnement technique des producteurs',
-    ],
-    stats: [
-      { val: '500+', lab: 'Producteurs accompagnés' },
-      { val: '4', lab: 'Régions couvertes' },
-      { val: 'Agréée', lab: 'Ministère Agriculture' },
-    ],
+    image: '/agro/engrais-haute-qualite.jpg',
+    imageAlt: 'Apport d’engrais à une jeune plante',
+    headline: 'Cultiver le potentiel de nos terres.',
+    desc: 'Intrants agricoles, engrais et accompagnement technique pour répondre aux besoins des producteurs et aux enjeux du secteur agricole.',
+    fields: ['Intrants agricoles', 'Engrais', 'Conseil agronomique'],
   },
 ]
 
-// ── Icône checkmark ─────────────────────────────────────────────────────────
-const CheckIcon = ({ color }) => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0, marginTop: 2 }}>
-    <circle cx="8" cy="8" r="7.5" stroke={color} strokeOpacity=".25" />
-    <path d="M5 8l2 2 4-4" stroke={color} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+const Arrow = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M5 19 19 5M5 5h14v14" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 )
 
-// ── Helpers ──────────────────────────────────────────────────────────────────
-const Reveal = ({ children, delay = 0, y = 28 }) => (
-  <motion.div
-    initial={{ opacity: 0, y }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: '-60px' }}
-    transition={{ duration: 0.7, delay, ease: [0.2, 0.65, 0.3, 0.9] }}
-  >
-    {children}
-  </motion.div>
-)
-
-// ── Carte filiale compacte ──────────────────────────────────────────────────
-const FilialeCard = ({ filiale, index }) => {
-  const [imgOk, setImgOk] = useState(true)
-
-  return (
-    <Reveal delay={index * 0.05}>
-      <motion.div
-        whileHover={{ y: -4, boxShadow: `0 12px 32px ${filiale.color}20` }}
-        transition={{ duration: 0.3 }}
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 0,
-          borderRadius: 16,
-          overflow: 'hidden',
-          border: `1px solid ${filiale.color}28`,
-          boxShadow: `0 2px 16px ${filiale.color}08, 0 1px 3px rgba(0,0,0,0.04)`,
-          background: 'white',
-          height: '100%',
-        }} className="filiale-card-compact">
-
-        {/* ── Visuel (logo + couleur) ── */}
-        <div
-          className="filiale-visual"
-          style={{
-            background: filiale.colorLight,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '24px 18px',
-            position: 'relative',
-            overflow: 'hidden',
-            minHeight: 184,
-          }}
-        >
-          {/* Fond déco cercle */}
-          <div style={{
-            position: 'absolute',
-            width: '200%', height: '200%',
-            top: '50%', left: '50%',
-            transform: 'translate(-50%, -50%)',
-            background: `radial-gradient(ellipse at center, ${filiale.color}18 0%, transparent 60%)`,
-            pointerEvents: 'none',
-          }} />
-
-          {/* Logo — sans case ni fond, juste l'image pour une meilleure visibilité */}
-          <motion.img
-            whileHover={{ scale: 1.08 }}
-            transition={{ duration: 0.3 }}
-            src={filiale.logo}
-            alt={filiale.name}
-            onError={e => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex' }}
-            style={{
-              width: 148, height: 148,
-              objectFit: 'contain',
-              filter: `drop-shadow(0 6px 18px ${filiale.color}35)`,
-              position: 'relative', zIndex: 1,
-            }}
-          />
-          <div style={{
-            display: 'none', width: 148, height: 148,
-            alignItems: 'center', justifyContent: 'center',
-            fontSize: 52,
-            position: 'relative', zIndex: 1,
-          }}>{filiale.icon}</div>
-
-          {/* Tag secteur */}
-          <div style={{
-            position: 'relative', zIndex: 1,
-            marginTop: 12,
-            padding: '4px 12px', borderRadius: 99,
-            background: `${filiale.color}18`,
-            border: `1px solid ${filiale.color}40`,
-            color: filiale.color,
-            fontSize: 9, fontWeight: 700,
-            letterSpacing: '0.1em', textTransform: 'uppercase',
-            fontFamily: "'Inter', sans-serif",
-          }}>
-            {filiale.tagline}
-          </div>
-        </div>
-
-        {/* ── Contenu texte ── */}
-        <div style={{
-          padding: '20px 16px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-start',
-          gap: 12,
-          background: filiale.colorLight,
-          position: 'relative',
-          overflow: 'hidden',
-          flex: 1,
-        }} className="filiale-content">
-
-          {/* Bande couleur top */}
-          <div style={{
-            position: 'absolute', top: 0, left: 0, right: 0,
-            height: 3,
-            background: filiale.color,
-            opacity: 0.4,
-          }} />
-
-          {/* Numéro watermark */}
-          <div style={{
-            fontFamily: "'Playfair Display', serif",
-            fontSize: 48, fontWeight: 900, lineHeight: 1,
-            color: `${filiale.color}12`,
-            userSelect: 'none',
-            marginBottom: -8,
-            letterSpacing: '-0.04em',
-          }}>{String(index + 1).padStart(2, '0')}</div>
-
-          {/* Nom */}
-          <div>
-            <h3 style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: 14,
-              fontWeight: 700,
-              margin: '0 0 6px',
-              lineHeight: 1.3,
-              color: filiale.color,
-            }}>
-              {filiale.name.replace('Sibiri ', '')}
-            </h3>
-            <div style={{
-              width: 32, height: 2, borderRadius: 2,
-              background: filiale.color,
-              opacity: 0.3,
-            }} />
-          </div>
-
-          {/* Description courte */}
-          <p style={{
-            fontFamily: "'Inter', sans-serif",
-            fontSize: 11, lineHeight: 1.6,
-            color: '#6B7280', margin: 0,
-          }}>
-            {filiale.desc}
-          </p>
-
-          {/* CTA */}
-          <div style={{ marginTop: 'auto' }}>
-            <Link to={filiale.route} style={{ textDecoration: 'none' }}>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ duration: 0.2 }}
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 6,
-                  padding: '9px 16px', borderRadius: 99,
-                  background: filiale.color,
-                  color: 'white',
-                  fontFamily: "'Inter', sans-serif",
-                  fontWeight: 700, fontSize: 11,
-                  boxShadow: `0 4px 12px ${filiale.color}30`,
-                  cursor: 'pointer',
-                }}
-              >
-                Découvrir
-                <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-                  <path d="M3 8h10M9 4l4 4-4 4" stroke="white" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </motion.div>
-            </Link>
-          </div>
-        </div>
-      </motion.div>
-    </Reveal>
-  )
-}
-
-// ── Section principale ───────────────────────────────────────────────────────
 export const SubsidiariesReel = () => {
-  const title    = useContentValue('home.filiales.title', 'Un Groupe, 5 expertises')
+  const title = useContentValue('home.filiales.title', 'Un Groupe, 5 expertises')
   const subtitle = useContentValue('home.filiales.subtitle', "Chaque filiale incarne un secteur clé du développement africain, avec une stratégie d'excellence propre à son domaine.")
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [failedImages, setFailedImages] = useState({})
+  const selected = SUBSIDIARIES[activeIndex]
 
   return (
-    <section id="nos-filiales" style={{
-      background: '#fff',
-      padding: '88px 0 104px',
-      position: 'relative',
-      overflow: 'hidden',
-    }}>
+    <section id="nos-filiales" className="holding-filiales" aria-labelledby="holding-filiales-title">
+      <div className="hf-container">
+        <header className="hf-heading">
+          <div>
+            <p className="hf-eyebrow"><span aria-hidden="true" />Nos filiales</p>
+            <h2 id="holding-filiales-title">{title}<span className="hf-heading-dot">.</span></h2>
+          </div>
+          <p className="hf-introduction">{subtitle}</p>
+        </header>
 
-      {/* Halo décoratif */}
-      <div style={{
-        position: 'absolute',
-        top: '40%', left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 1000, height: 500,
-        background: `radial-gradient(ellipse, rgba(201,168,76,0.05), transparent 70%)`,
-        pointerEvents: 'none',
-      }} />
+        <div className="hf-explorer">
+          <div className="hf-directory">
+            <p className="hf-directory-label">Explorez nos univers <span aria-hidden="true">↓</span></p>
+            <div className="hf-selectors" role="group" aria-label="Choisir une filiale">
+              {SUBSIDIARIES.map((filiale, index) => (
+                <button
+                  key={filiale.id}
+                  type="button"
+                  className="hf-selector"
+                  aria-label={`Sélectionner ${filiale.name}`}
+                  aria-pressed={activeIndex === index}
+                  aria-controls="holding-filiale-detail"
+                  onClick={() => setActiveIndex(index)}
+                  style={{ '--filiale-color': filiale.color }}
+                >
+                  <span className="hf-selector-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                  <span className="hf-selector-logo-wrap">
+                    <img src={filiale.logo} alt="" className="hf-selector-logo" />
+                  </span>
+                  <span className="hf-selector-arrow"><Arrow /></span>
+                </button>
+              ))}
+            </div>
+            <div className="hf-signature"><span className="hf-signature-line" /><p>Cinq métiers.<br /><strong>Une ambition commune.</strong></p></div>
+          </div>
 
-      <div style={{ maxWidth: 1180, margin: '0 auto', padding: '0 28px' }}>
-
-        {/* ── Header ─────────────────────────────────────────────────────── */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6 }}
-          style={{ textAlign: 'center', marginBottom: 56 }}
-        >
-          <p style={{
-            fontSize: 13, fontWeight: 900,
-            letterSpacing: '0.15em',
-            color: '#C9A84C',
-            fontFamily: "'Inter', sans-serif",
-            margin: '0 0 20px',
-            textTransform: 'uppercase',
-          }}>Nos filiales</p>
-
-          <h2 style={{
-            fontSize: 'clamp(26px, 4vw, 42px)',
-            fontWeight: 700,
-            color: '#1D1D1B',
-            margin: '0 0 14px',
-            fontFamily: "'Playfair Display', serif",
-            lineHeight: 1.15,
-          }}>{title}</h2>
-
-          <p style={{
-            fontSize: 15,
-            color: '#9ca3af',
-            maxWidth: 460,
-            margin: '0 auto',
-            lineHeight: 1.7,
-            fontFamily: "'Inter', sans-serif",
-          }}>
-            {subtitle}
-          </p>
-
-          <div style={{
-            width: 48, height: 2,
-            background: `linear-gradient(to right, transparent, ${GOLD}, transparent)`,
-            margin: '20px auto 0',
-            borderRadius: 99,
-          }} />
-        </motion.div>
-
-        {/* ── Grille des filiales compactes (5 colonnes) ──────────────────── */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(5, 1fr)',
-          gap: 18,
-        }} className="filiales-grid">
-          {SUBSIDIARIES.map((f, i) => (
-            <FilialeCard key={f.id} filiale={f} index={i} />
-          ))}
+          <div id="holding-filiale-detail" className="hf-detail" style={{ '--filiale-color': selected.color }} role="region" aria-label={selected.name}>
+            <div className="hf-photo">
+              {failedImages[selected.id] ? (
+                <div className="hf-photo-fallback"><img src={selected.logo} alt={selected.name} /></div>
+              ) : (
+                <img
+                  key={selected.id}
+                  className="hf-main-image"
+                  src={selected.image}
+                  alt={selected.imageAlt}
+                  loading="lazy"
+                  decoding="async"
+                  onError={() => setFailedImages(previous => ({ ...previous, [selected.id]: true }))}
+                />
+              )}
+              <span className="hf-photo-caption">L’univers {selected.shortName}</span>
+              <span className="hf-counter"><strong>{String(activeIndex + 1).padStart(2, '0')}</strong><span>/ 05</span></span>
+            </div>
+            <div className="hf-detail-copy">
+              <div className="hf-brand-row"><p>{selected.name}</p><img src={selected.logo} alt="" className="hf-brand-logo" /></div>
+              <div aria-live="polite" aria-atomic="true">
+                <h3>{selected.headline}</h3>
+                <p className="hf-description">{selected.desc}</p>
+              </div>
+              <ul className="hf-fields" aria-label="Domaines d’activité">{selected.fields.map(field => <li key={field}>{field}</li>)}</ul>
+              <Link className="hf-discover" to={selected.route}>Découvrir {selected.shortName}<Arrow /></Link>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <style>{`
-        @media (max-width: 1400px) {
-          .filiales-grid {
-            grid-template-columns: repeat(4, 1fr) !important;
-          }
-        }
-        @media (max-width: 1024px) {
-          .filiales-grid {
-            grid-template-columns: repeat(3, 1fr) !important;
-          }
-        }
-        @media (max-width: 768px) {
-          .filiales-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-          }
-        }
-        @media (max-width: 480px) {
-          .filiales-grid {
-            grid-template-columns: 1fr !important;
-          }
-        }
-      `}</style>
+        <footer className="hf-footer"><p>Des expertises complémentaires, une vision partagée.</p><Link to="/groupe">Découvrir le groupe<Arrow /></Link></footer>
+      </div>
     </section>
   )
 }

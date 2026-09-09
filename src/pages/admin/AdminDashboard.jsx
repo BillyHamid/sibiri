@@ -14,6 +14,8 @@ const PANEL = '#FAFAF8'
 
 const TYPE_LABELS = { text: 'Texte court', richtext: 'Paragraphe', image: 'Image', list: 'Liste (JSON)' }
 const TYPE_ICONS  = { text: Type, richtext: FileText, image: ImageIcon, list: List }
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024
+const ACCEPTED_IMAGE_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp'])
 
 // ─── Arborescence du site — toutes les filiales et tous leurs onglets ──────
 // `dbPage` = valeur stockée dans la colonne `page` de la table `content`.
@@ -691,8 +693,13 @@ const ContentRow = ({ row, onSaved, onDeleted }) => {
   }
 
   const uploadImage = async (file) => {
+    if (!ACCEPTED_IMAGE_TYPES.has(file.type) || file.size > MAX_IMAGE_SIZE) {
+      setStatus('error')
+      return
+    }
     setUploading(true)
-    const path = `${row.key}/${Date.now()}-${file.name}`
+    const extension = file.type.split('/')[1]
+    const path = `${row.key}/${Date.now()}.${extension}`
     const { error: upErr } = await supabase.storage.from('content-images').upload(path, file, { upsert: true })
     if (!upErr) {
       const { data } = supabase.storage.from('content-images').getPublicUrl(path)
@@ -736,7 +743,7 @@ const ContentRow = ({ row, onSaved, onDeleted }) => {
             border: `1.5px solid ${LINE}`, fontSize: 12.5, color: '#3F3F46', cursor: 'pointer', fontFamily: "'Inter', sans-serif",
           }}>
             <Upload size={13} /> {uploading ? 'Envoi…' : 'Choisir une image'}
-            <input type="file" accept="image/*" onChange={e => e.target.files[0] && uploadImage(e.target.files[0])} style={{ display: 'none' }} disabled={uploading} />
+            <input type="file" accept="image/jpeg,image/png,image/webp" onChange={e => e.target.files[0] && uploadImage(e.target.files[0])} style={{ display: 'none' }} disabled={uploading} />
           </label>
         </div>
       ) : row.type === 'richtext' || row.type === 'list' ? (
@@ -756,7 +763,7 @@ const ContentRow = ({ row, onSaved, onDeleted }) => {
           {status === 'saving' ? 'Enregistrement…' : 'Enregistrer'}
         </button>
         {status === 'saved' && <span style={{ fontSize: 12, color: '#3F8A57', fontFamily: "'Inter', sans-serif" }}>✓ Enregistré</span>}
-        {status === 'error' && <span style={{ fontSize: 12, color: '#B4453A', fontFamily: "'Inter', sans-serif" }}>Erreur — JSON invalide ?</span>}
+        {status === 'error' && <span style={{ fontSize: 12, color: '#B4453A', fontFamily: "'Inter', sans-serif" }}>Erreur — vérifiez le format, la taille ou les droits.</span>}
       </div>
     </div>
   )

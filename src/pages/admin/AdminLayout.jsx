@@ -8,7 +8,7 @@ const INK  = '#18181B'
 const LINE = '#E7E5DF'
 
 export const AdminLayout = () => {
-  const { session, loading, signOut } = useAdminAuth()
+  const { session, isAdmin, loading, signOut } = useAdminAuth()
   const { pathname } = useLocation()
 
   if (!isBackofficeConfigured()) {
@@ -30,6 +30,20 @@ export const AdminLayout = () => {
 
   if (!session && pathname !== '/admin/login') {
     return <Navigate to="/admin/login" replace />
+  }
+
+  if (session && !isAdmin) {
+    return (
+      <div style={{ minHeight: '100vh', background: '#fff', color: INK, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, fontFamily: "'Inter', sans-serif" }}>
+        <div style={{ maxWidth: 460, textAlign: 'center' }}>
+          <h1 style={{ fontSize: 20, fontWeight: 700, marginBottom: 12 }}>Accès non autorisé</h1>
+          <p style={{ color: '#71717A', lineHeight: 1.7, fontSize: 14, marginBottom: 22 }}>
+            Ce compte ne possède pas les droits nécessaires pour administrer le site.
+          </p>
+          <button onClick={signOut} style={{ border: `1px solid ${LINE}`, background: '#fff', color: INK, borderRadius: 7, padding: '9px 14px', cursor: 'pointer', fontFamily: "'Inter', sans-serif" }}>Se déconnecter</button>
+        </div>
+      </div>
+    )
   }
 
   if (session && pathname === '/admin/login') {

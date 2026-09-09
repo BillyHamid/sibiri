@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { useInView } from 'framer-motion'
+import './EnergyEditorial.css'
 import { Link } from 'react-router-dom'
-import { RED, DARK, DARK2, GRAY, Reveal, CountUp, SectionLabel, PageHero } from './shared'
+import { Reveal, CountUp, SectionLabel, PageHero } from './shared'
 
 const STATS_ABOUT = [
   { target: 4,    suffix: '',  label: 'Stations-service'        },
@@ -10,141 +11,152 @@ const STATS_ABOUT = [
   { target: 2025, suffix: '',  label: 'Exclusivité WOLF Lubric.'},
 ]
 
+// Icônes SVG au trait (mêmes réglages que le reste d'Energy : 24×24, stroke 1.8).
+// Remplacent les emojis d'origine, qui juraient sur les cartes claires et
+// n'appartenaient pas au langage graphique de la filiale.
+const Ico = ({ d }) => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+    {d.map((path, i) => (
+      <path key={i} d={path} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    ))}
+  </svg>
+)
+
 const WHY = [
-  { icon: '🏆', title: '"Quality Only"', desc: 'Notre slogan est notre engagement. La satisfaction client est un devoir, qui place le professionnalisme au cœur de chaque action.' },
-  { icon: '⛽', title: 'Spécialiste Hydrocarbures', desc: 'Années d\'expérience dans la distribution de carburant aux grandes entreprises avec des solutions adaptées à chaque secteur.' },
-  { icon: '☀️', title: 'Solutions Solaires', desc: 'Conception et réalisation de centrales solaires et éclairage solaire pour accompagner la transition énergétique.' },
-  { icon: '🤝', title: 'Soutien Sibiri Holding', desc: 'Bénéficie de l\'assistance technique permanente du Groupe Sibiri Holding : juridique, RH, financement et garantie.' },
-  { icon: '🌍', title: 'Ancrage Local Fort', desc: 'Profonde connaissance du marché burkinabè et adaptation constante aux réalités techniques et économiques locales.' },
-  { icon: '📋', title: 'Politique QHSE', desc: 'Engagement qualité, hygiène, sécurité et environnement comme preuve concrète de notre adaptation aux mutations du monde.' },
+  {
+    icon: <Ico d={['M7 4h10v5a5 5 0 01-10 0V4z', 'M17 5h2.5a2.5 2.5 0 01-2.5 4.5M7 5H4.5A2.5 2.5 0 007 9.5', 'M12 14v4M9 21h6l-.5-3h-5L9 21z']} />,
+    title: '"Quality Only"',
+    desc: 'Notre slogan est notre engagement. La satisfaction client est un devoir, qui place le professionnalisme au cœur de chaque action.',
+  },
+  {
+    icon: <Ico d={['M3 22V6a2 2 0 012-2h6a2 2 0 012 2v16', 'M3 22h10M13 11h2a2 2 0 012 2v2.5a1.5 1.5 0 003 0V9.5a2 2 0 00-.586-1.414L17 6', 'M6 6h4']} />,
+    title: 'Spécialiste Hydrocarbures',
+    desc: 'Années d\'expérience dans la distribution de carburant aux grandes entreprises avec des solutions adaptées à chaque secteur.',
+  },
+  {
+    icon: <Ico d={['M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4', 'M12 7.5a4.5 4.5 0 100 9 4.5 4.5 0 000-9z']} />,
+    title: 'Solutions Solaires',
+    desc: 'Conception et réalisation de centrales solaires et éclairage solaire pour accompagner la transition énergétique.',
+  },
+  {
+    icon: <Ico d={['M11 17l-2.5 2.5a2 2 0 01-2.8-2.8L8 14.5', 'M3 11l4-4 3.5 3.5a2 2 0 002.8 0L15 9l6 6-3 3-3-2', 'M14 5l3-2 4 4-2 3']} />,
+    title: 'Soutien Sibiri Holding',
+    desc: 'Bénéficie de l\'assistance technique permanente du Groupe Sibiri Holding : juridique, RH, financement et garantie.',
+  },
+  {
+    icon: <Ico d={['M12 2a10 10 0 100 20 10 10 0 000-20z', 'M2 12h20', 'M12 2a15 15 0 010 20a15 15 0 010-20z']} />,
+    title: 'Ancrage Local Fort',
+    desc: 'Profonde connaissance du marché burkinabè et adaptation constante aux réalités techniques et économiques locales.',
+  },
+  {
+    icon: <Ico d={['M9 3h6a1 1 0 011 1v1H8V4a1 1 0 011-1z', 'M8 5H6a2 2 0 00-2 2v13a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-2', 'M8.5 12.5l2 2 4.5-4.5']} />,
+    title: 'Politique QHSE',
+    desc: 'Engagement qualité, hygiène, sécurité et environnement comme preuve concrète de notre adaptation aux mutations du monde.',
+  },
 ]
 
 export const EnergyAbout = () => {
-  const ref    = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
-  const [counting, setCounting] = useState(false)
-
-  useEffect(() => {
-    if (inView) setTimeout(() => setCounting(true), 400)
-  }, [inView])
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: '-40px' })
 
   return (
-    <>
+    <div className="energy-editorial">
       <PageHero
-        current="À Propos"
-        title="Le partenaire énergétique de"
-        accent="référence au Burkina Faso"
-        subtitle="Filiale énergétique du Groupe Sibiri Holding, alliant expertise B2B et accès grand public."
+        current="À propos"
+        title="Ancrés ici."
+        accent="Tournés vers demain."
+        subtitle="L’énergie, une expertise. La proximité, un engagement. Découvrez la filiale énergétique du Groupe Sibiri Holding."
         image="/energy/SIBIRI%20ENERGY-6.JPG.jpeg"
       />
 
-      <section style={{ background: DARK, padding: '96px 0 108px', position: 'relative', overflow: 'hidden' }}>
-        <div style={{
-          position: 'absolute', top: '50%', right: '-10%',
-          width: 600, height: 600, transform: 'translateY(-50%)',
-          background: `radial-gradient(circle, ${RED}0d 0%, transparent 70%)`,
-          pointerEvents: 'none',
-        }} />
-
-        <div ref={ref} style={{ maxWidth: 1100, margin: '0 auto', padding: '0 40px', position: 'relative', zIndex: 1 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }} className="about-grid">
-            {/* Left */}
-            <div>
-              <Reveal>
-                <SectionLabel>À Propos</SectionLabel>
-                <h2 style={{ fontSize: 'clamp(24px, 3.2vw, 38px)', fontWeight: 800, color: '#fff', margin: '0 0 24px', fontFamily: "'Inter', sans-serif", letterSpacing: '-0.02em', lineHeight: 1.14 }}>
-                  Une expertise énergétique étendue
-                </h2>
-                <p style={{ fontSize: 15, color: GRAY, lineHeight: 1.8, margin: '0 0 16px', fontFamily: "'Inter', sans-serif" }}>
-                  SIBIRI ENERGY SA est la filiale énergétique du Groupe Sibiri Holding, opérant au Burkina Faso avec une expertise étendue couvrant la distribution de produits pétroliers, les travaux électriques, mécaniques et de génie civil, ainsi que les réseaux téléphoniques et internet.
-                </p>
-                <p style={{ fontSize: 15, color: GRAY, lineHeight: 1.8, margin: '0 0 16px', fontFamily: "'Inter', sans-serif" }}>
-                  Pionnière dans l'accès à l'énergie solaire, la société réalise des centrales solaires et systèmes d'éclairage solaire, des forages et offre du consulting en solutions énergétiques. Avec quatre stations-service dans la zone de Ouagadougou depuis 2022, elle combine expertise B2B et accès grand public.
-                </p>
-                <p style={{ fontSize: 15, color: GRAY, lineHeight: 1.8, margin: '0 0 32px', fontFamily: "'Inter', sans-serif" }}>
-                  En 2025, la société a obtenu l'<strong style={{ color: '#fff' }}>exclusivité de distribution au Burkina Faso de WOLF LUBRICANTS</strong> de WOLF OIL CORPORATION, partenaire stratégique dans les lubrifiants premium depuis 1955, renforçant sa position de leader énergétique régional.
-                </p>
-                <Link to="/energy/contact" style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 8,
-                  background: 'transparent', border: `1.5px solid ${RED}`,
-                  color: RED, padding: '12px 28px', borderRadius: 9,
-                  fontSize: 13, fontWeight: 700, fontFamily: "'Inter', sans-serif",
-                  textDecoration: 'none', transition: 'all 0.25s',
-                }}
-                  onMouseEnter={e => { e.currentTarget.style.background = RED; e.currentTarget.style.color = '#fff' }}
-                  onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = RED }}
-                >
-                  Nous contacter
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M3 7h8M7.5 3.5L11 7l-3.5 3.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </Link>
-              </Reveal>
-            </div>
-
-            {/* Right: stats grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-              {STATS_ABOUT.map(({ target, suffix, label }, i) => (
-                <Reveal key={label} delay={i * 0.1}>
-                  <div style={{
-                    padding: '28px 24px', borderRadius: 16,
-                    background: 'rgba(255,255,255,0.03)',
-                    border: '1px solid rgba(255,255,255,0.07)',
-                  }}>
-                    <p style={{ margin: '0 0 6px', fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 900, color: '#fff', fontFamily: "'Inter', sans-serif", letterSpacing: '-0.03em', lineHeight: 1 }}>
-                      <CountUp target={target} suffix={suffix} start={counting} />
-                    </p>
-                    <p style={{ margin: 0, fontSize: 11, color: GRAY, fontFamily: "'Inter', sans-serif", letterSpacing: '0.06em', textTransform: 'uppercase' }}>{label}</p>
-                    <div style={{ width: 28, height: 2, background: RED, borderRadius: 99, marginTop: 12 }} />
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-          </div>
+      <section className="ee-section">
+        <div className="ee-container ee-about-intro">
+          <Reveal>
+            <figure className="ee-about-photo">
+              <img src="/energy/SIBIRI%20ENERGY-5.JPG.jpeg" alt="Station Sibiri Energy et ses installations au Burkina Faso" loading="lazy" />
+              <figcaption><span>Notre ancrage</span>Burkina Faso <span aria-hidden="true">↗</span></figcaption>
+            </figure>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <SectionLabel>Qui nous sommes</SectionLabel>
+            <h2>Une énergie qui nous <em>rapproche.</em></h2>
+            <p className="ee-lead">Au service des entreprises et du grand public, SIBIRI ENERGY SA relie les besoins du quotidien aux projets qui font avancer le territoire.</p>
+            <p>Filiale du Groupe Sibiri Holding, nous intervenons dans la distribution de produits pétroliers, les travaux électriques, mécaniques et de génie civil, ainsi que les réseaux téléphoniques et internet.</p>
+            <p>Notre expertise s’étend aux centrales et à l’éclairage solaires, aux forages et au conseil en solutions énergétiques. Une diversité de métiers, portée par une même exigence : la qualité du service.</p>
+            <Link className="ee-link" to="/energy/services">Explorer nos expertises <span aria-hidden="true">↗</span></Link>
+          </Reveal>
         </div>
-
-        <style>{`@media (max-width: 768px) { .about-grid { grid-template-columns: 1fr !important; gap: 48px !important; } }`}</style>
+        <dl ref={ref} className="ee-container ee-stats">
+          {STATS_ABOUT.map(({ target, suffix, label }) => (
+            <div key={label}>
+              <dt>{label}</dt>
+              <dd><CountUp target={target} suffix={suffix} start={inView} /></dd>
+            </div>
+          ))}
+        </dl>
       </section>
 
-      {/* ── Pourquoi nous (fusionné) ─────────────────────────────────────── */}
-      <section style={{ background: DARK2, padding: '96px 0 108px', position: 'relative' }}>
-        <div style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translate(-50%, -50%)', width: 800, height: 400, background: `radial-gradient(ellipse, ${RED}08, transparent 70%)`, pointerEvents: 'none' }} />
+      <section className="ee-section ee-tinted">
+        <div className="ee-container">
+          <div className="ee-section-heading">
+            <Reveal><SectionLabel>Notre parcours</SectionLabel><h2>Grandir, étape <em>par étape.</em></h2></Reveal>
+            <p>Des jalons qui racontent notre développement et notre engagement au Burkina Faso.</p>
+          </div>
+          <ol className="ee-timeline">
+            {[
+              { year: '2016', title: 'La naissance d’une ambition', desc: 'Création de Sibiri Energy, la filiale énergétique du Groupe Sibiri Holding.' },
+              { year: '2022', title: 'Plus proches du grand public', desc: 'Ouverture de la première station à Kouba, dans la commune de Koubri. Une nouvelle étape pour le réseau.' },
+              { year: '2025', title: 'Un partenariat avec WOLF', desc: 'Exclusivité de distribution au Burkina Faso de WOLF LUBRICANTS, marque de WOLF OIL CORPORATION.' },
+            ].map(item => (
+              <li key={item.year}><span className="ee-year">{item.year}</span><h3>{item.title}</h3><p>{item.desc}</p></li>
+            ))}
+          </ol>
+        </div>
+      </section>
 
-        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 40px', position: 'relative', zIndex: 1 }}>
+      <section className="ee-section">
+        <div className="ee-container">
           <Reveal>
-            <div style={{ marginBottom: 56 }}>
-              <SectionLabel>Pourquoi Nous</SectionLabel>
-              <h2 style={{ fontSize: 'clamp(24px, 3.4vw, 40px)', fontWeight: 800, color: '#fff', margin: 0, fontFamily: "'Inter', sans-serif", letterSpacing: '-0.02em', lineHeight: 1.12 }}>
-                Six raisons de nous faire confiance
-              </h2>
+            <div id="proximite" className="ee-welcome" aria-labelledby="ee-welcome-title">
+              <div className="ee-welcome-copy">
+                <SectionLabel>Le sens du service</SectionLabel>
+                <h2 id="ee-welcome-title">L’énergie commence<br />par <em>un sourire.</em></h2>
+                <p>Être proches de vous, c’est aussi vous accueillir, vous écouter et vous accompagner. Pour un passage en station comme pour un besoin professionnel, la qualité de la relation fait partie de notre engagement.</p>
+                <Link className="ee-link" to="/energy/contact">Échanger avec notre équipe <span aria-hidden="true">↗</span></Link>
+              </div>
+              <div className="ee-welcome-art">
+                <img
+                  src="/energy/olenchic-cartoon-9972771_1920.png"
+                  alt="Illustration d’un pompiste souriant devant une station-service"
+                  width="1920"
+                  height="1920"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
             </div>
           </Reveal>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 20 }}>
+          <div className="ee-section-heading">
+            <Reveal><SectionLabel>Nos engagements</SectionLabel><h2>« Quality Only ».<br /><em>Chaque jour.</em></h2></Reveal>
+            <p>Une signature qui se traduit dans nos métiers, nos relations et notre manière d’accompagner chaque client.</p>
+          </div>
+          <div className="ee-values">
             {WHY.map((w, i) => (
-              <Reveal key={w.title} delay={i * 0.07}>
-                <div style={{
-                  padding: '28px 26px', borderRadius: 16,
-                  background: 'rgba(255,255,255,0.025)',
-                  border: '1px solid rgba(255,255,255,0.06)',
-                  display: 'flex', gap: 18, alignItems: 'flex-start', height: '100%',
-                }}>
-                  <div style={{
-                    width: 48, height: 48, borderRadius: 12,
-                    background: `${RED}15`, border: `1px solid ${RED}30`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: 22, flexShrink: 0,
-                  }}>{w.icon}</div>
-                  <div>
-                    <h3 style={{ margin: '0 0 8px', fontSize: 16, fontWeight: 700, color: '#fff', fontFamily: "'Inter', sans-serif" }}>{w.title}</h3>
-                    <p style={{ margin: 0, fontSize: 13.5, color: GRAY, lineHeight: 1.7, fontFamily: "'Inter', sans-serif" }}>{w.desc}</p>
-                  </div>
-                </div>
+              <Reveal key={w.title} delay={i * 0.04}>
+                <article className="ee-value">
+                  <div className="ee-value-top"><span>{w.icon}</span><span className="ee-number">0{i + 1}</span></div>
+                  <h3>{w.title}</h3><p>{w.desc}</p>
+                </article>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
-    </>
+
+      <section className="ee-container ee-closing">
+        <div><SectionLabel>Construisons la suite</SectionLabel><h2>Votre projet mérite<br /><em>la bonne énergie.</em></h2></div>
+        <Link to="/energy/contact" className="ee-button">Parlons de votre besoin <span aria-hidden="true">↗</span></Link>
+      </section>
+    </div>
   )
 }

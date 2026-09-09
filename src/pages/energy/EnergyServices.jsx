@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { RED, DARK, DARK2, DARK3, GRAY, Reveal, SectionLabel, PageHero } from './shared'
+import { RED, PAPER, ON_PAPER, Reveal, SectionLabel, PageHero } from './shared'
 
 // ─── Produits (Carburant / Lubrifiant) ─────────────────────────────────────────
 const PRODUITS = [
@@ -7,6 +7,8 @@ const PRODUITS = [
     id: 'carburant',
     title: 'Carburant',
     tagline: 'Essence · Gasoil · Cuves portatives',
+    image: '/energy/SIBIRI%20ENERGY-27.JPG.jpeg',
+    imageAlt: 'Pompe de distribution Sibiri Energy',
     desc: "Ravitaillement en carburant (essence, gasoil) des grandes entreprises des secteurs Transport, BTP et Industrie, ainsi que du grand public via notre réseau de stations-service à Ouagadougou. Location et mise à disposition de cuves portatives pour vos besoins spécifiques.",
     icon: (
       <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
@@ -20,6 +22,8 @@ const PRODUITS = [
     id: 'lubrifiant',
     title: 'Lubrifiant',
     tagline: 'Tourisme · Bus & camions · Engins miniers',
+    image: '/energy/wolf-officialtech-hd.png',
+    imageAlt: 'Bidon de lubrifiant WOLF Official Tech',
     desc: "Distribution de lubrifiants pour véhicules de tourisme, bus, camions et engins miniers, en partenariat avec Wolf Lubricants — une marque internationale de référence pour la performance et la protection moteur.",
     icon: (
       <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
@@ -103,7 +107,7 @@ const AUTRES_EXPERTISES = [
 ]
 
 // ─── Carte produit (grande, Carburant / Lubrifiant) ────────────────────────────
-const ProduitCard = ({ id, title, tagline, desc, icon, delay }) => {
+const ProduitCard = ({ id, title, tagline, desc, icon, image, imageAlt, delay, index }) => {
   const [hov, setHov] = useState(false)
   return (
     <Reveal delay={delay}>
@@ -112,28 +116,33 @@ const ProduitCard = ({ id, title, tagline, desc, icon, delay }) => {
         onMouseEnter={() => setHov(true)}
         onMouseLeave={() => setHov(false)}
         style={{
-          display: 'block', padding: '36px 32px', borderRadius: 20, textDecoration: 'none',
-          background: hov ? DARK3 : 'rgba(255,255,255,0.03)',
-          border: `1.5px solid ${hov ? `${RED}55` : 'rgba(255,255,255,0.08)'}`,
-          boxShadow: hov ? `0 28px 64px -14px ${RED}30` : '0 2px 16px rgba(0,0,0,0.2)',
+          display: 'block', borderRadius: 20, textDecoration: 'none', overflow: 'hidden',
+          background: ON_PAPER.card,
+          border: `1.5px solid ${hov ? `${RED}55` : ON_PAPER.line}`,
+          boxShadow: hov ? `0 28px 64px -20px ${RED}30` : '0 1px 3px rgba(12,12,15,0.05)',
           transform: hov ? 'translateY(-6px)' : 'translateY(0)',
           transition: 'all 0.3s cubic-bezier(0.22,1,0.36,1)',
         }}
       >
-        <div style={{
-          width: 60, height: 60, borderRadius: 16,
-          background: hov ? `${RED}22` : 'rgba(255,255,255,0.05)',
-          border: `1px solid ${hov ? `${RED}45` : 'rgba(255,255,255,0.08)'}`,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          color: hov ? RED : GRAY, marginBottom: 22, transition: 'all 0.3s ease',
-        }}>{icon}</div>
-        <h3 style={{ margin: '0 0 6px', fontSize: 22, fontWeight: 800, color: '#fff', fontFamily: "'Inter', sans-serif" }}>{title}</h3>
-        <p style={{ margin: '0 0 12px', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: RED }}>{tagline}</p>
-        <p style={{ margin: 0, fontSize: 13.5, color: GRAY, lineHeight: 1.7 }}>{desc}</p>
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 18, fontSize: 12.5, fontWeight: 700, color: hov ? RED : 'rgba(255,255,255,0.5)', transition: 'color 0.2s' }}>
-          En savoir plus
-          <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg>
-        </span>
+        <div style={{ height: 258, position: 'relative', overflow: 'hidden', background: '#e8e6e2' }}>
+          <img src={image} alt={imageAlt} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: id === 'lubrifiant' ? 'center' : 'center 58%', transform: hov ? 'scale(1.055)' : 'scale(1)', transition: 'transform 0.7s cubic-bezier(0.22,1,0.36,1)' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 45%, rgba(12,12,15,0.48))' }} />
+          <span style={{ position: 'absolute', left: 22, bottom: 18, color: '#fff', fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase' }}>0{index + 1} · {title}</span>
+        </div>
+        <div style={{ padding: '28px 30px 30px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16, alignItems: 'flex-start' }}>
+            <div>
+              <h3 style={{ margin: '0 0 7px', fontSize: 24, fontWeight: 800, color: ON_PAPER.title, fontFamily: "'Inter', sans-serif", letterSpacing: '-0.02em' }}>{title}</h3>
+              <p style={{ margin: 0, fontSize: 11, fontWeight: 800, letterSpacing: '0.07em', textTransform: 'uppercase', color: RED, lineHeight: 1.45 }}>{tagline}</p>
+            </div>
+            <div style={{ width: 46, height: 46, flex: '0 0 46px', borderRadius: 14, background: hov ? `${RED}16` : 'rgba(12,12,15,0.04)', border: `1px solid ${hov ? `${RED}40` : ON_PAPER.line}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: RED, transition: 'all 0.3s ease' }}>{icon}</div>
+          </div>
+          <p style={{ margin: '19px 0 0', fontSize: 13.5, color: ON_PAPER.body, lineHeight: 1.72 }}>{desc}</p>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 19, fontSize: 12.5, fontWeight: 800, color: hov ? RED : ON_PAPER.muted, transition: 'color 0.2s' }}>
+            Découvrir l'offre
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </span>
+        </div>
       </a>
     </Reveal>
   )
@@ -144,11 +153,11 @@ const ServiceMiniCard = ({ title, desc, delay }) => (
   <Reveal delay={delay}>
     <div style={{
       padding: '24px 22px', borderRadius: 16,
-      background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)',
+      background: ON_PAPER.card, border: `1px solid ${ON_PAPER.line}`,
       height: '100%',
     }}>
-      <h4 style={{ margin: '0 0 8px', fontSize: 14.5, fontWeight: 700, color: '#fff', fontFamily: "'Inter', sans-serif" }}>{title}</h4>
-      <p style={{ margin: 0, fontSize: 12.5, color: GRAY, lineHeight: 1.65 }}>{desc}</p>
+      <h4 style={{ margin: '0 0 8px', fontSize: 14.5, fontWeight: 700, color: ON_PAPER.title, fontFamily: "'Inter', sans-serif" }}>{title}</h4>
+      <p style={{ margin: 0, fontSize: 12.5, color: ON_PAPER.body, lineHeight: 1.65 }}>{desc}</p>
     </div>
   </Reveal>
 )
@@ -163,9 +172,9 @@ const ServiceCard = ({ icon, title, desc, delay }) => {
         style={{
           padding: '32px 28px',
           borderRadius: 18,
-          background: hov ? DARK3 : 'rgba(255,255,255,0.03)',
-          border: `1.5px solid ${hov ? `${RED}45` : 'rgba(255,255,255,0.07)'}`,
-          boxShadow: hov ? `0 24px 60px -12px ${RED}22` : '0 2px 16px rgba(0,0,0,0.2)',
+          background: ON_PAPER.card,
+          border: `1.5px solid ${hov ? `${RED}45` : ON_PAPER.line}`,
+          boxShadow: hov ? `0 24px 60px -20px ${RED}26` : '0 1px 3px rgba(12,12,15,0.05)',
           transform: hov ? 'translateY(-5px)' : 'translateY(0)',
           transition: 'all 0.3s cubic-bezier(0.22,1,0.36,1)',
           cursor: 'default', position: 'relative', overflow: 'hidden',
@@ -179,16 +188,15 @@ const ServiceCard = ({ icon, title, desc, delay }) => {
 
         <div style={{
           width: 52, height: 52, borderRadius: 13,
-          background: hov ? `${RED}20` : 'rgba(255,255,255,0.05)',
-          border: `1px solid ${hov ? `${RED}40` : 'rgba(255,255,255,0.08)'}`,
+          background: hov ? `${RED}16` : 'rgba(12,12,15,0.04)',
+          border: `1px solid ${hov ? `${RED}40` : ON_PAPER.line}`,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          color: hov ? RED : GRAY,
+          color: RED,
           marginBottom: 20, transition: 'all 0.3s ease',
-          boxShadow: hov ? `0 6px 20px ${RED}28` : 'none',
         }}>{icon}</div>
 
-        <h3 style={{ margin: '0 0 10px', fontSize: 17, fontWeight: 700, color: '#fff', fontFamily: "'Inter', sans-serif" }}>{title}</h3>
-        <p style={{ margin: 0, fontSize: 13.5, color: GRAY, lineHeight: 1.7, fontFamily: "'Inter', sans-serif" }}>{desc}</p>
+        <h3 style={{ margin: '0 0 10px', fontSize: 17, fontWeight: 700, color: ON_PAPER.title, fontFamily: "'Inter', sans-serif" }}>{title}</h3>
+        <p style={{ margin: 0, fontSize: 13.5, color: ON_PAPER.body, lineHeight: 1.7, fontFamily: "'Inter', sans-serif" }}>{desc}</p>
       </div>
     </Reveal>
   )
@@ -201,70 +209,154 @@ export const EnergyServices = () => (
       title="Une expertise"
       accent="complète et intégrée"
       subtitle="De la distribution à la proposition de solution, nous couvrons tous les domaines de l'énergie."
-      image="/energy/SIBIRI%20ENERGY-15.JPG.jpeg"
+      image="/energy/SIBIRI%20ENERGY-21.JPG.jpeg"
     />
 
     {/* ── Nos Produits (Carburant / Lubrifiant) ─────────────────────────── */}
-    <section id="produits" style={{ background: DARK2, padding: '90px 0 100px', position: 'relative', overflow: 'hidden' }}>
+    <section id="produits" style={{ background: PAPER, padding: '90px 0 100px', position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, backgroundImage: `radial-gradient(circle, rgba(230,38,48,0.04) 1px, transparent 1px)`, backgroundSize: '40px 40px', pointerEvents: 'none' }} />
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 40px', position: 'relative', zIndex: 1 }}>
         <Reveal>
           <SectionLabel>Nos Produits</SectionLabel>
-          <h2 style={{ fontSize: 'clamp(24px, 3.4vw, 38px)', fontWeight: 800, color: '#fff', margin: '0 0 48px', fontFamily: "'Inter', sans-serif", letterSpacing: '-0.02em', lineHeight: 1.15 }}>
-            Carburant &amp; Lubrifiant
+          <h2 style={{ fontSize: 'clamp(26px, 3.8vw, 42px)', fontWeight: 800, color: ON_PAPER.title, margin: '0 0 12px', fontFamily: "'Inter', sans-serif", letterSpacing: '-0.03em', lineHeight: 1.1 }}>
+            L’essentiel, sans compromis.
           </h2>
+          <p style={{ maxWidth: 530, margin: '0 0 48px', color: ON_PAPER.body, fontSize: 15, lineHeight: 1.7 }}>Deux expertises complémentaires pour faire avancer les personnes, les flottes et les activités.</p>
         </Reveal>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 20 }}>
           {PRODUITS.map((p, i) => (
-            <ProduitCard key={p.id} {...p} delay={i * 0.1} />
+            <ProduitCard key={p.id} {...p} index={i} delay={i * 0.1} />
           ))}
         </div>
       </div>
     </section>
 
-    {/* ── Détail Carburant ──────────────────────────────────────────────── */}
-    <section id="carburant" style={{ background: DARK, padding: '90px 0 100px' }}>
-      <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 40px' }}>
+    {/* ── Chapitre clair : les deux produits en détail ───────────────────── */}
+    {/* Anciennement deux sections noires quasi vides (un titre + un paragraphe
+        chacune). Fusionnées ici en un seul chapitre clair : c'est la respiration
+        de la page, et les produits s'examinent en pleine lumière. Les ancres
+        #carburant et #lubrifiant sont conservées pour le menu Produits. */}
+    <section style={{ background: PAPER, padding: '104px 0 112px' }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 40px' }}>
         <Reveal>
-          <SectionLabel>Produit</SectionLabel>
-          <h2 style={{ fontSize: 'clamp(24px, 3.4vw, 36px)', fontWeight: 800, color: '#fff', margin: '0 0 20px', fontFamily: "'Inter', sans-serif" }}>Carburant</h2>
-          <p style={{ fontSize: 15, color: GRAY, lineHeight: 1.85, maxWidth: 700 }}>
-            Ravitaillement en carburant (essence, gasoil) des grandes entreprises des secteurs Transport, BTP et Industrie,
-            ainsi que du grand public via notre réseau de stations-service à Ouagadougou. Location et mise à disposition
-            de cuves portatives pour vos besoins spécifiques.
-          </p>
+          <SectionLabel>Nos produits en détail</SectionLabel>
+          <h2 style={{
+            fontSize: 'clamp(24px, 3.4vw, 38px)', fontWeight: 800, color: ON_PAPER.title,
+            margin: '0 0 56px', fontFamily: "'Inter', sans-serif", letterSpacing: '-0.02em', lineHeight: 1.15,
+            maxWidth: 620,
+          }}>
+            Deux gammes, une même exigence
+          </h2>
         </Reveal>
-      </div>
-    </section>
 
-    {/* ── Détail Lubrifiant ─────────────────────────────────────────────── */}
-    <section id="lubrifiant" style={{ background: DARK2, padding: '90px 0 100px' }}>
-      <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 40px' }}>
-        <Reveal>
-          <SectionLabel>Produit</SectionLabel>
-          <h2 style={{ fontSize: 'clamp(24px, 3.4vw, 36px)', fontWeight: 800, color: '#fff', margin: '0 0 20px', fontFamily: "'Inter', sans-serif" }}>Lubrifiant</h2>
-          <p style={{ fontSize: 15, color: GRAY, lineHeight: 1.85, maxWidth: 700 }}>
-            Distribution de lubrifiants pour véhicules de tourisme, bus, camions et engins miniers, en partenariat avec{' '}
-            <strong style={{ color: '#fff' }}>Wolf Lubricants</strong> — une marque internationale de référence pour la
-            performance et la protection moteur.
-          </p>
+        <div className="energy-produits-detail">
+          <div id="carburant" style={{ scrollMarginTop: 120 }}>
+            <Reveal>
+              <span style={{
+                display: 'block', fontSize: 12, fontWeight: 800, letterSpacing: '0.14em',
+                textTransform: 'uppercase', color: RED, marginBottom: 14, fontFamily: "'Inter', sans-serif",
+              }}>Carburant</span>
+              <h3 style={{
+                fontSize: 26, fontWeight: 800, color: ON_PAPER.title, margin: '0 0 8px',
+                fontFamily: "'Inter', sans-serif", letterSpacing: '-0.015em',
+              }}>Essence, gasoil et cuves portatives</h3>
+              <p style={{ margin: 0, fontSize: 15, color: ON_PAPER.body, lineHeight: 1.85, fontFamily: "'Inter', sans-serif" }}>
+                Ravitaillement en carburant (essence, gasoil) des grandes entreprises des secteurs Transport, BTP et
+                Industrie, ainsi que du grand public via notre réseau de stations-service à Ouagadougou. Location et
+                mise à disposition de cuves portatives pour vos besoins spécifiques.
+              </p>
+            </Reveal>
+          </div>
+
+          {/* Filet vertical de séparation (masqué en une colonne) */}
+          <div className="energy-rule" style={{ background: ON_PAPER.line, alignSelf: 'stretch' }} />
+
+          <div id="lubrifiant" style={{ scrollMarginTop: 120 }}>
+            <Reveal delay={0.08}>
+              <span style={{
+                display: 'block', fontSize: 12, fontWeight: 800, letterSpacing: '0.14em',
+                textTransform: 'uppercase', color: RED, marginBottom: 14, fontFamily: "'Inter', sans-serif",
+              }}>Lubrifiant</span>
+              <h3 style={{
+                fontSize: 26, fontWeight: 800, color: ON_PAPER.title, margin: '0 0 8px',
+                fontFamily: "'Inter', sans-serif", letterSpacing: '-0.015em',
+              }}>Tourisme, poids lourds et engins miniers</h3>
+              <p style={{ margin: 0, fontSize: 15, color: ON_PAPER.body, lineHeight: 1.85, fontFamily: "'Inter', sans-serif" }}>
+                Distribution de lubrifiants pour véhicules de tourisme, bus, camions et engins miniers, en partenariat
+                avec <strong style={{ color: ON_PAPER.title, fontWeight: 700 }}>Wolf Lubricants</strong> — une marque
+                internationale de référence pour la performance et la protection moteur.
+              </p>
+            </Reveal>
+          </div>
+        </div>
+
+        <Reveal delay={0.12}>
+          <div className="energy-product-note">
+            <div className="energy-product-note__image">
+              <img src="/energy/SIBIRI%20ENERGY-13.JPG.jpeg" alt="Signalétique d'entrée de la station Sibiri Energy" />
+            </div>
+            <div className="energy-product-note__copy">
+              <span>Notre approche</span>
+              <h3>Une offre pensée pour le terrain.</h3>
+              <p>Du passage à la pompe à l’approvisionnement des entreprises, Sibiri Energy associe proximité, continuité de service et solutions adaptées aux usages.</p>
+              <div className="energy-product-note__tags">
+                <b>Grand public</b><b>Professionnels</b><b>Flottes</b>
+              </div>
+            </div>
+          </div>
         </Reveal>
       </div>
+
+      <style>{`
+        .energy-produits-detail {
+          display: grid;
+          grid-template-columns: 1fr 1px 1fr;
+          gap: 56px;
+          align-items: start;
+        }
+        .energy-product-note {
+          display: grid;
+          grid-template-columns: minmax(260px, .92fr) 1.08fr;
+          margin-top: 68px;
+          min-height: 300px;
+          border: 1px solid ${ON_PAPER.line};
+          border-radius: 20px;
+          overflow: hidden;
+          background: ${ON_PAPER.card};
+        }
+        .energy-product-note__image { min-height: 260px; overflow: hidden; }
+        .energy-product-note__image img { width: 100%; height: 100%; object-fit: cover; }
+        .energy-product-note__copy { padding: 42px 46px; display: flex; flex-direction: column; justify-content: center; }
+        .energy-product-note__copy > span { color: ${RED}; font-size: 11px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+        .energy-product-note__copy h3 { margin: 12px 0 12px; color: ${ON_PAPER.title}; font: 800 clamp(23px, 2.3vw, 31px)/1.12 'Inter', sans-serif; letter-spacing: -.025em; }
+        .energy-product-note__copy p { max-width: 530px; margin: 0; color: ${ON_PAPER.body}; font-size: 14px; line-height: 1.75; }
+        .energy-product-note__tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 23px; }
+        .energy-product-note__tags b { border: 1px solid ${ON_PAPER.line}; border-radius: 999px; padding: 7px 10px; color: ${ON_PAPER.muted}; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; }
+        @media (max-width: 860px) {
+          .energy-produits-detail { grid-template-columns: 1fr; gap: 44px; }
+          .energy-produits-detail > .energy-rule { display: none; }
+          .energy-product-note { grid-template-columns: 1fr; margin-top: 48px; }
+          .energy-product-note__image { height: 230px; min-height: 0; }
+          .energy-product-note__copy { padding: 31px 28px; }
+        }
+      `}</style>
     </section>
 
     {/* ── Nos Services ──────────────────────────────────────────────────── */}
-    <section id="services-list" style={{ background: DARK, padding: '90px 0 108px', position: 'relative', overflow: 'hidden' }}>
+    <section id="services-list" style={{ background: PAPER, padding: '104px 0 112px', position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, backgroundImage: `radial-gradient(circle, rgba(230,38,48,0.04) 1px, transparent 1px)`, backgroundSize: '40px 40px', pointerEvents: 'none' }} />
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 40px', position: 'relative', zIndex: 1 }}>
         <Reveal>
           <SectionLabel>Nos Services</SectionLabel>
-          <h2 style={{ fontSize: 'clamp(24px, 3.4vw, 38px)', fontWeight: 800, color: '#fff', margin: '0 0 48px', fontFamily: "'Inter', sans-serif", letterSpacing: '-0.02em', lineHeight: 1.15 }}>
+          <h2 style={{ fontSize: 'clamp(24px, 3.4vw, 38px)', fontWeight: 800, color: ON_PAPER.title, margin: '0 0 48px', fontFamily: "'Inter', sans-serif", letterSpacing: '-0.02em', lineHeight: 1.15 }}>
             Un accompagnement à chaque étape
           </h2>
         </Reveal>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: 16 }}>
+        {/* 5 services : minmax(180px) permet de tenir la ligne complète en une
+            seule rangée (auto-fit à 210px cassait en 4 + 1 orpheline). */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16 }}>
           {SERVICES_LIST.map((s, i) => (
             <ServiceMiniCard key={s.id} {...s} delay={i * 0.07} />
           ))}
@@ -273,21 +365,34 @@ export const EnergyServices = () => (
     </section>
 
     {/* ── Autres domaines d'expertise ───────────────────────────────────── */}
-    <section style={{ background: DARK2, padding: '90px 0 108px', position: 'relative', overflow: 'hidden' }}>
+    <section style={{ background: PAPER, padding: '104px 0 112px', position: 'relative', overflow: 'hidden' }}>
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 40px', position: 'relative', zIndex: 1 }}>
         <Reveal>
           <SectionLabel>Autres domaines</SectionLabel>
-          <h2 style={{ fontSize: 'clamp(24px, 3.4vw, 38px)', fontWeight: 800, color: '#fff', margin: '0 0 48px', fontFamily: "'Inter', sans-serif", letterSpacing: '-0.02em', lineHeight: 1.15 }}>
+          <h2 style={{ fontSize: 'clamp(24px, 3.4vw, 38px)', fontWeight: 800, color: ON_PAPER.title, margin: '0 0 48px', fontFamily: "'Inter', sans-serif", letterSpacing: '-0.02em', lineHeight: 1.15 }}>
             Une expertise énergétique élargie
           </h2>
         </Reveal>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 18 }}>
+        {/* 4 cartes : une grille 2×2 plutôt qu'un auto-fit qui laisse une carte
+            orpheline seule sur la seconde ligne. */}
+        <div className="energy-autres-grid">
           {AUTRES_EXPERTISES.map((s, i) => (
             <ServiceCard key={s.title} {...s} delay={i * 0.08} />
           ))}
         </div>
       </div>
+
+      <style>{`
+        .energy-autres-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 18px;
+        }
+        @media (max-width: 760px) {
+          .energy-autres-grid { grid-template-columns: 1fr; }
+        }
+      `}</style>
     </section>
   </>
 )

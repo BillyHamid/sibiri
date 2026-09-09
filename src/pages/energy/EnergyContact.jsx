@@ -1,20 +1,28 @@
 import { useState } from 'react'
-import { RED, RED_D, DARK, DARK2, GRAY, Reveal, SectionLabel, PageHero } from './shared'
+import { RED, RED_D, PAPER, ON_PAPER, Reveal, SectionLabel, PageHero } from './shared'
+
+const Ico = ({ d }) => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+    {d.map((path, i) => (
+      <path key={i} d={path} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    ))}
+  </svg>
+)
 
 // ─── Parcours de contact (structure inspirée de wolflubes.com/fr-fr/contactez-nous) ─
 const PATHWAYS = [
   {
-    icon: '⛽',
+    icon: <Ico d={['M3 22V6a2 2 0 012-2h6a2 2 0 012 2v16', 'M3 22h10M13 11h2a2 2 0 012 2v2.5a1.5 1.5 0 003 0V9.5a2 2 0 00-.586-1.414L17 6', 'M6 6h4']} />,
     title: 'Stations-service & Grand public',
     desc: "Vous êtes un particulier ? Retrouvez nos stations-service à Ouagadougou pour vos besoins en carburant et lubrifiants.",
   },
   {
-    icon: '🏢',
+    icon: <Ico d={['M3 21h18', 'M5 21V5a1 1 0 011-1h8a1 1 0 011 1v16', 'M15 21V10h3a1 1 0 011 1v10', 'M8 8h2M8 12h2M8 16h2']} />,
     title: 'Entreprises & B2B',
     desc: "Ravitaillement, cuves portatives, solutions de stockage : parlons de vos besoins en carburant et lubrifiants pour votre activité.",
   },
   {
-    icon: '🤝',
+    icon: <Ico d={['M11 17l-2.5 2.5a2 2 0 01-2.8-2.8L8 14.5', 'M3 11l4-4 3.5 3.5a2 2 0 002.8 0L15 9l6 6-3 3-3-2', 'M14 5l3-2 4 4-2 3']} />,
     title: 'Devenir partenaire / revendeur',
     desc: "Vous souhaitez rejoindre notre réseau de distribution de carburant ou de lubrifiants WOLF ? Contactez notre équipe partenariats.",
   },
@@ -22,9 +30,16 @@ const PATHWAYS = [
 
 // ─── Contacts par service ──────────────────────────────────────────────────────
 const DEPARTMENTS = [
-  { icon: '✉️', label: 'Renseignements généraux', val: 'energy@sibiri.group' },
-  { icon: '📰', label: 'Presse & partenariats',    val: 'presse@sibiri.group' },
-  { icon: '🛠️', label: 'Support technique / SAV',  val: 'support@sibiri.group' },
+  { icon: <Ico d={['M3 7l9 6 9-6', 'M3 5h18v14H3V5z']} />, label: 'Renseignements généraux', val: 'energy@sibiri.group' },
+  { icon: <Ico d={['M4 4h16v16H4V4z', 'M8 8h8M8 12h8M8 16h4']} />, label: 'Presse & partenariats', val: 'presse@sibiri.group' },
+  { icon: <Ico d={['M14.7 6.3a4 4 0 01-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 015.4-5.4l-2.5 2.5-1.4-1.4 2.5-2.5z']} />, label: 'Support technique / SAV', val: 'support@sibiri.group' },
+]
+
+// ─── Coordonnées ───────────────────────────────────────────────────────────────
+const COORDONNEES = [
+  { icon: <Ico d={['M12 21s7-5.6 7-11a7 7 0 10-14 0c0 5.4 7 11 7 11z', 'M12 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z']} />, label: 'Adresse', val: 'Ouagadougou, Burkina Faso\nAfrique de l\'Ouest' },
+  { icon: <Ico d={['M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1A19.5 19.5 0 015 10.8 19.8 19.8 0 011.9 2.2 2 2 0 013.9 0h3a2 2 0 012 1.7c.1 1 .4 1.9.7 2.8a2 2 0 01-.5 2.1L8 8.7a16 16 0 006.4 6.4l1-1a2 2 0 012.1-.5c.9.3 1.9.6 2.8.7a2 2 0 011.7 2z']} />, label: 'Téléphone', val: '+226 XX XX XX XX' },
+  { icon: <Ico d={['M12 22a10 10 0 100-20 10 10 0 000 20z', 'M12 6v6l4 2']} />, label: 'Disponibilité', val: 'Lun – Ven : 08h00 – 18h00' },
 ]
 
 export const EnergyContact = () => {
@@ -35,10 +50,10 @@ export const EnergyContact = () => {
   const submit = e => { e.preventDefault(); setSent(true) }
 
   const inputStyle = {
-    width: '100%', background: 'rgba(255,255,255,0.04)',
-    border: '1.5px solid rgba(255,255,255,0.1)',
+    width: '100%', background: '#FFFFFF',
+    border: `1.5px solid ${ON_PAPER.line}`,
     borderRadius: 10, padding: '13px 16px',
-    color: '#fff', fontSize: 14, fontFamily: "'Inter', sans-serif",
+    color: ON_PAPER.title, fontSize: 14, fontFamily: "'Inter', sans-serif",
     outline: 'none', boxSizing: 'border-box',
     transition: 'border-color 0.2s',
   }
@@ -54,11 +69,13 @@ export const EnergyContact = () => {
       />
 
       {/* ── Comment pouvons-nous vous aider ? ─────────────────────────────── */}
-      <section style={{ background: DARK, padding: '90px 0 100px' }}>
+      {/* Chapitre clair : l'orientation se fait en pleine lumière, le formulaire
+          reprend ensuite le registre sombre de la filiale. */}
+      <section style={{ background: PAPER, padding: '104px 0 112px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 40px' }}>
           <Reveal>
             <SectionLabel>Comment pouvons-nous vous aider ?</SectionLabel>
-            <h2 style={{ fontSize: 'clamp(24px, 3.4vw, 38px)', fontWeight: 800, color: '#fff', margin: '0 0 48px', fontFamily: "'Inter', sans-serif", letterSpacing: '-0.02em', lineHeight: 1.15 }}>
+            <h2 style={{ fontSize: 'clamp(24px, 3.4vw, 38px)', fontWeight: 800, color: ON_PAPER.title, margin: '0 0 48px', fontFamily: "'Inter', sans-serif", letterSpacing: '-0.02em', lineHeight: 1.15 }}>
               Trois façons de nous contacter
             </h2>
           </Reveal>
@@ -69,20 +86,21 @@ export const EnergyContact = () => {
                 <a href="#formulaire" style={{
                   display: 'block', height: '100%', textDecoration: 'none',
                   padding: '30px 26px', borderRadius: 18,
-                  background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
+                  background: ON_PAPER.card, border: `1px solid ${ON_PAPER.line}`,
+                  boxShadow: '0 1px 3px rgba(12,12,15,0.05)',
                   transition: 'all 0.25s',
                 }}
                   onMouseEnter={e => { e.currentTarget.style.borderColor = `${RED}55`; e.currentTarget.style.transform = 'translateY(-4px)' }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.transform = 'translateY(0)' }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = ON_PAPER.line; e.currentTarget.style.transform = 'translateY(0)' }}
                 >
                   <div style={{
                     width: 50, height: 50, borderRadius: 14,
-                    background: `${RED}18`, border: `1px solid ${RED}35`,
+                    background: `${RED}12`, border: `1px solid ${RED}28`,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: 22, marginBottom: 18,
+                    color: RED, marginBottom: 18,
                   }}>{p.icon}</div>
-                  <h3 style={{ margin: '0 0 10px', fontSize: 16, fontWeight: 700, color: '#fff', fontFamily: "'Inter', sans-serif" }}>{p.title}</h3>
-                  <p style={{ margin: 0, fontSize: 13, color: GRAY, lineHeight: 1.7 }}>{p.desc}</p>
+                  <h3 style={{ margin: '0 0 10px', fontSize: 16, fontWeight: 700, color: ON_PAPER.title, fontFamily: "'Inter', sans-serif" }}>{p.title}</h3>
+                  <p style={{ margin: 0, fontSize: 13, color: ON_PAPER.body, lineHeight: 1.7 }}>{p.desc}</p>
                 </a>
               </Reveal>
             ))}
@@ -91,14 +109,14 @@ export const EnergyContact = () => {
       </section>
 
       {/* ── Formulaire + coordonnées ───────────────────────────────────────── */}
-      <section id="formulaire" style={{ background: DARK2, padding: '96px 0 108px', position: 'relative', overflow: 'hidden' }}>
+      <section id="formulaire" style={{ background: PAPER, padding: '104px 0 112px', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', bottom: '-15%', left: '50%', transform: 'translateX(-50%)', width: 700, height: 400, background: `radial-gradient(ellipse, ${RED}10, transparent 70%)`, pointerEvents: 'none' }} />
 
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 40px', position: 'relative', zIndex: 1 }}>
           <Reveal>
             <div style={{ marginBottom: 56 }}>
               <SectionLabel>Contact</SectionLabel>
-              <h2 style={{ fontSize: 'clamp(24px, 3.4vw, 40px)', fontWeight: 800, color: '#fff', margin: 0, fontFamily: "'Inter', sans-serif", letterSpacing: '-0.02em' }}>
+              <h2 style={{ fontSize: 'clamp(24px, 3.4vw, 40px)', fontWeight: 800, color: ON_PAPER.title, margin: 0, fontFamily: "'Inter', sans-serif", letterSpacing: '-0.02em' }}>
                 Écrivez-nous
               </h2>
             </div>
@@ -108,37 +126,33 @@ export const EnergyContact = () => {
             {/* Infos */}
             <Reveal x={-20} delay={0.1}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 28, marginBottom: 32 }}>
-                {[
-                  { icon: '📍', label: 'Adresse', val: 'Ouagadougou, Burkina Faso\nAfrique de l\'Ouest' },
-                  { icon: '📞', label: 'Téléphone', val: '+226 XX XX XX XX' },
-                  { icon: '🕐', label: 'Disponibilité', val: 'Lun – Ven : 08h00 – 18h00' },
-                ].map(({ icon, label, val }) => (
+                {COORDONNEES.map(({ icon, label, val }) => (
                   <div key={label} style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
                     <div style={{
                       width: 44, height: 44, borderRadius: 11,
-                      background: `${RED}15`, border: `1px solid ${RED}30`,
+                      background: `${RED}12`, border: `1px solid ${RED}28`,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: 18, flexShrink: 0,
+                      color: RED, flexShrink: 0,
                     }}>{icon}</div>
                     <div>
                       <p style={{ margin: '0 0 3px', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: RED, fontFamily: "'Inter', sans-serif" }}>{label}</p>
-                      <p style={{ margin: 0, fontSize: 14, color: '#fff', fontFamily: "'Inter', sans-serif", lineHeight: 1.6, whiteSpace: 'pre-line' }}>{val}</p>
+                      <p style={{ margin: 0, fontSize: 14, color: ON_PAPER.title, fontFamily: "'Inter', sans-serif", lineHeight: 1.6, whiteSpace: 'pre-line' }}>{val}</p>
                     </div>
                   </div>
                 ))}
               </div>
 
               {/* Contacts par service */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 28, paddingTop: 24, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-                <p style={{ margin: '0 0 4px', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', fontFamily: "'Inter', sans-serif" }}>Contacts par service</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 28, paddingTop: 24, borderTop: `1px solid ${ON_PAPER.line}` }}>
+                <p style={{ margin: '0 0 4px', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: ON_PAPER.muted, fontFamily: "'Inter', sans-serif" }}>Contacts par service</p>
                 {DEPARTMENTS.map(d => (
                   <a key={d.label} href={`mailto:${d.val}`} style={{
                     display: 'flex', alignItems: 'center', gap: 10,
                     padding: '10px 12px', borderRadius: 10,
-                    background: 'rgba(255,255,255,0.03)', textDecoration: 'none',
+                    background: ON_PAPER.card, border: `1px solid ${ON_PAPER.line}`, textDecoration: 'none',
                   }}>
-                    <span style={{ fontSize: 15 }}>{d.icon}</span>
-                    <span style={{ fontSize: 12.5, color: '#fff', fontFamily: "'Inter', sans-serif" }}>{d.label}</span>
+                    <span style={{ display: 'inline-flex', color: RED }}>{d.icon}</span>
+                    <span style={{ fontSize: 12.5, color: ON_PAPER.title, fontFamily: "'Inter', sans-serif" }}>{d.label}</span>
                     <span style={{ marginLeft: 'auto', fontSize: 12, color: RED, fontFamily: "'Inter', sans-serif" }}>{d.val}</span>
                   </a>
                 ))}
@@ -158,29 +172,34 @@ export const EnergyContact = () => {
             <Reveal x={20} delay={0.15}>
               {sent ? (
                 <div style={{ padding: '48px 32px', borderRadius: 20, background: `${RED}10`, border: `1.5px solid ${RED}35`, textAlign: 'center' }}>
-                  <div style={{ fontSize: 48, marginBottom: 16 }}>✅</div>
-                  <h3 style={{ color: '#fff', fontFamily: "'Inter', sans-serif", margin: '0 0 10px' }}>Message envoyé !</h3>
-                  <p style={{ color: GRAY, fontFamily: "'Inter', sans-serif", fontSize: 14 }}>Nous vous répondrons dans les plus brefs délais.</p>
+                  <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16, color: RED }}>
+                    <svg width="44" height="44" viewBox="0 0 24 24" fill="none">
+                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.6" />
+                      <path d="M8 12.5l2.5 2.5L16 9.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
+                  <h3 style={{ color: ON_PAPER.title, fontFamily: "'Inter', sans-serif", margin: '0 0 10px' }}>Message envoyé !</h3>
+                  <p style={{ color: ON_PAPER.body, fontFamily: "'Inter', sans-serif", fontSize: 14 }}>Nous vous répondrons dans les plus brefs délais.</p>
                 </div>
               ) : (
                 <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
                     <input style={inputStyle} name="name" placeholder="Votre nom" value={form.name} onChange={handle}
                       onFocus={e => e.target.style.borderColor = RED}
-                      onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.1)'}
+                      onBlur={e => e.target.style.borderColor = ON_PAPER.line}
                       required />
                     <input style={inputStyle} name="email" type="email" placeholder="Votre email" value={form.email} onChange={handle}
                       onFocus={e => e.target.style.borderColor = RED}
-                      onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.1)'}
+                      onBlur={e => e.target.style.borderColor = ON_PAPER.line}
                       required />
                   </div>
                   <input style={inputStyle} name="subject" placeholder="Sujet" value={form.subject} onChange={handle}
                     onFocus={e => e.target.style.borderColor = RED}
-                    onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.1)'}
+                    onBlur={e => e.target.style.borderColor = ON_PAPER.line}
                   />
                   <textarea style={{ ...inputStyle, height: 130, resize: 'vertical' }} name="message" placeholder="Décrivez votre projet..." value={form.message} onChange={handle}
                     onFocus={e => e.target.style.borderColor = RED}
-                    onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.1)'}
+                    onBlur={e => e.target.style.borderColor = ON_PAPER.line}
                     required />
                   <button type="submit" style={{
                     background: RED, color: '#fff', border: 'none',

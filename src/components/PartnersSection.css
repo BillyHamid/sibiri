@@ -1,0 +1,36 @@
+.holding-partners { --partner-gold: #c9a84c; --partner-ink: #1d1d1b; position: relative; overflow: hidden; padding: clamp(76px, 10vw, 132px) 0; background: radial-gradient(circle at 14% 10%, rgba(201, 168, 76, .12), transparent 22rem), linear-gradient(135deg, #fcfbf8 0%, #fff 50%, #f8f4eb 100%); }
+.holding-partners::before { position: absolute; inset: 0; z-index: 0; content: ''; pointer-events: none; opacity: .42; background-image: radial-gradient(rgba(201, 168, 76, .3) .7px, transparent .8px); background-size: 19px 19px; mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent); }
+.holding-partners__container { position: relative; z-index: 1; width: min(1180px, calc(100% - 48px)); margin: 0 auto; }
+.holding-partners__heading { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(240px, .65fr); align-items: end; gap: clamp(32px, 7vw, 120px); padding-bottom: 43px; border-bottom: 1px solid rgba(29, 29, 27, .13); }
+.holding-partners__eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 16px; color: var(--partner-gold); font-family: Inter, sans-serif; font-size: 10px; font-weight: 800; letter-spacing: .28em; text-transform: uppercase; }
+.holding-partners__eyebrow span { display: inline-block; width: 28px; height: 1px; background: currentColor; }
+.holding-partners h2, .holding-partners h3, .holding-partners p { margin-top: 0; }
+.holding-partners h2 { max-width: 630px; margin-bottom: 0; color: var(--partner-ink); font-family: 'Playfair Display', Georgia, serif; font-size: clamp(36px, 4.4vw, 62px); font-weight: 600; letter-spacing: -.045em; line-height: .98; }
+.holding-partners h2 em { color: var(--partner-gold); font-style: italic; font-weight: 500; }
+.holding-partners__intro { padding-bottom: 4px; }
+.holding-partners__intro p { max-width: 350px; margin-bottom: 18px; color: #62615e; font-family: Inter, sans-serif; font-size: 14px; line-height: 1.8; }
+.holding-partners__count { color: #8c7638; font-family: Inter, sans-serif; font-size: 10px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+.holding-partners__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; padding-top: 34px; }
+.holding-partner-card { position: relative; display: flex; min-height: 222px; flex-direction: column; justify-content: space-between; overflow: hidden; padding: 21px 22px 19px; border: 1px solid rgba(201, 168, 76, .26); border-radius: 3px; background: rgba(255, 255, 255, .76); box-shadow: 0 10px 28px rgba(58, 49, 27, .04); transition: border-color 220ms ease, box-shadow 220ms ease, background 220ms ease; }
+.holding-partner-card::after { position: absolute; top: 0; right: 0; width: 48px; height: 48px; content: ''; border-top: 2px solid transparent; border-right: 2px solid transparent; transition: border-color 220ms ease; }
+.holding-partner-card:hover { border-color: rgba(201, 168, 76, .76); background: #fff; box-shadow: 0 20px 38px rgba(65, 51, 15, .1); }
+.holding-partner-card:hover::after { border-color: var(--partner-gold); }
+.holding-partner-card__index { color: rgba(29, 29, 27, .32); font-family: Inter, sans-serif; font-size: 10px; font-weight: 800; letter-spacing: .15em; }
+.holding-partner-card__logo { display: flex; min-height: 100px; align-items: center; justify-content: center; padding: 11px 17px; }
+.holding-partner-card__logo img { display: block; max-width: 100%; max-height: 84px; object-fit: contain; filter: saturate(.84) contrast(1.04); transition: filter 220ms ease, transform 220ms ease; }
+.holding-partner-card:hover .holding-partner-card__logo img { filter: saturate(1) contrast(1.06); transform: scale(1.035); }
+.holding-partner-card__footer { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding-top: 13px; border-top: 1px solid rgba(29, 29, 27, .09); }
+.holding-partner-card__footer h3 { margin-bottom: 0; color: var(--partner-ink); font-family: Inter, sans-serif; font-size: 11px; font-weight: 750; letter-spacing: .04em; text-transform: uppercase; }
+.holding-partner-card__footer > span, .holding-partners__cta a svg { width: 18px; height: 18px; }
+.holding-partner-card__footer svg, .holding-partners__cta a svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.6; }
+.holding-partner-card__footer > span { flex: 0 0 auto; color: var(--partner-gold); }
+.holding-partners__cta { display: flex; align-items: center; justify-content: space-between; gap: 28px; margin-top: 56px; padding: clamp(25px, 4vw, 40px); border-left: 3px solid var(--partner-gold); background: var(--partner-ink); box-shadow: 0 18px 36px rgba(29, 29, 27, .14); }
+.holding-partners__cta p { margin-bottom: 7px; color: var(--partner-gold); font-family: Inter, sans-serif; font-size: 10px; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; }
+.holding-partners__cta h3 { margin-bottom: 0; color: #fff; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(22px, 2.5vw, 30px); font-weight: 500; }
+.holding-partners__cta a { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 13px; padding: 14px 18px; border: 1px solid var(--partner-gold); color: #fff; font-family: Inter, sans-serif; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-decoration: none; text-transform: uppercase; transition: background 180ms ease, color 180ms ease; }
+.holding-partners__cta a:hover { background: var(--partner-gold); color: var(--partner-ink); }
+.holding-partners__line { position: absolute; z-index: 0; width: 100px; height: 100px; border: 1px solid rgba(201, 168, 76, .3); transform: rotate(45deg); }
+.holding-partners__line--left { bottom: -52px; left: -52px; }
+.holding-partners__line--right { top: -52px; right: -52px; }
+@media (max-width: 800px) { .holding-partners__heading { grid-template-columns: 1fr; gap: 24px; } .holding-partners__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .holding-partners__container { width: min(100% - 32px, 1180px); } .holding-partners__grid { gap: 12px; } .holding-partner-card { min-height: 184px; padding: 16px 14px 14px; } .holding-partner-card__logo { min-height: 74px; padding: 9px; } .holding-partner-card__logo img { max-height: 60px; } .holding-partner-card__footer h3 { font-size: 8px; } .holding-partners__cta { display: block; margin-top: 36px; } .holding-partners__cta a { margin-top: 22px; } }
