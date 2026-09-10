@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import { NeoMinimalFooter } from '../../components/NeoMinimalFooter'
 import { RED, RED_D, DARK, CHROME, ENERGY_LOGO, ENERGY_LOGO_BOX, useEnergyFonts } from './shared'
+import { EnergyIntro } from './EnergyIntro'
 
 // ══════════════════════════════════════════════════════════════════════════════
 // NAVIGATION — reprise du langage de Sibiri Bio Médical (MedicalNav)
@@ -334,6 +335,7 @@ const EnergyNav = () => {
 // ── Layout : nav + page courante + footer, avec scroll-to-top / scroll-to-hash ─
 export const EnergyLayout = () => {
   const { pathname, hash } = useLocation()
+  const [introVisible, setIntroVisible] = useState(true)
   useEnergyFonts()
 
   useEffect(() => {
@@ -349,6 +351,7 @@ export const EnergyLayout = () => {
 
   return (
     <div style={{ background: DARK, minHeight: '100vh' }}>
+      {introVisible && <EnergyIntro onDone={() => setIntroVisible(false)} />}
       <EnergyNav />
       <Outlet />
       <NeoMinimalFooter variant="energy" surface={CHROME.footer} />

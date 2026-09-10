@@ -1,9 +1,8 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { ArrowLeft, ArrowUpRight, LockKeyhole, Mail, ShieldCheck } from 'lucide-react'
 import { useAdminAuth } from '../../lib/admin/useAdminAuth'
-
-const GOLD = '#B8923E'
-const INK  = '#18181B'
-const LINE = '#E7E5DF'
+import './AdminLogin.css'
 
 export const AdminLogin = () => {
   const { signIn } = useAdminAuth()
@@ -12,61 +11,53 @@ export const AdminLogin = () => {
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
 
-  const submit = async (e) => {
-    e.preventDefault()
+  const submit = async (event) => {
+    event.preventDefault()
     setBusy(true)
     setError('')
-    const { error } = await signIn(email, password)
+    const { error: signInError } = await signIn(email, password)
     setBusy(false)
-    if (error) setError(error.message)
-  }
-
-  const inputStyle = {
-    width: '100%', boxSizing: 'border-box', padding: '10px 13px', borderRadius: 8,
-    border: `1.5px solid ${LINE}`, background: '#fff', color: INK, fontSize: 14,
-    marginBottom: 16, fontFamily: "'Inter', sans-serif",
+    if (signInError) setError(signInError.message)
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, fontFamily: "'Inter', sans-serif" }}>
-      <form onSubmit={submit} style={{ width: '100%', maxWidth: 360 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginBottom: 28 }}>
-          <span style={{ width: 8, height: 8, borderRadius: 2, background: GOLD, display: 'inline-block' }} />
-          <span style={{ fontSize: 14, fontWeight: 700, color: INK, letterSpacing: '-0.01em' }}>
-            SIBIRI <span style={{ fontWeight: 500, color: '#71717A' }}>Back-office</span>
-          </span>
+    <main className="admin-login">
+      <section className="admin-login__identity" aria-label="SIBIRI Holding">
+        <Link to="/" className="admin-login__back"><ArrowLeft size={15} /> Retour au site</Link>
+        <div className="admin-login__identity-content">
+          <img src="/logo.png" alt="Logo SIBIRI Holding" className="admin-login__logo" />
+          <p className="admin-login__kicker">SIBIRI HOLDING</p>
+          <h1>L’exigence au<br /><em>cœur de l’action.</em></h1>
+          <p className="admin-login__statement">Un espace sécurisé, conçu pour piloter les contenus et préserver la cohérence de l’ensemble du Groupe.</p>
         </div>
+        <div className="admin-login__identity-footer"><span /> <p>Administration · Accès réservé</p></div>
+      </section>
 
-        <h1 style={{ fontSize: 20, fontWeight: 700, color: INK, margin: '0 0 4px' }}>Connexion</h1>
-        <p style={{ fontSize: 13.5, color: '#71717A', margin: '0 0 24px' }}>Accès réservé aux administrateurs.</p>
+      <section className="admin-login__panel">
+        <div className="admin-login__form-wrap">
+          <div className="admin-login__panel-top"><span>ESPACE ADMINISTRATEUR</span><ShieldCheck size={18} aria-hidden="true" /></div>
+          <div className="admin-login__heading">
+            <p>Bon retour</p>
+            <h2>Connectez-vous<br />à votre espace.</h2>
+            <span>Utilisez vos identifiants administrateur pour accéder au tableau de bord.</span>
+          </div>
 
-        <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#3F3F46', marginBottom: 6 }}>Email</label>
-        <input
-          type="email" required value={email} onChange={e => setEmail(e.target.value)}
-          style={inputStyle}
-        />
+          <form onSubmit={submit}>
+            <div className="admin-login__field">
+              <label htmlFor="admin-email">Adresse e-mail</label>
+              <div className="admin-login__input"><Mail size={17} aria-hidden="true" /><input id="admin-email" type="email" autoComplete="email" placeholder="vous@entreprise.com" required value={email} onChange={(event) => setEmail(event.target.value)} /></div>
+            </div>
+            <div className="admin-login__field">
+              <label htmlFor="admin-password">Mot de passe</label>
+              <div className="admin-login__input"><LockKeyhole size={17} aria-hidden="true" /><input id="admin-password" type="password" autoComplete="current-password" placeholder="Votre mot de passe" required value={password} onChange={(event) => setPassword(event.target.value)} /></div>
+            </div>
+            {error && <p className="admin-login__error" role="alert">{error}</p>}
+            <button type="submit" disabled={busy} className="admin-login__submit"><span>{busy ? 'Vérification en cours…' : 'Accéder au tableau de bord'}</span><ArrowUpRight size={18} aria-hidden="true" /></button>
+          </form>
 
-        <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#3F3F46', marginBottom: 6 }}>Mot de passe</label>
-        <input
-          type="password" required value={password} onChange={e => setPassword(e.target.value)}
-          style={inputStyle}
-        />
-
-        {error && (
-          <p style={{ color: '#B4453A', fontSize: 12.5, margin: '0 0 16px' }}>{error}</p>
-        )}
-
-        <button
-          type="submit" disabled={busy}
-          style={{
-            width: '100%', padding: '11px', borderRadius: 8, border: 'none',
-            background: busy ? '#D9D6CC' : GOLD, color: '#fff', fontWeight: 600, fontSize: 14,
-            cursor: busy ? 'default' : 'pointer', fontFamily: "'Inter', sans-serif",
-          }}
-        >
-          {busy ? 'Connexion…' : 'Se connecter'}
-        </button>
-      </form>
-    </div>
+          <p className="admin-login__notice"><LockKeyhole size={13} aria-hidden="true" /> Connexion sécurisée · accès strictement réservé</p>
+        </div>
+      </section>
+    </main>
   )
 }

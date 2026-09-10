@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import {
   Building2, Stethoscope, Zap, HardHat, Truck, Leaf,
   ExternalLink, Plus, Trash2, Upload, Type, FileText, Image as ImageIcon, List, Menu, X,
+  Clock3, FilePenLine, LayoutDashboard, RotateCcw, Search,
 } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 
@@ -665,25 +666,54 @@ const slugify = (s) => (s || '')
   .replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
 
 // ─── Une ligne de contenu éditable ─────────────────────────────────────────
-const ContentRow = ({ row, onSaved, onDeleted }) => {
-  const initial = row.type === 'text' || row.type === 'richtext' || row.type === 'image'
-    ? (typeof row.value === 'string' ? row.value : JSON.stringify(row.value))
-    : JSON.stringify(row.value, null, 2)
+const editorValue = (value, type) => type === 'text' || type === 'richtext' || type === 'image'
+  ? (typeof value === 'string' ? value : JSON.stringify(value))
+  : JSON.stringify(value, null, 2)
 
-  const [value, setValue] = useState(initial)
+const ContentRow = ({ row, draft, onSaved, onDeleted, onDrafted, onPublished }) => {
+  const [value, setValue] = useState(() => editorValue(draft?.value ?? row.value, row.type))
   const [status, setStatus] = useState('idle') // idle | saving | saved | error
   const [uploading, setUploading] = useState(false)
+  const [history, setHistory] = useState(null)
   const TypeIcon = TYPE_ICONS[row.type] || Type
 
-  const save = async () => {
+  const parseValue = () => {
+    if (row.type !== 'list') return value
+    return JSON.parse(value)
+  }
+
+  const publish = async () => {
     setStatus('saving')
-    let parsed = value
-    if (row.type === 'list') {
-      try { parsed = JSON.parse(value) } catch { setStatus('error'); return }
-    }
+    let parsed
+    try { parsed = parseValue() } catch { setStatus('error'); return }
     const { error } = await supabase.from('content').update({ value: parsed, updated_at: new Date().toISOString() }).eq('key', row.key)
     setStatus(error ? 'error' : 'saved')
-    if (!error) { onSaved?.(row.key, parsed); setTimeout(() => setStatus('idle'), 1800) }
+    if (!error) {
+      if (draft) await supabase.from('content_drafts').delete().eq('key', row.key)
+      onSaved?.(row.key, parsed)
+      onPublished?.(row.key)
+      setTimeout(() => setStatus('idle'), 1800)
+    }
+  }
+
+  const saveDraft = async () => {
+    setStatus('saving')
+    let parsed
+    try { parsed = parseValue() } catch { setStatus('error'); return }
+    const { error } = await supabase.from('content_drafts').upsert({ key: row.key, value: parsed, updated_at: new Date().toISOString() })
+    setStatus(error ? 'error' : 'saved')
+    if (!error) { onDrafted?.({ key: row.key, value: parsed, updated_at: new Date().toISOString() }); setTimeout(() => setStatus('idle'), 1800) }
+  }
+
+  const discardDraft = async () => {
+    const { error } = await supabase.from('content_drafts').delete().eq('key', row.key)
+    if (!error) { setValue(editorValue(row.value, row.type)); onPublished?.(row.key) }
+  }
+
+  const toggleHistory = async () => {
+    if (history !== null) { setHistory(null); return }
+    const { data, error } = await supabase.from('content_revisions').select('id, value, action, changed_at').eq('content_key', row.key).order('changed_at', { ascending: false }).limit(5)
+    setHistory(error ? [] : data)
   }
 
   const removeRow = async () => {
@@ -714,14 +744,14 @@ const ContentRow = ({ row, onSaved, onDeleted }) => {
   }
 
   return (
-    <div style={{ padding: '16px 18px', borderRadius: 10, background: '#fff', border: `1px solid ${LINE}`, marginBottom: 10 }}>
+    <div style={{ padding: '16px 18px', borderRadius: 10, background: '#fff', border: `1px solid ${draft ? GOLD : LINE}`, marginBottom: 10, boxShadow: draft ? '0 8px 22px rgba(184,146,62,.08)' : 'none' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, marginBottom: 10 }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 9 }}>
           <TypeIcon size={14} color={MUTED} style={{ marginTop: 3, flexShrink: 0 }} />
           <div>
             <p style={{ margin: 0, fontSize: 13.5, fontWeight: 600, color: INK, fontFamily: "'Inter', sans-serif" }}>{row.label}</p>
             <p style={{ margin: '2px 0 0', fontSize: 11, color: MUTED, fontFamily: "'Inter', sans-serif" }}>
-              {row.key} · {TYPE_LABELS[row.type] || row.type}
+              {row.key} · {TYPE_LABELS[row.type] || row.type}{draft ? ' · Brouillon en attente' : ''}
             </p>
           </div>
         </div>
@@ -755,16 +785,32 @@ const ContentRow = ({ row, onSaved, onDeleted }) => {
         <input value={value} onChange={e => setValue(e.target.value)} style={inputStyle} />
       )}
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 10 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 10, flexWrap: 'wrap' }}>
         <button
-          onClick={save} disabled={status === 'saving'}
+          onClick={saveDraft} disabled={status === 'saving'}
+          style={{ padding: '7px 12px', borderRadius: 7, border: `1px solid ${LINE}`, background: '#fff', color: '#3F3F46', fontWeight: 600, fontSize: 12, cursor: 'pointer', fontFamily: "'Inter', sans-serif" }}
+        >
+          <FilePenLine size={12} style={{ verticalAlign: -2, marginRight: 5 }} /> Enregistrer en brouillon
+        </button>
+        <button
+          onClick={publish} disabled={status === 'saving'}
           style={{ padding: '7px 16px', borderRadius: 7, border: 'none', background: GOLD, color: '#fff', fontWeight: 600, fontSize: 12.5, cursor: 'pointer', fontFamily: "'Inter', sans-serif" }}
         >
-          {status === 'saving' ? 'Enregistrement…' : 'Enregistrer'}
+          {status === 'saving' ? 'Enregistrement…' : 'Publier'}
         </button>
+        {draft && <button onClick={discardDraft} style={{ padding: '7px 9px', borderRadius: 7, border: 'none', background: 'transparent', color: MUTED, fontSize: 11.5, cursor: 'pointer', fontFamily: "'Inter', sans-serif" }}>Abandonner le brouillon</button>}
+        <button onClick={toggleHistory} style={{ marginLeft: 'auto', padding: '7px 8px', border: 'none', background: 'transparent', color: MUTED, fontSize: 11.5, cursor: 'pointer', fontFamily: "'Inter', sans-serif" }}><Clock3 size={12} style={{ verticalAlign: -2, marginRight: 4 }} /> Historique</button>
         {status === 'saved' && <span style={{ fontSize: 12, color: '#3F8A57', fontFamily: "'Inter', sans-serif" }}>✓ Enregistré</span>}
         {status === 'error' && <span style={{ fontSize: 12, color: '#B4453A', fontFamily: "'Inter', sans-serif" }}>Erreur — vérifiez le format, la taille ou les droits.</span>}
       </div>
+      {history !== null && <div style={{ marginTop: 12, paddingTop: 11, borderTop: `1px solid ${LINE}` }}>
+        {history.length === 0 ? <p style={{ margin: 0, color: MUTED, fontSize: 11.5 }}>Aucune version disponible pour le moment.</p> : history.map(version => (
+          <div key={version.id} style={{ display: 'flex', gap: 9, alignItems: 'center', marginTop: 7, fontSize: 11.5, color: MUTED }}>
+            <Clock3 size={12} /><span>{new Date(version.changed_at).toLocaleString('fr-FR')} · {version.action === 'UPDATE' ? 'Publication' : version.action}</span>
+            <button onClick={() => setValue(editorValue(version.value, row.type))} style={{ marginLeft: 'auto', border: 'none', background: 'transparent', color: GOLD, cursor: 'pointer', fontSize: 11.5 }}><RotateCcw size={11} style={{ verticalAlign: -2 }} /> Restaurer dans l’éditeur</button>
+          </div>
+        ))}
+      </div>}
     </div>
   )
 }
@@ -932,14 +978,20 @@ const useIsMobile = (breakpoint = 880) => {
 // ─── Dashboard principal ────────────────────────────────────────────────────
 export const AdminDashboard = () => {
   const [rows, setRows] = useState(null)
+  const [drafts, setDrafts] = useState([])
   const [filialeId, setFilialeId] = useState('holding')
   const [pageId, setPageId] = useState('accueil')
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
+  const [query, setQuery] = useState('')
   const isMobile = useIsMobile()
 
   const load = async () => {
-    const { data, error } = await supabase.from('content').select('*').order('page').order('section')
-    if (!error) setRows(data)
+    const [contentResult, draftsResult] = await Promise.all([
+      supabase.from('content').select('*').order('page').order('section'),
+      supabase.from('content_drafts').select('*'),
+    ])
+    if (!contentResult.error) setRows(contentResult.data)
+    if (!draftsResult.error) setDrafts(draftsResult.data)
   }
 
   useEffect(() => { load() }, [])
@@ -965,6 +1017,9 @@ export const AdminDashboard = () => {
   }, [page, rowsBySection])
 
   const totalFields = rowsByPage.length
+  const allPages = FILIALES.flatMap(item => item.pages)
+  const activeDrafts = drafts.filter(draft => rowsByPage.some(row => row.key === draft.key))
+  const normalizedQuery = query.trim().toLowerCase()
 
   const navBtnBase = {
     display: 'flex', alignItems: 'center', gap: 10, padding: '9px 10px', borderRadius: 8,
@@ -1036,7 +1091,24 @@ export const AdminDashboard = () => {
       </aside>
 
       {/* ── Contenu principal ────────────────────────────────────────────── */}
-      <main style={{ flex: 1, minWidth: 0, padding: isMobile ? '24px 18px 80px' : '32px 40px 100px', maxWidth: 860 }}>
+      <main style={{ flex: 1, minWidth: 0, padding: isMobile ? '24px 18px 80px' : '32px 40px 100px', maxWidth: 960 }}>
+
+        <section style={{ marginBottom: 28, padding: isMobile ? 18 : 24, border: `1px solid ${LINE}`, borderRadius: 14, background: 'linear-gradient(120deg, #fff 0%, #fbf8ef 100%)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
+            <div>
+              <p style={{ display: 'flex', alignItems: 'center', gap: 7, margin: '0 0 7px', color: GOLD, fontSize: 10.5, fontWeight: 800, letterSpacing: '.13em', textTransform: 'uppercase' }}><LayoutDashboard size={13} /> Centre éditorial</p>
+              <h2 style={{ margin: 0, color: INK, fontSize: 20, letterSpacing: '-.025em' }}>Pilotez vos contenus en toute confiance.</h2>
+            </div>
+            <a href={page.path} target="_blank" rel="noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '9px 13px', borderRadius: 8, background: INK, color: '#fff', textDecoration: 'none', fontSize: 12, fontWeight: 600 }}>Aperçu de la page <ExternalLink size={13} /></a>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 10, marginTop: 21 }}>
+            {[
+              { value: rows?.length ?? '—', label: 'champs publiés' },
+              { value: drafts.length, label: 'brouillon(s) à valider' },
+              { value: allPages.length, label: 'pages couvertes' },
+            ].map(stat => <div key={stat.label} style={{ padding: '11px 12px', borderRadius: 9, border: `1px solid ${LINE}`, background: 'rgba(255,255,255,.8)' }}><strong style={{ display: 'block', color: INK, fontSize: 18 }}>{stat.value}</strong><span style={{ color: MUTED, fontSize: 10.5 }}>{stat.label}</span></div>)}
+          </div>
+        </section>
 
         {/* Fil d'ariane + titre + lien vers la page réelle */}
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap', marginBottom: 4 }}>
@@ -1059,12 +1131,19 @@ export const AdminDashboard = () => {
           </a>
         </div>
 
-        <p style={{ fontSize: 13, color: MUTED, margin: '10px 0 28px', display: 'flex', alignItems: 'center', gap: 8 }}>
+        <p style={{ fontSize: 13, color: MUTED, margin: '10px 0 18px', display: 'flex', alignItems: 'center', gap: 8 }}>
           <code style={{ background: PANEL, border: `1px solid ${LINE}`, borderRadius: 5, padding: '2px 7px', fontSize: 11.5, color: '#52525B' }}>{page.path}</code>
           {totalFields > 0
             ? `${totalFields} champ${totalFields > 1 ? 's' : ''} éditable${totalFields > 1 ? 's' : ''}`
             : 'Aucun champ relié pour le moment'}
         </p>
+
+        <div style={{ position: 'relative', marginBottom: 22 }}>
+          <Search size={15} color={MUTED} style={{ position: 'absolute', top: 11, left: 12 }} />
+          <input value={query} onChange={event => setQuery(event.target.value)} placeholder="Rechercher un champ sur cette page…" style={{ width: '100%', boxSizing: 'border-box', padding: '10px 12px 10px 36px', border: `1px solid ${LINE}`, borderRadius: 8, background: PANEL, color: INK, fontSize: 12.5, outlineColor: GOLD }} />
+        </div>
+
+        {activeDrafts.length > 0 && <p style={{ display: 'flex', alignItems: 'center', gap: 7, margin: '0 0 16px', padding: '9px 11px', borderLeft: `2px solid ${GOLD}`, background: GOLD_BG, color: '#685424', fontSize: 12 }}><FilePenLine size={13} /> {activeDrafts.length} brouillon{activeDrafts.length > 1 ? 's' : ''} sur cette page : ils ne sont pas encore visibles sur le site.</p>}
 
         {rows === null && <p style={{ color: MUTED, fontSize: 13.5 }}>Chargement…</p>}
 
@@ -1072,6 +1151,10 @@ export const AdminDashboard = () => {
           const existingLabels = new Set((rowsBySection[section] || []).map(r => r.label))
           const snapshotEntries = (SITE_SNAPSHOT[`${page.dbPage}::${section}`] || [])
             .filter(entry => !existingLabels.has(entry.label))
+            .filter(entry => !normalizedQuery || `${entry.label} ${entry.value}`.toLowerCase().includes(normalizedQuery))
+          const sectionRows = (rowsBySection[section] || []).filter(row => !normalizedQuery || `${row.label} ${row.key}`.toLowerCase().includes(normalizedQuery))
+
+          if (sectionRows.length === 0 && snapshotEntries.length === 0 && normalizedQuery) return null
 
           return (
             <div key={section} style={{ marginBottom: 30 }}>
@@ -1082,12 +1165,15 @@ export const AdminDashboard = () => {
                 {section}
               </h2>
 
-              {(rowsBySection[section] || []).map(row => (
+              {sectionRows.map(row => (
                 <ContentRow
-                  key={row.key}
+                  key={`${row.key}-${drafts.find(draft => draft.key === row.key)?.updated_at ?? 'published'}`}
                   row={row}
+                  draft={drafts.find(draft => draft.key === row.key)}
                   onSaved={(key, value) => setRows(rs => rs.map(r => r.key === key ? { ...r, value } : r))}
                   onDeleted={(key) => setRows(rs => rs.filter(r => r.key !== key))}
+                  onDrafted={(draft) => setDrafts(current => [...current.filter(item => item.key !== draft.key), draft])}
+                  onPublished={(key) => setDrafts(current => current.filter(draft => draft.key !== key))}
                 />
               ))}
 
