@@ -1262,11 +1262,15 @@ export const AdminDashboard = () => {
         {rows === null && <p style={{ color: MUTED, fontSize: 13.5 }}>Chargement…</p>}
 
         {rows && sectionsToShow.map(section => {
-          const existingLabels = new Set((rowsBySection[section] || []).map(r => r.label))
-          const snapshotEntries = (SITE_SNAPSHOT[`${page.dbPage}::${section}`] || [])
+          const sectionSource = SITE_SNAPSHOT[`${page.dbPage}::${section}`] || []
+          const sectionRowsRaw = rowsBySection[section] || []
+          const existingLabels = new Set(sectionRowsRaw.map(r => r.label))
+          const existingKeys = new Set(sectionRowsRaw.map(r => r.key))
+          const pendingConnectedEntries = sectionSource.filter(entry => entry.key && !existingKeys.has(entry.key))
+          const snapshotEntries = sectionSource
             .filter(entry => !existingLabels.has(entry.label))
             .filter(entry => !normalizedQuery || `${entry.label} ${entry.value}`.toLowerCase().includes(normalizedQuery))
-          const sectionRows = (rowsBySection[section] || []).filter(row => !normalizedQuery || `${row.label} ${row.key}`.toLowerCase().includes(normalizedQuery))
+          const sectionRows = sectionRowsRaw.filter(row => !normalizedQuery || `${row.label} ${row.key}`.toLowerCase().includes(normalizedQuery))
 
           if (sectionRows.length === 0 && snapshotEntries.length === 0 && normalizedQuery) return null
 
@@ -1291,6 +1295,8 @@ export const AdminDashboard = () => {
                 />
               ))}
 
+              <ActivateConnectedFields entries={pendingConnectedEntries} page={page.dbPage} section={section} onAdded={load} />
+
               {snapshotEntries.length > 0 && (
                 <>
                   <p style={{ fontSize: 11, color: MUTED, margin: '4px 0 8px', fontFamily: "'Inter', sans-serif" }}>
@@ -1300,7 +1306,6 @@ export const AdminDashboard = () => {
                         ? 'Champs reliés et inventaire de migration du site.'
                         : 'Contenu actuel sur le site — pas encore relié au back-office'}
                   </p>
-                  <ActivateConnectedFields entries={snapshotEntries} page={page.dbPage} section={section} onAdded={load} />
                   {snapshotEntries.map((entry, i) => (
                     <SnapshotRow key={`${section}-${i}`} entry={entry} page={page.dbPage} section={section} onAdded={load} />
                   ))}
