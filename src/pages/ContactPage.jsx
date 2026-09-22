@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Navbar } from '../components/Navbar'
 import { NeoMinimalFooter } from '../components/NeoMinimalFooter'
+import { useContentValue } from '../lib/content/ContentProvider'
 
 // ─── Palette ──────────────────────────────────────────────────────────────────
 const GOLD   = '#C9A84C'
@@ -324,7 +325,26 @@ const ContactForm = () => {
 }
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
-const Hero = () => (
+const Hero = () => {
+  const tag = useContentValue('holding.contact.hero.tag', 'Contactez-Nous')
+  const title = useContentValue('holding.contact.hero.title', 'Parlons de votre')
+  const accent = useContentValue('holding.contact.hero.accent', 'projet')
+  const subtitle = useContentValue('holding.contact.hero.subtitle', 'Que vous soyez partenaire, investisseur, client ou candidat, notre équipe est à votre écoute pour répondre à toutes vos sollicitations.')
+  const headquarters = useContentValue('holding.contact.info.headquarters', 'Ouagadougou, Burkina Faso')
+  const headquartersDetail = useContentValue('holding.contact.info.headquarters_detail', "Secteur 15, Avenue Kwamé N'Krumah")
+  const phone = useContentValue('holding.contact.info.phone', '+226 25 36 XX XX')
+  const phoneDetail = useContentValue('holding.contact.info.phone_detail', 'Lun – Ven, 08h – 17h')
+  const email = useContentValue('holding.contact.info.email', 'contact@sibiriholding.com')
+  const emailDetail = useContentValue('holding.contact.info.email_detail', 'Réponse sous 24h ouvrées')
+  const hours = useContentValue('holding.contact.info.hours', 'Lun – Ven : 08h00 – 17h00')
+  const hoursDetail = useContentValue('holding.contact.info.hours_detail', 'Samedi : 09h00 – 13h00')
+  const contactInfos = [
+    { ...CONTACT_INFOS[0], value: headquarters, sub: headquartersDetail },
+    { ...CONTACT_INFOS[1], value: phone, sub: phoneDetail },
+    { ...CONTACT_INFOS[2], value: email, sub: emailDetail },
+    { ...CONTACT_INFOS[3], value: hours, sub: hoursDetail },
+  ]
+  return (
   <section style={{ position: 'relative', background: DARK, padding: '150px 40px 90px', overflow: 'hidden' }}>
     {/* Grille */}
     <div style={{
@@ -352,25 +372,25 @@ const Hero = () => (
               color: GOLD_L, fontSize: 11, fontWeight: 700,
               letterSpacing: '0.18em', textTransform: 'uppercase',
               fontFamily: "'Inter', sans-serif",
-            }}>Contactez-Nous</span>
+            }}>{tag}</span>
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.25, ease: [0.2, 0.65, 0.3, 0.9] }}
             style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(2.2rem, 4vw, 3.8rem)', fontWeight: 700, color: 'white', lineHeight: 1.12, margin: '0 0 24px' }}>
-            Parlons de votre{' '}
+            {title}{' '}
             <span style={{ background: `linear-gradient(90deg, ${GOLD}, ${GOLD_L})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-              projet
+              {accent}
             </span>
           </motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.4 }}
             style={{ fontFamily: "'Inter', sans-serif", fontSize: 15.5, color: 'rgba(255,255,255,0.5)', lineHeight: 1.78, margin: '0 0 48px', maxWidth: 480 }}>
-            Que vous soyez partenaire, investisseur, client ou candidat, notre équipe est à votre écoute pour répondre à toutes vos sollicitations.
+            {subtitle}
           </motion.p>
 
           {/* Infos contact */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {CONTACT_INFOS.map((info, i) => (
+            {contactInfos.map((info, i) => (
               <InfoCard key={i} info={info} delay={0.5 + i * 0.08} />
             ))}
           </div>
@@ -422,7 +442,8 @@ const Hero = () => (
       </div>
     </div>
   </section>
-)
+  )
+}
 
 // ─── Section formulaire ───────────────────────────────────────────────────────
 const FormSection = () => (

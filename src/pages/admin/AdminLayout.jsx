@@ -54,8 +54,8 @@ export const AdminLayout = () => {
     <div style={{ minHeight: '100vh', background: '#fff' }}>
       {session && (
         <header style={{
-          background: '#fff', borderBottom: `1px solid ${LINE}`, padding: '0 24px', height: 56,
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'sticky', top: 0, zIndex: 40,
+          background: '#fff', borderBottom: `1px solid ${LINE}`, padding: '10px clamp(14px, 3vw, 24px)', minHeight: 56,
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10, position: 'sticky', top: 0, zIndex: 40,
         }}>
           <Link to="/admin" style={{ display: 'flex', alignItems: 'center', gap: 9, textDecoration: 'none' }}>
             <span style={{ width: 8, height: 8, borderRadius: 2, background: GOLD, display: 'inline-block' }} />
@@ -63,7 +63,7 @@ export const AdminLayout = () => {
               SIBIRI <span style={{ fontWeight: 500, color: '#71717A' }}>Back-office</span>
             </span>
           </Link>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
             <a href="/" target="_blank" rel="noreferrer" style={{
               display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12.5, color: '#52525B', textDecoration: 'none',
               fontFamily: "'Inter', sans-serif", padding: '6px 10px', borderRadius: 7,

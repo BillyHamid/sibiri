@@ -3,6 +3,7 @@ import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { Navbar } from '../components/Navbar'
 import { NeoMinimalFooter } from '../components/NeoMinimalFooter'
+import { useContentValue } from '../lib/content/ContentProvider'
 
 // ─── Palette ──────────────────────────────────────────────────────────────────
 const GOLD   = '#C9A84C'
@@ -62,6 +63,12 @@ const G = ({ children }) => (
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 const Hero = () => {
+  const title = useContentValue('holding.group.hero.title', 'Un Groupe Africain')
+  const accent = useContentValue('holding.group.hero.accent', "d'Excellence")
+  const subtitle = useContentValue('holding.group.hero.subtitle', 'Investissements, gestion et contrôle d’actifs —\nau service des économies africaines depuis sa fondation.')
+  const scrollLabel = useContentValue('holding.group.hero.scroll_label', 'Découvrir')
+  const foundation = useContentValue('holding.group.hero.foundation', 'Fondé en 2012')
+  const location = useContentValue('holding.group.hero.location', 'Ouagadougou, Burkina Faso')
   const ref = useRef(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
   const y       = useTransform(scrollYProgress, [0, 1], ['0%', '28%'])
@@ -155,8 +162,8 @@ const Hero = () => {
             textShadow: '0 4px 40px rgba(0,0,0,0.6)',
           }}
         >
-          Un Groupe Africain<br />
-          <G>d'Excellence</G>
+          {title}<br />
+          <G>{accent}</G>
         </motion.h1>
 
         {/* Sous-titre */}
@@ -170,8 +177,7 @@ const Hero = () => {
             maxWidth: 520, margin: '0 auto 60px', lineHeight: 1.75,
           }}
         >
-          Investissements, gestion et contrôle d'actifs —<br />
-          au service des économies africaines depuis sa fondation.
+          {subtitle.split('\n').map((line, index) => <span key={index}>{line}{index < subtitle.split('\n').length - 1 && <br />}</span>)}
         </motion.p>
 
         {/* Scroll indicator */}
@@ -184,7 +190,7 @@ const Hero = () => {
           <span style={{
             fontFamily: "'Inter', sans-serif", fontSize: 9,
             color: 'rgba(255,255,255,0.28)', letterSpacing: '0.28em', textTransform: 'uppercase',
-          }}>Découvrir</span>
+          }}>{scrollLabel}</span>
           <motion.div animate={{ y: [0, 9, 0] }} transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={`${GOLD}99`} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 5v14M5 12l7 7 7-7"/>
@@ -218,8 +224,8 @@ const Hero = () => {
           </svg>
         </div>
         <div>
-          <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 15, fontWeight: 700, color: GOLD_L, margin: 0 }}>Fondé en 2012</p>
-          <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, color: 'rgba(255,255,255,0.38)', margin: 0 }}>Ouagadougou, Burkina Faso</p>
+          <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 15, fontWeight: 700, color: GOLD_L, margin: 0 }}>{foundation}</p>
+          <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, color: 'rgba(255,255,255,0.38)', margin: 0 }}>{location}</p>
         </div>
       </motion.div>
 
@@ -388,7 +394,13 @@ const IMG_H   = 230
 const IMG_GAP = 14
 const STRIP_HALF = (IMG_H + IMG_GAP) * HISTOIRE_IMGS.length // 976px
 
-const HistoireScroller = () => (
+const HistoireScroller = () => {
+  const image1 = useContentValue('holding.group.history.image_1', HISTOIRE_IMGS[0])
+  const image2 = useContentValue('holding.group.history.image_2', HISTOIRE_IMGS[1])
+  const image3 = useContentValue('holding.group.history.image_3', HISTOIRE_IMGS[2])
+  const image4 = useContentValue('holding.group.history.image_4', HISTOIRE_IMGS[3])
+  const images = [image1, image2, image3, image4]
+  return (
   <Reveal>
     <div style={{
       position: 'relative',
@@ -412,14 +424,14 @@ const HistoireScroller = () => (
 
       {/* Bande défilante verticale — original + doublon pour boucle sans saut */}
       <div style={{ animation: 'histoireScrollV 14s linear infinite' }}>
-        {[...HISTOIRE_IMGS, ...HISTOIRE_IMGS].map((src, i) => (
+        {[...images, ...images].map((src, i) => (
           <div key={i} style={{
             height: IMG_H, marginBottom: IMG_GAP,
             borderRadius: 12, overflow: 'hidden',
           }}>
             <img
               src={src}
-              alt={`SIBIRI Groupe - histoire ${(i % HISTOIRE_IMGS.length) + 1}`}
+              alt={`SIBIRI Groupe - histoire ${(i % images.length) + 1}`}
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />
           </div>
@@ -434,10 +446,18 @@ const HistoireScroller = () => (
       }
     `}</style>
   </Reveal>
-)
+  )
+}
 
 // ─── Notre Histoire ────────────────────────────────────────────────────────────
-const Histoire = () => (
+const Histoire = () => {
+  const title = useContentValue('holding.group.history.title', "L'héritage d'une")
+  const accent = useContentValue('holding.group.history.accent', 'vision familiale')
+  const paragraph1 = useContentValue('holding.group.history.paragraph_1', "SIBIRI Holding SA est une société Anonyme de droit Burkinabé au capital de cent soixante-quinze millions cinq cent mille (175 500 000) FCFA, avec Administrateur Général en la personne de son Fondateur, Monsieur Mahamadou Lamine OUEDRAOGO, actionnaire principal, Consul Honoraire du Burkina en République du Bénin et Officier de l'Ordre National du Burkina Faso.")
+  const paragraph2 = useContentValue('holding.group.history.paragraph_2', "Elle est une société d'investissements, de gestion et de contrôle d'actifs mobiliers et immobiliers.")
+  const paragraph3 = useContentValue('holding.group.history.paragraph_3', "Monsieur Mahamadou Lamine OUEDRAOGO est un fils du premier Président de la Chambre de Commerce et d'Industrie de la Haute Volta (Feu El Hadj Ousmane Sibiri OUEDRAOGO) — d'où le nom de la Holding —, il porte et défend l'ensemble des intérêts du Groupe SIBIRI.")
+  const paragraph4 = useContentValue('holding.group.history.paragraph_4', 'Le Groupe est présent dans le domaine du BTP, du biomédical, des Hydrocarbures, du transport, des intrants agricoles et du Négoce international.')
+  return (
   <section id="histoire" style={{
     position: 'relative', overflow: 'hidden',
     background: '#FAFAF8', padding: '120px 40px',
@@ -473,34 +493,32 @@ const Histoire = () => (
               fontSize: 'clamp(2rem, 3.5vw, 3.2rem)',
               fontWeight: 700, color: '#0D1117', lineHeight: 1.15, margin: '0 0 4px',
             }}>
-              L'héritage d'une<br /><G>vision familiale</G>
+              {title}<br /><G>{accent}</G>
             </h2>
             <GoldLine />
           </Reveal>
 
           <Reveal delay={0.2}>
             <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, lineHeight: 1.85, color: '#4B5563', marginBottom: 20 }}>
-              <strong style={{ color: '#0D1117' }}>SIBIRI Holding SA</strong> est une société Anonyme de droit Burkinabé au capital de{' '}
-              <strong style={{ color: GOLD }}>cent soixante-quinze millions cinq cent mille (175 500 000) FCFA</strong>, avec Administrateur Général en la personne de son Fondateur,{' '}
-              <strong style={{ color: '#0D1117' }}>Monsieur Mahamadou Lamine OUEDRAOGO</strong>, actionnaire principal, Consul Honoraire du Burkina en République du Bénin et Officier de l'Ordre National du Burkina Faso.
+              {paragraph1}
             </p>
           </Reveal>
 
           <Reveal delay={0.3}>
             <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, lineHeight: 1.85, color: '#4B5563', marginBottom: 20 }}>
-              Elle est une <strong style={{ color: '#0D1117' }}>société d'investissements, de gestion et de contrôle</strong> d'actifs mobiliers et immobiliers.
+              {paragraph2}
             </p>
           </Reveal>
 
           <Reveal delay={0.4}>
             <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, lineHeight: 1.85, color: '#4B5563', marginBottom: 20 }}>
-              <strong style={{ color: '#0D1117' }}>Monsieur Mahamadou Lamine OUEDRAOGO</strong> est un fils du <strong style={{ color: GOLD }}>premier Président de la Chambre de Commerce et d'Industrie de la Haute Volta</strong> (Feu El Hadj Ousmane <em>Sibiri</em> OUEDRAOGO) — d'où le nom de la Holding —, il porte et défend l'ensemble des intérêts du Groupe SIBIRI.
+              {paragraph3}
             </p>
           </Reveal>
 
           <Reveal delay={0.45}>
             <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, lineHeight: 1.85, color: '#4B5563', marginBottom: 36 }}>
-              Le Groupe est présent dans le domaine du <strong style={{ color: '#0D1117' }}>BTP, du biomédical, des Hydrocarbures, du transport, des intrants agricoles et du Négoce international</strong>.
+              {paragraph4}
             </p>
           </Reveal>
 
@@ -543,7 +561,8 @@ const Histoire = () => (
 
     <style>{`@media(max-width:900px){.histoire-grid{grid-template-columns:1fr !important;}}`}</style>
   </section>
-)
+  )
+}
 
 // ─── Notre Vision ──────────────────────────────────────────────────────────────
 const VISION_ITEMS = [

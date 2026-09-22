@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { useContentValue } from '../lib/content/ContentProvider'
 import './PartnersSection.css'
 
 const PARTNERS = [
@@ -17,19 +18,29 @@ const Arrow = () => (
   </svg>
 )
 
-export const PartnersSection = () => (
+export const PartnersSection = () => {
+  const eyebrow = useContentValue('home.partners.eyebrow', 'Partenariats')
+  const title = useContentValue('home.partners.title', 'Des alliances qui font')
+  const accent = useContentValue('home.partners.title_accent', 'grandir.')
+  const intro = useContentValue('home.partners.intro', 'Des entreprises reconnues qui enrichissent nos métiers et renforcent la qualité des solutions que nous apportons.')
+  const count = useContentValue('home.partners.count', '06 partenaires de confiance')
+  const ctaKicker = useContentValue('home.partners.cta_kicker', 'Construisons ensemble')
+  const ctaTitle = useContentValue('home.partners.cta_title', 'Vous partagez notre exigence de qualité ?')
+  const ctaLabel = useContentValue('home.partners.cta_label', 'Devenir partenaire')
+
+  return (
   <section id="partenariats" className="holding-partners">
     <div className="holding-partners__line holding-partners__line--left" aria-hidden="true" />
     <div className="holding-partners__line holding-partners__line--right" aria-hidden="true" />
     <div className="holding-partners__container">
       <div className="holding-partners__heading">
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.6 }}>
-          <p className="holding-partners__eyebrow"><span /> Partenariats</p>
-          <h2>Des alliances qui font <em>grandir.</em></h2>
+          <p className="holding-partners__eyebrow"><span /> {eyebrow}</p>
+          <h2>{title} <em>{accent}</em></h2>
         </motion.div>
         <motion.div className="holding-partners__intro" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.6, delay: 0.1 }}>
-          <p>Des entreprises reconnues qui enrichissent nos métiers et renforcent la qualité des solutions que nous apportons.</p>
-          <span className="holding-partners__count">06 partenaires de confiance</span>
+          <p>{intro}</p>
+          <span className="holding-partners__count">{count}</span>
         </motion.div>
       </div>
       <motion.div className="holding-partners__grid" initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }} variants={{ visible: { transition: { staggerChildren: 0.08 } } }}>
@@ -42,9 +53,10 @@ export const PartnersSection = () => (
         ))}
       </motion.div>
       <motion.div className="holding-partners__cta" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.6, delay: 0.15 }}>
-        <div><p>Construisons ensemble</p><h3>Vous partagez notre exigence de qualité&nbsp;?</h3></div>
-        <Link to="/contact">Devenir partenaire <Arrow /></Link>
+        <div><p>{ctaKicker}</p><h3>{ctaTitle}</h3></div>
+        <Link to="/contact">{ctaLabel} <Arrow /></Link>
       </motion.div>
     </div>
   </section>
-)
+  )
+}

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { RED, PAPER, ON_PAPER, Reveal, SectionLabel, PageHero } from './shared'
+import { RED, PAPER, ON_PAPER, Reveal, SectionLabel, EditablePageHero } from './shared'
 
 // ─── Produits (Carburant / Lubrifiant) ─────────────────────────────────────────
 const PRODUITS = [
@@ -204,7 +204,8 @@ const ServiceCard = ({ icon, title, desc, delay }) => {
 
 export const EnergyServices = () => (
   <>
-    <PageHero
+    <EditablePageHero
+      contentKey="energy.services.hero"
       current="Produits"
       title="Une expertise"
       accent="complète et intégrée"

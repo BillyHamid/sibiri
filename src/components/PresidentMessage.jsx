@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useContentValue } from '../lib/content/ContentProvider'
 
 const GOLD  = '#C9A84C'
 const GOLDF = 'rgba(201,168,76,'
@@ -50,6 +51,28 @@ const fadeRight = (delay = 0) => ({
 // ── Composant principal ───────────────────────────────────────────────────────
 export const PresidentMessage = () => {
   const [expanded, setExpanded] = useState(false)
+  const eyebrow = useContentValue('home.president.eyebrow', 'Gouvernance')
+  const heading = useContentValue('home.president.heading', 'Mot du')
+  const headingAccent = useContentValue('home.president.heading_accent', 'Président')
+  const photo = useContentValue('home.president.photo', '/presi.jpg')
+  const greeting = useContentValue('home.president.greeting', 'Mesdames et Messieurs,\nChers partenaires, chers collaborateurs,')
+  const paragraph1 = useContentValue('home.president.paragraph_1', PARAGRAPHS_SHORT[0])
+  const paragraph2 = useContentValue('home.president.paragraph_2', PARAGRAPHS_SHORT[1])
+  const paragraph3 = useContentValue('home.president.paragraph_3', PARAGRAPHS_SHORT[2])
+  const paragraph4 = useContentValue('home.president.paragraph_4', PARAGRAPHS_FULL[0])
+  const paragraph5 = useContentValue('home.president.paragraph_5', PARAGRAPHS_FULL[1])
+  const paragraph6 = useContentValue('home.president.paragraph_6', PARAGRAPHS_FULL[2])
+  const paragraph7 = useContentValue('home.president.paragraph_7', PARAGRAPHS_FULL[3])
+  const experience = useContentValue('home.president.experience', '15+')
+  const experienceLabel = useContentValue('home.president.experience_label', "Ans d'expérience")
+  const values = [
+    { label: useContentValue('home.president.value_1', VALUES[0].label), icon: VALUES[0].icon },
+    { label: useContentValue('home.president.value_2', VALUES[1].label), icon: VALUES[1].icon },
+    { label: useContentValue('home.president.value_3', VALUES[2].label), icon: VALUES[2].icon },
+    { label: useContentValue('home.president.value_4', VALUES[3].label), icon: VALUES[3].icon },
+  ]
+  const shortParagraphs = [paragraph1, paragraph2, paragraph3]
+  const fullParagraphs = [paragraph4, paragraph5, paragraph6, paragraph7]
 
   return (
     <section style={{
@@ -95,19 +118,19 @@ export const PresidentMessage = () => {
             fontSize: 10, fontWeight: 800, letterSpacing: '0.34em',
             textTransform: 'uppercase', color: `${GOLDF}0.85)`,
             fontFamily: "'Inter', sans-serif", margin: '0 0 14px',
-          }}>Gouvernance</p>
+          }}>{eyebrow}</p>
 
           <h2 style={{
             fontSize: 'clamp(28px, 4vw, 46px)', fontWeight: 700,
             color: DARK, margin: '0 0 14px',
             fontFamily: "'Playfair Display', serif", lineHeight: 1.12,
           }}>
-            Mot du{' '}
+            {heading}{' '}
             <span style={{
               background: `linear-gradient(135deg, ${GOLD}, #F5DFA0)`,
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
-            }}>Président</span>
+            }}>{headingAccent}</span>
           </h2>
 
           <div style={{
@@ -160,7 +183,7 @@ export const PresidentMessage = () => {
                 margin: '0 auto',
               }}>
                 <img
-                  src="/presi.jpg"
+                  src={photo}
                   alt="Administrateur Général — SIBIRI Holding"
                   style={{
                     width: '100%', height: '100%',
@@ -220,8 +243,8 @@ export const PresidentMessage = () => {
                   textAlign: 'center',
                 }}
               >
-                <p style={{ margin: 0, fontSize: 22, fontWeight: 800, color: '#1D1D1B', fontFamily: "'Playfair Display', serif", lineHeight: 1 }}>15+</p>
-                <p style={{ margin: '2px 0 0', fontSize: 9, fontWeight: 700, color: '#5a3e00', letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'Inter', sans-serif" }}>Ans d'expérience</p>
+                <p style={{ margin: 0, fontSize: 22, fontWeight: 800, color: '#1D1D1B', fontFamily: "'Playfair Display', serif", lineHeight: 1 }}>{experience}</p>
+                <p style={{ margin: '2px 0 0', fontSize: 9, fontWeight: 700, color: '#5a3e00', letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'Inter', sans-serif" }}>{experienceLabel}</p>
               </motion.div>
             </div>
           </motion.div>
@@ -250,13 +273,12 @@ export const PresidentMessage = () => {
               margin: '0 0 24px',
               lineHeight: 1.6,
             }}>
-              Mesdames et Messieurs,<br />
-              Chers partenaires, chers collaborateurs,
+              {greeting.split('\n').map((line, index) => <span key={index}>{line}{index < greeting.split('\n').length - 1 && <br />}</span>)}
             </motion.p>
 
             {/* Paragraphes principaux */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-              {PARAGRAPHS_SHORT.map((p, i) => (
+              {shortParagraphs.map((p, i) => (
                 <motion.p
                   key={i}
                   {...fadeRight(0.3 + i * 0.08)}
@@ -281,7 +303,7 @@ export const PresidentMessage = () => {
                     transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                     style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column', gap: 18 }}
                   >
-                    {PARAGRAPHS_FULL.map((p, i) => (
+                    {fullParagraphs.map((p, i) => (
                       <p key={i} style={{
                         margin: 0,
                         fontSize: 15,
@@ -350,7 +372,7 @@ export const PresidentMessage = () => {
               }}>Nos valeurs fondamentales</p>
 
               <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                {VALUES.map(({ label, icon }, i) => (
+                {values.map(({ label, icon }, i) => (
                   <motion.div
                     key={label}
                     initial={{ opacity: 0, scale: 0.85 }}
@@ -391,7 +413,7 @@ export const PresidentMessage = () => {
                 flexShrink: 0,
               }}>
                 <img
-                  src="/presi.jpg"
+                  src={photo}
                   alt="Président"
                   style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
                 />

@@ -11,6 +11,7 @@ import { PresidentMessage } from './components/PresidentMessage'
 
 import { NeoMinimalFooter } from './components/NeoMinimalFooter'
 import { ScrollToTopButton } from './components/ScrollToTopButton'
+import { SeoManager } from './components/SeoManager'
 import { MedicalPage }             from './pages/MedicalPage'
 import { MedicalRealisationsPage } from './pages/MedicalRealisationsPage'
 import { MedicalActualitePage }    from './pages/MedicalActualitePage'
@@ -86,6 +87,7 @@ function App() {
       {ready && (
         <BrowserRouter>
           <ScrollManager />
+          <SeoManager />
           <GlobalScrollToTop />
           <Routes>
             <Route path="/"                    element={<HomePage />} />

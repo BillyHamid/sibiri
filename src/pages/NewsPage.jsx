@@ -3,6 +3,7 @@ import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { Navbar } from '../components/Navbar'
 import { NeoMinimalFooter } from '../components/NeoMinimalFooter'
+import { useContentValue } from '../lib/content/ContentProvider'
 
 // ─── Palette ─────────────────────────────────────────────────────────────────
 const GOLD = '#C9A84C'
@@ -127,7 +128,12 @@ const Reveal = ({ children, delay = 0, x = 0, y = 24 }) => {
 }
 
 // ─── Hero section ────────────────────────────────────────────────────────────
-const HeroSection = () => (
+const HeroSection = () => {
+  const eyebrow = useContentValue('holding.news.hero.eyebrow', 'Actualités et événements')
+  const title = useContentValue('holding.news.hero.title', 'Suivez nos dernières')
+  const accent = useContentValue('holding.news.hero.accent', 'actualités')
+  const subtitle = useContentValue('holding.news.hero.subtitle', 'Découvrez les derniers développements, projets et initiatives du groupe SIBIRI Holding et ses filiales.')
+  return (
   <section style={{
     position: 'relative', width: '100%', minHeight: '60vh',
     background: `linear-gradient(135deg, ${DARK} 0%, ${DARK2} 100%)`,
@@ -165,7 +171,7 @@ const HeroSection = () => (
           color: GOLD, fontFamily: "'Inter', sans-serif", margin: '0 0 20px',
         }}
       >
-        Actualités et événements
+        {eyebrow}
       </motion.p>
 
       <motion.h1
@@ -179,7 +185,7 @@ const HeroSection = () => (
           lineHeight: 1.1,
         }}
       >
-        Suivez nos dernières<br />actualités
+        {title}<br />{accent}
       </motion.h1>
 
       <motion.p
@@ -192,11 +198,12 @@ const HeroSection = () => (
           fontFamily: "'Inter', sans-serif",
         }}
       >
-        Découvrez les derniers développements, projets et initiatives du groupe SIBIRI Holding et ses filiales.
+        {subtitle}
       </motion.p>
     </div>
   </section>
-)
+  )
+}
 
 // ─── Featured Carousel ───────────────────────────────────────────────────────
 const FeaturedCarousel = () => {

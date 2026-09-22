@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { useContentValue } from '../lib/content/ContentProvider'
 
 const GREEN       = '#00A99D'
 const GREEN_LIGHT = '#8DC63F'
@@ -7,6 +8,13 @@ const GREEN_PALE  = '#b8e8e6'
 const DARK        = '#03201F'
 
 export function MedicalTailarkHeroSection() {
+  const tag = useContentValue('medical.hero.tag', 'Sibiri Bio Médical')
+  const title = useContentValue('medical.hero.title', 'La santé de qualité,')
+  const accent = useContentValue('medical.hero.accent', 'au cœur du Burkina.')
+  const description = useContentValue('medical.hero.description', 'Importation et distribution de produits pharmaceutiques, matériels et équipements médicaux — au service des acteurs publics et privés de santé depuis 2018.')
+  const primaryCta = useContentValue('medical.hero.primary_cta', 'Nos prestations →')
+  const secondaryCta = useContentValue('medical.hero.secondary_cta', 'Nous contacter')
+  const heroImage = useContentValue('medical.hero.image', '')
   useEffect(() => {
     const id = 'medical-hero-fonts'
     if (document.getElementById(id)) return
@@ -31,21 +39,15 @@ export function MedicalTailarkHeroSection() {
         }}
       >
         {/* ── Vidéo background ── */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            zIndex: 0,
-          }}
-          src="/medical/136458-764399870_medium.mp4"
-        />
+        {heroImage ? (
+          <img src={heroImage} alt="Sibiri Bio Médical" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }} />
+        ) : (
+          <video
+            autoPlay loop muted playsInline
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }}
+            src="/medical/136458-764399870_medium.mp4"
+          />
+        )}
 
         {/* ── Overlay dark teal dégradé ── */}
         <div style={{
@@ -110,7 +112,7 @@ export function MedicalTailarkHeroSection() {
               fontFamily: "'Inter', sans-serif",
               marginBottom: 28,
             }}>
-              Sibiri Bio Médical
+              {tag}
             </span>
           </motion.div>
 
@@ -129,13 +131,13 @@ export function MedicalTailarkHeroSection() {
               maxWidth: 720,
             }}
           >
-            La santé de qualité,{' '}
+            {title}{' '}
             <span style={{
               background: `linear-gradient(90deg, ${GREEN_LIGHT}, #6DE8E0)`,
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}>
-              au cœur du Burkina.
+              {accent}
             </span>
           </motion.h1>
 
@@ -153,9 +155,7 @@ export function MedicalTailarkHeroSection() {
               margin: '0 0 40px',
             }}
           >
-            Importation et distribution de produits pharmaceutiques, matériels et équipements médicaux
-            — au service des acteurs publics et privés de santé depuis{' '}
-            <strong style={{ color: 'rgba(255,255,255,0.9)' }}>2018</strong>.
+            {description}
           </motion.p>
 
           {/* CTAs */}
@@ -177,7 +177,7 @@ export function MedicalTailarkHeroSection() {
                 boxShadow: `0 10px 36px ${GREEN}55`,
               }}
             >
-              Nos prestations →
+              {primaryCta}
             </a>
             <a
               href="#contact"
@@ -192,7 +192,7 @@ export function MedicalTailarkHeroSection() {
                 textDecoration: 'none',
               }}
             >
-              Nous contacter
+              {secondaryCta}
             </a>
           </motion.div>
 

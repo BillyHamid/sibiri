@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { RED, RED_D, PAPER, ON_PAPER, Reveal, SectionLabel, PageHero } from './shared'
+import { RED, RED_D, PAPER, ON_PAPER, Reveal, SectionLabel, EditablePageHero } from './shared'
 
 const Ico = ({ d }) => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
@@ -60,7 +60,8 @@ export const EnergyContact = () => {
 
   return (
     <>
-      <PageHero
+      <EditablePageHero
+        contentKey="energy.contact.hero"
         current="Contact"
         title="Parlons de votre"
         accent="projet énergétique"

@@ -1,6 +1,7 @@
 import { motion } from "framer-motion"
 import { NeoMinimalFooter } from "../components/NeoMinimalFooter"
 import { ConstructionNav } from "../components/ConstructionNav"
+import { useContentValue } from '../lib/content/ContentProvider'
 
 // ─── Couleurs Global Construction (Rouge/Marron Brick du Logo) ──────────────────
 const PRIMARY = "#A64D42"
@@ -80,10 +81,18 @@ const CONTACT_INFO = [
 ]
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
-const Hero = () => (
+const Hero = () => {
+  const image = useContentValue('construction.hero.image', 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?fm=jpg&q=80&w=1800&auto=format&fit=crop')
+  const tag = useContentValue('construction.hero.tag', 'BTP · Aménagement hydro-agricole')
+  const title = useContentValue('construction.hero.title', 'Tout passe, mais la')
+  const accent = useContentValue('construction.hero.accent', 'qualité demeure')
+  const description = useContentValue('construction.hero.description', "SIBIRI GLOBAL CONSTRUCTION ET RENOVATION (SGCR) participe au développement du Burkina Faso à travers la construction, la rénovation, les infrastructures routières et l'aménagement hydro-agricole.")
+  const activitiesCta = useContentValue('construction.hero.activities_cta', 'Nos activités')
+  const contactCta = useContentValue('construction.hero.contact_cta', 'Nous contacter')
+  return (
   <section id="home" style={{ position: "relative", width: "100%", minHeight: "100vh", overflow: "hidden", display: "flex", alignItems: "center" }}>
     <img
-      src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?fm=jpg&q=80&w=1800&auto=format&fit=crop"
+      src={image}
       alt="Chantier de construction de bâtiment"
       style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
     />
@@ -98,7 +107,7 @@ const Hero = () => (
     <div style={{ position: "relative", zIndex: 10, width: "100%", maxWidth: 1280, margin: "0 auto", padding: "150px 40px 70px" }}>
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.15 }}>
         <span style={{ display: "inline-block", padding: "6px 18px", borderRadius: 3, background: PRIMARY, color: "white", fontSize: 11.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", fontFamily: "'Inter', sans-serif", marginBottom: 22 }}>
-          BTP · Aménagement hydro-agricole
+          {tag}
         </span>
       </motion.div>
 
@@ -106,9 +115,9 @@ const Hero = () => (
         initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.28 }}
         style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2.2rem, 4.5vw, 3.4rem)", fontWeight: 700, lineHeight: 1.15, color: "white", margin: "0 0 18px", maxWidth: 680 }}
       >
-        Tout passe, mais la{" "}
+        {title}{" "}
         <span style={{ background: `linear-gradient(90deg, ${ACCENT}, ${PRIMARY})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-          qualité demeure
+          {accent}
         </span>
       </motion.h1>
 
@@ -116,21 +125,21 @@ const Hero = () => (
         initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.4 }}
         style={{ fontFamily: "'Inter', sans-serif", fontSize: 15.5, lineHeight: 1.7, color: "#dcdcdc", maxWidth: 520, margin: "0 0 28px" }}
       >
-        SIBIRI GLOBAL CONSTRUCTION ET RENOVATION (SGCR) participe au développement du Burkina Faso à travers la
-        construction, la rénovation, les infrastructures routières et l'aménagement hydro-agricole.
+        {description}
       </motion.p>
 
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.52 }} style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
         <a href="#activites" style={{ padding: "12px 24px", borderRadius: 3, background: PRIMARY, color: "white", fontWeight: 700, fontSize: 13, fontFamily: "'Inter', sans-serif", textDecoration: "none" }}>
-          Nos activités
+          {activitiesCta}
         </a>
         <a href="#contact" style={{ padding: "12px 24px", borderRadius: 3, border: "1.5px solid #fff", color: "white", fontWeight: 700, fontSize: 13, fontFamily: "'Inter', sans-serif", textDecoration: "none" }}>
-          Nous contacter
+          {contactCta}
         </a>
       </motion.div>
     </div>
   </section>
-)
+  )
+}
 
 // ─── Bandeau identité ─────────────────────────────────────────────────────────
 const IdentityStrip = () => (

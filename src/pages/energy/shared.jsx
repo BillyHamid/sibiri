@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
+import { useContentValue } from '../../lib/content/ContentProvider'
 import { Link } from 'react-router-dom'
 
 // ── Palette — charte graphique SIBIRI ENERGY ─────────────────────────────────
@@ -307,3 +308,13 @@ export const PageHero = ({ title, accent, subtitle, image, current }) => (
   </div>
   </>
 )
+
+// Variante éditable : chaque page interne conserve sa mise en page, tandis que
+// son texte et son visuel sont gérés avec les mêmes champs simples dans l'admin.
+export const EditablePageHero = ({ contentKey, current, title, accent, subtitle, image }) => {
+  const editableTitle = useContentValue(`${contentKey}.title`, title)
+  const editableAccent = useContentValue(`${contentKey}.accent`, accent)
+  const editableSubtitle = useContentValue(`${contentKey}.subtitle`, subtitle)
+  const editableImage = useContentValue(`${contentKey}.image`, image)
+  return <PageHero current={current} title={editableTitle} accent={editableAccent} subtitle={editableSubtitle} image={editableImage} />
+}

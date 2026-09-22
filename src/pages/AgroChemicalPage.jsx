@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import { AgroNav } from "../components/AgroNav"
 import { NeoMinimalFooter } from "../components/NeoMinimalFooter"
+import { useContentValue } from '../lib/content/ContentProvider'
 
 // ─── Identité Agro Chemical (cohérente avec SubsidiariesReel / footer) ────────
 const GREEN       = "#1f9d55"
@@ -135,6 +136,13 @@ const CONTACTS = [
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 const Hero = () => {
+  const image = useContentValue('agro.hero.image', '/agro/engrais-haute-qualite.jpg')
+  const tag = useContentValue('agro.hero.tag', 'Agriculture & intrants')
+  const title = useContentValue('agro.hero.title', 'Des intrants de qualité et un accompagnement pour une agriculture performante et durable')
+  const description = useContentValue('agro.hero.description', 'SIBIRI AGRO CHEMICAL importe, distribue et accompagne les producteurs du Burkina Faso et de la sous-région à travers des intrants certifiés, un appui technique et des aménagements agricoles.')
+  const servicesCta = useContentValue('agro.hero.services_cta', 'Découvrir nos services')
+  const projectsCta = useContentValue('agro.hero.projects_cta', 'Voir nos réalisations')
+  const contactCta = useContentValue('agro.hero.contact_cta', 'Nous contacter')
   useEffect(() => {
     const id = "agro-hero-fonts"
     if (document.getElementById(id)) return
@@ -148,7 +156,7 @@ const Hero = () => {
   return (
     <section id="home" style={{ position: "relative", width: "100%", minHeight: 620, overflow: "hidden", display: "flex", alignItems: "center" }}>
       <img
-        src="/agro/engrais-haute-qualite.jpg"
+        src={image}
         alt="Épandage d'engrais de haute qualité sur une jeune pousse"
         style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
       />
@@ -157,7 +165,7 @@ const Hero = () => {
       <div style={{ position: "relative", zIndex: 10, width: "100%", maxWidth: 1280, margin: "0 auto", padding: "150px 40px 70px" }}>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.15 }}>
           <span style={{ display: "inline-block", padding: "6px 18px", borderRadius: 3, background: GREEN, color: "white", fontSize: 11.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", fontFamily: "'Inter', sans-serif", marginBottom: 22 }}>
-            Agriculture &amp; intrants
+            {tag}
           </span>
         </motion.div>
 
@@ -165,26 +173,25 @@ const Hero = () => {
           initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.28 }}
           style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700, lineHeight: 1.2, color: "white", margin: "0 0 18px", maxWidth: 680 }}
         >
-          Des intrants de qualité et un accompagnement pour une agriculture performante et durable
+          {title}
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.4 }}
           style={{ fontFamily: "'Inter', sans-serif", fontSize: 15.5, lineHeight: 1.7, color: "#dcdfd8", maxWidth: 520, margin: "0 0 28px" }}
         >
-          SIBIRI AGRO CHEMICAL importe, distribue et accompagne les producteurs du Burkina Faso et de la sous-région
-          à travers des intrants certifiés, un appui technique et des aménagements agricoles.
+          {description}
         </motion.p>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.52 }} style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
           <a href="#services" style={{ padding: "12px 24px", borderRadius: 99, background: GREEN, color: "white", fontWeight: 700, fontSize: 13, fontFamily: "'Inter', sans-serif", textDecoration: "none" }}>
-            Découvrir nos services
+            {servicesCta}
           </a>
           <a href="#realisations" style={{ padding: "12px 24px", borderRadius: 99, border: "1.5px solid #fff", color: "white", fontWeight: 700, fontSize: 13, fontFamily: "'Inter', sans-serif", textDecoration: "none" }}>
-            Voir nos réalisations
+            {projectsCta}
           </a>
           <a href="#contact" style={{ padding: "12px 24px", borderRadius: 99, border: "1.5px solid #fff", color: "white", fontWeight: 700, fontSize: 13, fontFamily: "'Inter', sans-serif", textDecoration: "none" }}>
-            Nous contacter
+            {contactCta}
           </a>
         </motion.div>
       </div>

@@ -1,6 +1,7 @@
 import { motion } from "framer-motion"
 import { NeoMinimalFooter } from "../components/NeoMinimalFooter"
 import { TransportNav } from "../components/TransportNav"
+import { useContentValue } from '../lib/content/ContentProvider'
 
 // ─── Couleurs Transport & Logistique (Bleu) ───────────────────────────────────
 const PRIMARY = "#0ea5e9"
@@ -96,11 +97,24 @@ const CONTACT_INFO = [
 ]
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
-const Hero = () => (
+const Hero = () => {
+  const tag = useContentValue('transport.hero.tag', 'Transport & logistique · Hydrocarbures · Minerais')
+  const title = useContentValue('transport.hero.title', 'Le transport')
+  const accent = useContentValue('transport.hero.accent', 'sécurisé')
+  const titleEnd = useContentValue('transport.hero.title_end', "des ressources qui font avancer l'Afrique de l'Ouest")
+  const description = useContentValue('transport.hero.description', "SIBIRI TRANSPORT & LOGISTICS (STL) assure le transport d'hydrocarbures, de minerais et de marchandises diverses, avec une gestion complète de la chaîne d'approvisionnement, depuis la production jusqu'à la distribution.")
+  const activitiesCta = useContentValue('transport.hero.activities_cta', 'Nos activités')
+  const contactCta = useContentValue('transport.hero.contact_cta', 'Nous contacter')
+  const heroImage = useContentValue('transport.hero.image', '')
+  return (
   <section id="home" style={{ position: "relative", width: "100%", minHeight: "100vh", overflow: "hidden", display: "flex", alignItems: "center" }}>
-    <video autoPlay muted loop playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}>
-      <source src="/transport/istockphoto-2194913184-640_adpp_is.mp4" type="video/mp4" />
-    </video>
+    {heroImage ? (
+      <img src={heroImage} alt="Camion Sibiri Transport & Logistics" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }} />
+    ) : (
+      <video autoPlay muted loop playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}>
+        <source src="/transport/istockphoto-2194913184-640_adpp_is.mp4" type="video/mp4" />
+      </video>
+    )}
     <div style={{ position: "absolute", inset: 0, zIndex: 1, background: `linear-gradient(100deg, rgba(15,23,32,.92) 0%, rgba(15,23,32,.7) 55%, rgba(15,23,32,.3) 100%)` }} />
     <div style={{ position: "absolute", inset: 0, zIndex: 2, backgroundImage: `linear-gradient(rgba(14,165,233,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(14,165,233,0.06) 1px, transparent 1px)`, backgroundSize: "64px 64px" }} />
     <motion.div
@@ -112,7 +126,7 @@ const Hero = () => (
     <div style={{ position: "relative", zIndex: 10, width: "100%", maxWidth: 1280, margin: "0 auto", padding: "150px 40px 70px" }}>
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.15 }}>
         <span style={{ display: "inline-block", padding: "6px 18px", borderRadius: 3, background: PRIMARY, color: DARK, fontSize: 11.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", fontFamily: "'Inter', sans-serif", marginBottom: 22 }}>
-          Transport &amp; logistique · Hydrocarbures · Minerais
+          {tag}
         </span>
       </motion.div>
 
@@ -120,32 +134,32 @@ const Hero = () => (
         initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.28 }}
         style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 4.2vw, 3.2rem)", fontWeight: 700, lineHeight: 1.18, color: "white", margin: "0 0 18px", maxWidth: 700 }}
       >
-        Le transport{" "}
+        {title}{" "}
         <span style={{ background: `linear-gradient(90deg, ${ACCENT}, ${PRIMARY})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-          sécurisé
+          {accent}
         </span>{" "}
-        des ressources qui font avancer l'Afrique de l'Ouest
+        {titleEnd}
       </motion.h1>
 
       <motion.p
         initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.4 }}
         style={{ fontFamily: "'Inter', sans-serif", fontSize: 15.5, lineHeight: 1.7, color: "#dbe2e8", maxWidth: 540, margin: "0 0 28px" }}
       >
-        SIBIRI TRANSPORT & LOGISTICS (STL) assure le transport d'hydrocarbures, de minerais et de marchandises
-        diverses, avec une gestion complète de la chaîne d'approvisionnement, depuis la production jusqu'à la distribution.
+        {description}
       </motion.p>
 
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.52 }} style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
         <a href="#activites" style={{ padding: "12px 24px", borderRadius: 3, background: PRIMARY, color: DARK, fontWeight: 700, fontSize: 13, fontFamily: "'Inter', sans-serif", textDecoration: "none" }}>
-          Nos activités
+          {activitiesCta}
         </a>
         <a href="#contact" style={{ padding: "12px 24px", borderRadius: 3, border: "1.5px solid #fff", color: "white", fontWeight: 700, fontSize: 13, fontFamily: "'Inter', sans-serif", textDecoration: "none" }}>
-          Nous contacter
+          {contactCta}
         </a>
       </motion.div>
     </div>
   </section>
-)
+  )
+}
 
 // ─── Bandeau identité ─────────────────────────────────────────────────────────
 const IdentityStrip = () => (

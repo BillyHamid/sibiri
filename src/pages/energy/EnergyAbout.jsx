@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { useInView } from 'framer-motion'
 import './EnergyEditorial.css'
 import { Link } from 'react-router-dom'
-import { Reveal, CountUp, SectionLabel, PageHero } from './shared'
+import { Reveal, CountUp, SectionLabel, EditablePageHero } from './shared'
 
 const STATS_ABOUT = [
   { target: 4,    suffix: '',  label: 'Stations-service'        },
@@ -61,7 +61,8 @@ export const EnergyAbout = () => {
 
   return (
     <div className="energy-editorial">
-      <PageHero
+      <EditablePageHero
+        contentKey="energy.about.hero"
         current="À propos"
         title="Ancrés ici."
         accent="Tournés vers demain."

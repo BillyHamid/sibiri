@@ -26,7 +26,7 @@ const FILIALES = [
     id: 'holding', label: 'SIBIRI Holding', Icon: Building2, color: GOLD,
     pages: [
       { id: 'accueil',    label: 'Accueil',    path: '/',           dbPage: 'Accueil',    sections: ['Hero', 'Nos filiales', 'Mot du Président', 'Organigramme', 'Partenaires'] },
-      { id: 'groupe',     label: 'Groupe',     path: '/groupe',     dbPage: 'Groupe',     sections: ['Histoire', 'Valeurs'] },
+      { id: 'groupe',     label: 'Groupe',     path: '/groupe',     dbPage: 'Groupe',     sections: ['Hero', 'Histoire', 'Valeurs'] },
       { id: 'actualites', label: 'Actualités', path: '/actualites', dbPage: 'Actualités', sections: ['Liste des actualités'] },
       { id: 'contact',    label: 'Contact',    path: '/contact',    dbPage: 'Contact',    sections: ['Coordonnées', 'Formulaire'] },
     ],
@@ -75,38 +75,57 @@ const FILIALES = [
 // sur chaque onglet, même avant migration, et de le publier en un clic.
 const SITE_SNAPSHOT = {
   'Accueil::Mot du Président': [
-    { label: "Salutation", value: "Mesdames et Messieurs, Chers partenaires, chers collaborateurs," },
-    { label: "Paragraphe 1", value: "C'est avec fierté que je prends la parole au nom du Groupe Sibiri Holding, une entreprise bâtie sur une histoire forte, portée par une ambition et des valeurs solides." },
-    { label: "Paragraphe 2", value: "Notre vision est de faire du Groupe Sibiri Holding un acteur économique de référence en Afrique." },
-    { label: "Paragraphe 3", value: "Nous aspirons à être reconnus pour la qualité de nos réalisations, la fidélité de nos engagements et notre contribution au développement économique et social de nos pays." },
-    { label: "Paragraphe 4", value: "Cette vision s'incarne à travers les domaines d'expertise dans lesquels nous nous sommes engagés et pour lesquels nous recherchons l'excellence et une valeur ajoutée partagée avec nos partenaires et nos clients." },
-    { label: "Paragraphe 5", value: "Nous sommes attachés à l'excellence, avec une exigence constante de professionnalisme et de respect de nos engagements." },
-    { label: "Paragraphe 6", value: "Dans un environnement en constante évolution, nous restons tournés vers l'avenir, avec la volonté de consolider notre position et de développer des projets pouvant contribuer à la croissance économique et au développement social de nos régions." },
-    { label: "Paragraphe 7", value: "Je tiens à remercier l'ensemble de nos partenaires et de nos collaborateurs pour leur confiance et leur engagement, qui sont les véritables moteurs de notre réussite collective." },
-    { label: "Badge — chiffre", value: "15+" },
-    { label: "Badge — légende", value: "Ans d'expérience" },
-    { label: "Valeur 1", value: "Intégrité" },
-    { label: "Valeur 2", value: "Excellence" },
-    { label: "Valeur 3", value: "Engagement" },
-    { label: "Valeur 4", value: "Respect" },
-    { label: "Photo du Président", value: "/presi.jpg", type: "image" },
+    { key: 'home.president.eyebrow', label: "Sur-titre", value: "Gouvernance" },
+    { key: 'home.president.heading', label: "Titre de section", value: "Mot du" },
+    { key: 'home.president.heading_accent', label: "Mot mis en avant", value: "Président" },
+    { key: 'home.president.greeting', label: "Salutation", value: "Mesdames et Messieurs,\nChers partenaires, chers collaborateurs," },
+    { key: 'home.president.paragraph_1', label: "Paragraphe 1", value: "C'est avec fierté que je prends la parole au nom du Groupe Sibiri Holding, une entreprise bâtie sur une histoire forte, portée par une ambition et des valeurs solides." },
+    { key: 'home.president.paragraph_2', label: "Paragraphe 2", value: "Notre vision est de faire du Groupe Sibiri Holding un acteur économique de référence en Afrique." },
+    { key: 'home.president.paragraph_3', label: "Paragraphe 3", value: "Nous aspirons à être reconnus pour la qualité de nos réalisations, la fidélité de nos engagements et notre contribution au développement économique et social de nos pays." },
+    { key: 'home.president.paragraph_4', label: "Paragraphe 4", value: "Cette vision s'incarne à travers les domaines d'expertise dans lesquels nous nous sommes engagés et pour lesquels nous recherchons l'excellence et une valeur ajoutée partagée avec nos partenaires et nos clients." },
+    { key: 'home.president.paragraph_5', label: "Paragraphe 5", value: "Nous sommes attachés à l'excellence, avec une exigence constante de professionnalisme et de respect de nos engagements." },
+    { key: 'home.president.paragraph_6', label: "Paragraphe 6", value: "Dans un environnement en constante évolution, nous restons tournés vers l'avenir, avec la volonté de consolider notre position et de développer des projets pouvant contribuer à la croissance économique et au développement social de nos régions." },
+    { key: 'home.president.paragraph_7', label: "Paragraphe 7", value: "Je tiens à remercier l'ensemble de nos partenaires et de nos collaborateurs pour leur confiance et leur engagement, qui sont les véritables moteurs de notre réussite collective." },
+    { key: 'home.president.experience', label: "Badge — chiffre", value: "15+" },
+    { key: 'home.president.experience_label', label: "Badge — légende", value: "Ans d'expérience" },
+    { key: 'home.president.value_1', label: "Valeur 1", value: "Intégrité" },
+    { key: 'home.president.value_2', label: "Valeur 2", value: "Excellence" },
+    { key: 'home.president.value_3', label: "Valeur 3", value: "Engagement" },
+    { key: 'home.president.value_4', label: "Valeur 4", value: "Respect" },
+    { key: 'home.president.photo', label: "Photo du Président", value: "/presi.jpg", type: "image" },
   ],
   'Accueil::Organigramme': [
-    { label: "Niveau 1 — Poste", value: "Administrateur Général" },
-    { label: "Niveau 1 — Rôle", value: "Direction Générale" },
-    { label: "Niveau 2 — Poste", value: "Conseiller Spécial / Conseillère Spéciale" },
-    { label: "Niveau 2 — Poste", value: "Secrétaire Général" },
-    { label: "Niveau 3 — Poste", value: "Contrôleur Général et Financier" },
-    { label: "Niveau 3 — Poste", value: "Responsable Juridique et RH" },
-    { label: "Niveau 3 — Poste", value: "Assistante de Direction" },
-    { label: "Niveau 3 — Poste", value: "Secrétaire" },
-    { label: "Niveau 3 — Poste", value: "Agent de liaison" },
-    { label: "DAF — filiales", value: "DAF 1 (SH), DAF 2 (SBMS), DAF 3 (SE), DAF 4 (STL), DAF 5 (SGCR)" },
+    { key: 'home.org.heading', label: "Titre de section", value: "Organigramme" },
+    { key: 'home.org.general.title', label: "Direction générale — poste", value: "Administrateur Général" },
+    { key: 'home.org.general.role', label: "Direction générale — rôle", value: "Direction Générale" },
+    { key: 'home.org.adviser.title', label: "Conseil gauche — poste", value: "Conseiller Spécial" },
+    { key: 'home.org.secretary_general.title', label: "Secrétariat général — poste", value: "Secrétaire Général" },
+    { key: 'home.org.adviser_female.title', label: "Conseil droit — poste", value: "Conseillère Spéciale" },
+    { key: 'home.org.controller.title', label: "Finance & contrôle — poste", value: "Contrôleur Général et Financier" },
+    { key: 'home.org.legal.title', label: "Juridique & RH — poste", value: "Responsable Juridique et RH" },
+    { key: 'home.org.assistant.title', label: "Direction — poste", value: "Assistante de Direction" },
+    { key: 'home.org.secretary.title', label: "Secrétariat — poste", value: "Secrétaire" },
+    { key: 'home.org.liaison.title', label: "Coordination — poste", value: "Agent de liaison" },
+    { key: 'home.org.daf_1.title', label: "DAF 1 — poste", value: "DAF 1" },
+    { key: 'home.org.daf_1.role', label: "DAF 1 — filiale", value: "SH" },
+    { key: 'home.org.daf_2.title', label: "DAF 2 — poste", value: "DAF 2" },
+    { key: 'home.org.daf_2.role', label: "DAF 2 — filiale", value: "SBMS" },
+    { key: 'home.org.daf_3.title', label: "DAF 3 — poste", value: "DAF 3" },
+    { key: 'home.org.daf_3.role', label: "DAF 3 — filiale", value: "SE" },
+    { key: 'home.org.daf_4.title', label: "DAF 4 — poste", value: "DAF 4" },
+    { key: 'home.org.daf_4.role', label: "DAF 4 — filiale", value: "STL" },
+    { key: 'home.org.daf_5.title', label: "DAF 5 — poste", value: "DAF 5" },
+    { key: 'home.org.daf_5.role', label: "DAF 5 — filiale", value: "SGCR" },
   ],
   'Accueil::Partenaires': [
-    { label: "Eyebrow", value: "Partenariats" },
-    { label: "Titre de section", value: "Nos Partenaires" },
-    { label: "Texte de clôture", value: "Intéressé par un partenariat ? Contactez-nous" },
+    { key: 'home.partners.eyebrow', label: "Eyebrow", value: "Partenariats" },
+    { key: 'home.partners.title', label: "Titre de section", value: "Des alliances qui font" },
+    { key: 'home.partners.title_accent', label: "Mot mis en avant", value: "grandir." },
+    { key: 'home.partners.intro', label: "Texte de présentation", value: "Des entreprises reconnues qui enrichissent nos métiers et renforcent la qualité des solutions que nous apportons." },
+    { key: 'home.partners.count', label: "Compteur partenaires", value: "06 partenaires de confiance" },
+    { key: 'home.partners.cta_kicker', label: "Sur-titre de clôture", value: "Construisons ensemble" },
+    { key: 'home.partners.cta_title', label: "Texte de clôture", value: "Vous partagez notre exigence de qualité ?" },
+    { key: 'home.partners.cta_label', label: "Libellé du bouton", value: "Devenir partenaire" },
     { label: "Liste des partenaires", value: "Partner Medical, Arrefour Medical, MILS, Wolf Lubricant, NIPRO, SORUBAT" },
     { label: "Logo — Partner Medical", value: "/partners/medical-logo.svg", type: "image" },
     { label: "Logo — Arrefour Medical", value: "/partners/arrefour-medical.svg", type: "image" },
@@ -116,11 +135,13 @@ const SITE_SNAPSHOT = {
     { label: "Logo — SORUBAT", value: "/partners/Soroubat-logo.png", type: "image" },
   ],
   'Medical::Hero': [
-    { label: "Tag", value: "Sibiri Bio Médical" },
-    { label: "Titre principal", value: "La santé de qualité, au cœur du Burkina." },
-    { label: "Description", value: "Importation et distribution de produits pharmaceutiques, matériels et équipements médicaux — au service des acteurs publics et privés de santé depuis 2018." },
-    { label: "CTA principal", value: "Nos prestations →" },
-    { label: "CTA secondaire", value: "Nous contacter" },
+    { key: 'medical.hero.tag', label: "Tag", value: "Sibiri Bio Médical" },
+    { key: 'medical.hero.title', label: "Titre principal", value: "La santé de qualité," },
+    { key: 'medical.hero.accent', label: "Mot mis en avant", value: "au cœur du Burkina." },
+    { key: 'medical.hero.description', label: "Description", value: "Importation et distribution de produits pharmaceutiques, matériels et équipements médicaux — au service des acteurs publics et privés de santé depuis 2018." },
+    { key: 'medical.hero.primary_cta', label: "CTA principal", value: "Nos prestations →" },
+    { key: 'medical.hero.secondary_cta', label: "CTA secondaire", value: "Nous contacter" },
+    { key: 'medical.hero.image', label: "Image de remplacement du hero", value: "", type: "image" },
   ],
   'Medical::Présentation': [
     { label: "Tag", value: "À propos" },
@@ -273,17 +294,49 @@ const SITE_SNAPSHOT = {
     { label: "CTA band — Bouton", value: "Demander un devis →" },
   ],
   'Energy::Hero / Carrousel': [
-    { label: "Titre principal", value: "QUALITY ONLY" },
-    { label: "Sous-titre", value: "10 ans d'expertise dans le secteur pétrolier." },
-    { label: "Bouton CTA", value: "Nos services →" },
-    { label: "Indicateur de défilement", value: "Défiler" },
-    { label: "Image carrousel 1", value: "/energy/SIBIRI%20ENERGY-6.JPG.jpeg", type: "image" },
-    { label: "Image carrousel 2", value: "/energy/SIBIRI%20ENERGY-8.JPG.jpeg", type: "image" },
-    { label: "Image carrousel 3", value: "/energy/SIBIRI%20ENERGY-10.JPG.jpeg", type: "image" },
-    { label: "Image carrousel 4", value: "/energy/SIBIRI%20ENERGY-15.JPG.jpeg", type: "image" },
-    { label: "Image carrousel 5", value: "/energy/SIBIRI%20ENERGY-12.JPG.jpeg", type: "image" },
+    { key: 'energy.hero.tag', label: "Tag", value: "Sibiri Energy" },
+    { key: 'energy.hero.title', label: "Titre principal", value: "QUALITY" },
+    { key: 'energy.hero.accent', label: "Mot mis en avant", value: "ONLY" },
+    { key: 'energy.hero.description', label: "Description", value: "Distribution de carburants et de lubrifiants, solutions solaires et travaux énergétiques — au service des entreprises et du grand public depuis plus de 10 ans." },
+    { key: 'energy.hero.products_cta', label: "CTA principal", value: "Nos produits →" },
+    { key: 'energy.hero.contact_cta', label: "CTA secondaire", value: "Nous contacter" },
+    { key: 'energy.hero.slide_1', label: "Image du carrousel 1", value: "/energy/Gemini_Generated_Image_fys8a0fys8a0fys8.jpeg", type: "image" },
+    { key: 'energy.hero.slide_2', label: "Image du carrousel 2", value: "/energy/SIBIRI%20ENERGY-8.JPG.jpeg", type: "image" },
+    { key: 'energy.hero.slide_3', label: "Image du carrousel 3", value: "/energy/sibiristation.jpeg", type: "image" },
+    { key: 'energy.hero.slide_4', label: "Image du carrousel 4", value: "/energy/wolf-officialtech-hd.png", type: "image" },
   ],
   'Energy::Chiffres clés': [
+    { key: 'energy.home.milestones.label', label: "Repères — sur-titre", value: "Sibiri Energy · Depuis 2016" },
+    { key: 'energy.home.milestones.title', label: "Repères — titre", value: "L’énergie avance" },
+    { key: 'energy.home.milestones.accent', label: "Repères — mot mis en avant", value: "avec les territoires." },
+    { key: 'energy.home.milestones.intro', label: "Repères — introduction", value: "Des repères concrets qui traduisent une ambition : être présent, fiable et utile à chaque étape." },
+    { key: 'energy.home.milestones.footer', label: "Repères — résumé", value: "Carburants · Lubrifiants · Solutions énergétiques" },
+    { key: 'energy.home.milestones.cta', label: "Repères — bouton", value: "Explorer nos solutions" },
+    { key: 'energy.home.story.image', label: "Présentation — image", value: "/energy/SIBIRI%20ENERGY-12.JPG.jpeg", type: "image" },
+    { key: 'energy.home.story.label', label: "Présentation — sur-titre", value: "Notre rôle" },
+    { key: 'energy.home.story.title', label: "Présentation — titre", value: "Faire circuler" },
+    { key: 'energy.home.story.accent', label: "Présentation — mot mis en avant", value: "l’énergie utile." },
+    { key: 'energy.home.story.lead', label: "Présentation — texte principal", value: "SIBIRI ENERGY accompagne les entreprises comme le grand public avec des solutions pensées pour les réalités du terrain." },
+    { key: 'energy.home.story.body', label: "Présentation — texte complémentaire", value: "Distribution de produits pétroliers, travaux électriques, mécaniques et de génie civil, réseaux téléphoniques et internet : notre expertise relie les besoins d’aujourd’hui aux ambitions de demain." },
+    { key: 'energy.home.story.cta', label: "Présentation — bouton", value: "Découvrir SIBIRI Energy" },
+    { key: 'energy.home.products.label', label: "Produits — sur-titre", value: "Nos solutions" },
+    { key: 'energy.home.products.title', label: "Produits — titre", value: "La bonne énergie," },
+    { key: 'energy.home.products.accent', label: "Produits — mot mis en avant", value: "au bon moment." },
+    { key: 'energy.home.products.intro', label: "Produits — introduction", value: "Deux expertises, une même exigence de qualité et de disponibilité." },
+    { key: 'energy.home.products.fuel.title', label: "Carburant — titre", value: "Carburant" },
+    { key: 'energy.home.products.fuel.description', label: "Carburant — description", value: "Essence, gasoil et cuves portatives pour entreprises et grand public." },
+    { key: 'energy.home.products.fuel.image', label: "Carburant — image", value: "/energy/sibiristation.jpeg", type: "image" },
+    { key: 'energy.home.products.lubricant.title', label: "Lubrifiant — titre", value: "Lubrifiant" },
+    { key: 'energy.home.products.lubricant.description', label: "Lubrifiant — description", value: "Distribution WOLF LUBRICANTS pour véhicules, bus, camions et engins miniers." },
+    { key: 'energy.home.products.lubricant.image', label: "Lubrifiant — image", value: "/energy/wolf-officialtech-hd.png", type: "image" },
+    { key: 'energy.home.news.label', label: "Actualités — sur-titre", value: "Actualités" },
+    { key: 'energy.home.news.title', label: "Actualités — titre", value: "Ce qui fait" },
+    { key: 'energy.home.news.accent', label: "Actualités — mot mis en avant", value: "avancer Energy." },
+    { key: 'energy.home.news.cta', label: "Actualités — bouton", value: "Toutes les actualités" },
+    { key: 'energy.home.news.first.title', label: "Actualité 1 — titre", value: "WOLF LUBRICANTS — Distribution Nationale" },
+    { key: 'energy.home.news.first.description', label: "Actualité 1 — description", value: "Exclusivité de distribution au Burkina Faso de la marque belge WOLF LUBRICANTS, une gamme premium depuis 1955." },
+    { key: 'energy.home.news.second.title', label: "Actualité 2 — titre", value: "Station-service Kouba — KOUBRI" },
+    { key: 'energy.home.news.second.description', label: "Actualité 2 — description", value: "Première station grand public de SIBIRI ENERGY SA, point de départ de l'expansion du réseau à Ouagadougou." },
     { label: "Label section", value: "Sibiri Energy en bref" },
     { label: "Titre", value: "Le partenaire énergétique de référence" },
     { label: "Sous-titre", value: "Une expertise complète, du carburant aux solutions solaires." },
@@ -312,14 +365,14 @@ const SITE_SNAPSHOT = {
     { label: "Image — À propos teaser", value: "/energy/SIBIRI%20ENERGY-12.JPG.jpeg", type: "image" },
   ],
   'Energy Produits::Carburant': [
-    { label: "Titre page", value: "Une expertise" },
-    { label: "Titre page (accent)", value: "complète et intégrée" },
-    { label: "Sous-titre page", value: "De la distribution à la proposition de solution, nous couvrons tous les domaines de l'énergie." },
+    { key: 'energy.services.hero.title', label: "Titre page", value: "Une expertise" },
+    { key: 'energy.services.hero.accent', label: "Titre page (accent)", value: "complète et intégrée" },
+    { key: 'energy.services.hero.subtitle', label: "Sous-titre page", value: "De la distribution à la proposition de solution, nous couvrons tous les domaines de l'énergie." },
     { label: "Carte produit — tagline", value: "Essence · Gasoil · Cuves portatives" },
     { label: "Carte produit — description courte", value: "Ravitaillement en carburant (essence, gasoil) des grandes entreprises des secteurs Transport, BTP et Industrie, ainsi que du grand public via notre réseau de stations-service à Ouagadougou. Location et mise à disposition de cuves portatives pour vos besoins spécifiques." },
     { label: "Section détail — titre", value: "Carburant" },
     { label: "Section détail — description", value: "Ravitaillement en carburant (essence, gasoil) des grandes entreprises des secteurs Transport, BTP et Industrie, ainsi que du grand public via notre réseau de stations-service à Ouagadougou. Location et mise à disposition de cuves portatives pour vos besoins spécifiques." },
-    { label: "Image hero page Produits", value: "/energy/SIBIRI%20ENERGY-15.JPG.jpeg", type: "image" },
+    { key: 'energy.services.hero.image', label: "Image hero page Produits", value: "/energy/SIBIRI%20ENERGY-21.JPG.jpeg", type: "image" },
   ],
   'Energy Produits::Lubrifiants': [
     { label: "Carte produit — tagline", value: "Tourisme · Bus & camions · Engins miniers" },
@@ -350,9 +403,9 @@ const SITE_SNAPSHOT = {
     { label: "Forages & Consulting — description", value: "Étude et réalisation de forages. Consulting en solutions énergétiques, accompagnement stratégique et technique des entreprises." },
   ],
   'Energy À propos::Présentation': [
-    { label: "Titre page", value: "Le partenaire énergétique de" },
-    { label: "Titre page (accent)", value: "référence au Burkina Faso" },
-    { label: "Sous-titre page", value: "Filiale énergétique du Groupe Sibiri Holding, alliant expertise B2B et accès grand public." },
+    { key: 'energy.about.hero.title', label: "Titre page", value: "Ancrés ici." },
+    { key: 'energy.about.hero.accent', label: "Titre page (accent)", value: "Tournés vers demain." },
+    { key: 'energy.about.hero.subtitle', label: "Sous-titre page", value: "L’énergie, une expertise. La proximité, un engagement. Découvrez la filiale énergétique du Groupe Sibiri Holding." },
     { label: "Titre section", value: "Une expertise énergétique étendue" },
     { label: "Paragraphe 1", value: "SIBIRI ENERGY SA est la filiale énergétique du Groupe Sibiri Holding, opérant au Burkina Faso avec une expertise étendue couvrant la distribution de produits pétroliers, les travaux électriques, mécaniques et de génie civil, ainsi que les réseaux téléphoniques et internet." },
     { label: "Paragraphe 2", value: "Pionnière dans l'accès à l'énergie solaire, la société réalise des centrales solaires et systèmes d'éclairage solaire, des forages et offre du consulting en solutions énergétiques. Avec quatre stations-service dans la zone de Ouagadougou depuis 2022, elle combine expertise B2B et accès grand public." },
@@ -375,12 +428,12 @@ const SITE_SNAPSHOT = {
     { label: "Raison 5 description", value: "Profonde connaissance du marché burkinabè et adaptation constante aux réalités techniques et économiques locales." },
     { label: "Raison 6 titre", value: "Politique QHSE" },
     { label: "Raison 6 description", value: "Engagement qualité, hygiène, sécurité et environnement comme preuve concrète de notre adaptation aux mutations du monde." },
-    { label: "Image hero page À propos", value: "/energy/SIBIRI%20ENERGY-6.JPG.jpeg", type: "image" },
+    { key: 'energy.about.hero.image', label: "Image hero page À propos", value: "/energy/SIBIRI%20ENERGY-6.JPG.jpeg", type: "image" },
   ],
   'Energy Actualité::Liste des actualités': [
-    { label: "Titre page", value: "Nos dernières" },
-    { label: "Titre page (accent)", value: "actualités" },
-    { label: "Sous-titre page", value: "Inaugurations, partenariats et exclusivités qui structurent le développement de Sibiri Energy." },
+    { key: 'energy.news.hero.title', label: "Titre page", value: "L’énergie avance." },
+    { key: 'energy.news.hero.accent', label: "Titre page (accent)", value: "Notre histoire aussi." },
+    { key: 'energy.news.hero.subtitle', label: "Sous-titre page", value: "Partenariats, ouvertures et vie du réseau : les temps forts de Sibiri Energy au Burkina Faso." },
     { label: "Titre section", value: "Toutes les actualités" },
     { label: "Actu 1 titre", value: "WOLF LUBRICANTS — Distribution Nationale" },
     { label: "Actu 1 description", value: "Exclusivité de distribution au Burkina Faso de la marque belge WOLF LUBRICANTS (WOLF OIL CORPORATION). Une gamme premium de lubrifiants pour véhicules de tourisme, bus, camions et engins miniers, disponible depuis 1955." },
@@ -388,12 +441,12 @@ const SITE_SNAPSHOT = {
     { label: "Actu 2 description", value: "Première station grand public de SIBIRI ENERGY SA, inaugurée en 2022 dans la commune de KOUBRI. Point de départ de l'expansion du réseau dans la zone de Ouagadougou, aujourd'hui composé de quatre stations-service." },
     { label: "Actu 3 titre", value: "Ravitaillement Grandes Entreprises" },
     { label: "Actu 3 description", value: "Distribution et approvisionnement en produits pétroliers des grandes entreprises des secteurs Transport, BTP et Industrie. Solutions de cuves portatives sur mesure pour accompagner nos clients professionnels." },
-    { label: "Image hero page Actualité", value: "/energy/SIBIRI%20ENERGY-8.JPG.jpeg", type: "image" },
+    { key: 'energy.news.hero.image', label: "Image hero page Actualité", value: "/energy/SIBIRI%20ENERGY-10.JPG.jpeg", type: "image" },
   ],
   'Energy Contact::Coordonnées': [
-    { label: "Titre page", value: "Parlons de votre" },
-    { label: "Titre page (accent)", value: "projet énergétique" },
-    { label: "Sous-titre page", value: "Notre équipe est disponible pour étudier vos besoins et vous proposer des solutions adaptées." },
+    { key: 'energy.contact.hero.title', label: "Titre page", value: "Parlons de votre" },
+    { key: 'energy.contact.hero.accent', label: "Titre page (accent)", value: "projet énergétique" },
+    { key: 'energy.contact.hero.subtitle', label: "Sous-titre page", value: "Notre équipe est disponible pour étudier vos besoins et vous proposer des solutions adaptées." },
     { label: "Titre section — parcours", value: "Trois façons de nous contacter" },
     { label: "Parcours 1 titre", value: "Stations-service & Grand public" },
     { label: "Parcours 1 description", value: "Vous êtes un particulier ? Retrouvez nos stations-service à Ouagadougou pour vos besoins en carburant et lubrifiants." },
@@ -411,16 +464,17 @@ const SITE_SNAPSHOT = {
     { label: "Bouton envoi formulaire", value: "Envoyer le message" },
     { label: "Message de confirmation — titre", value: "Message envoyé !" },
     { label: "Message de confirmation — texte", value: "Nous vous répondrons dans les plus brefs délais." },
-    { label: "Image hero page Contact", value: "/energy/SIBIRI%20ENERGY-10.JPG.jpeg", type: "image" },
+    { key: 'energy.contact.hero.image', label: "Image hero page Contact", value: "/energy/SIBIRI%20ENERGY-10.JPG.jpeg", type: "image" },
     { label: "Image carte / localisation", value: "https://images.unsplash.com/photo-1524661135-423995f22d0b?fm=jpg&q=80&w=800&auto=format&fit=crop", type: "image" },
   ],
   'Global Construction::Hero': [
-    { label: "Titre principal", value: "Tout passe, mais la qualité demeure" },
-    { label: "Sous-titre", value: "SIBIRI GLOBAL CONSTRUCTION ET RENOVATION (SGCR) participe au développement du Burkina Faso à travers la construction, la rénovation, les infrastructures routières et l'aménagement hydro-agricole." },
-    { label: "Badge", value: "BTP · Aménagement hydro-agricole" },
-    { label: "CTA principal", value: "Nos activités" },
-    { label: "CTA secondaire", value: "Nous contacter" },
-    { label: "Image de fond du hero — Chantier de construction de bâtiment", value: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?fm=jpg&q=80&w=1800&auto=format&fit=crop", type: "image" },
+    { key: 'construction.hero.title', label: "Titre principal", value: "Tout passe, mais la" },
+    { key: 'construction.hero.accent', label: "Mot mis en avant", value: "qualité demeure" },
+    { key: 'construction.hero.description', label: "Sous-titre", value: "SIBIRI GLOBAL CONSTRUCTION ET RENOVATION (SGCR) participe au développement du Burkina Faso à travers la construction, la rénovation, les infrastructures routières et l'aménagement hydro-agricole." },
+    { key: 'construction.hero.tag', label: "Badge", value: "BTP · Aménagement hydro-agricole" },
+    { key: 'construction.hero.activities_cta', label: "CTA principal", value: "Nos activités" },
+    { key: 'construction.hero.contact_cta', label: "CTA secondaire", value: "Nous contacter" },
+    { key: 'construction.hero.image', label: "Image de fond du hero — Chantier de construction de bâtiment", value: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?fm=jpg&q=80&w=1800&auto=format&fit=crop", type: "image" },
   ],
   'Global Construction::Activités': [
     { label: "Titre section", value: "Un savoir-faire complet, du bâtiment à l'hydraulique" },
@@ -478,11 +532,14 @@ const SITE_SNAPSHOT = {
     { label: "Localisation SGCR", value: "https://images.unsplash.com/photo-1541888698598-4096432cd70e?fm=jpg&q=80&w=900&auto=format&fit=crop", type: "image" },
   ],
   'Transport & Logistic::Hero': [
-    { label: "Badge", value: "Transport & logistique · Hydrocarbures · Minerais" },
-    { label: "Titre principal", value: "Le transport sécurisé des ressources qui font avancer l'Afrique de l'Ouest" },
-    { label: "Sous-titre", value: "SIBIRI TRANSPORT & LOGISTICS (STL) assure le transport d'hydrocarbures, de minerais et de marchandises diverses, avec une gestion complète de la chaîne d'approvisionnement, depuis la production jusqu'à la distribution." },
-    { label: "CTA principal", value: "Nos activités" },
-    { label: "CTA secondaire", value: "Nous contacter" },
+    { key: 'transport.hero.tag', label: "Badge", value: "Transport & logistique · Hydrocarbures · Minerais" },
+    { key: 'transport.hero.title', label: "Titre principal", value: "Le transport" },
+    { key: 'transport.hero.accent', label: "Mot mis en avant", value: "sécurisé" },
+    { key: 'transport.hero.title_end', label: "Fin du titre", value: "des ressources qui font avancer l'Afrique de l'Ouest" },
+    { key: 'transport.hero.description', label: "Sous-titre", value: "SIBIRI TRANSPORT & LOGISTICS (STL) assure le transport d'hydrocarbures, de minerais et de marchandises diverses, avec une gestion complète de la chaîne d'approvisionnement, depuis la production jusqu'à la distribution." },
+    { key: 'transport.hero.activities_cta', label: "CTA principal", value: "Nos activités" },
+    { key: 'transport.hero.contact_cta', label: "CTA secondaire", value: "Nous contacter" },
+    { key: 'transport.hero.image', label: "Image de remplacement du hero", value: "", type: "image" },
   ],
   'Transport & Logistic::Activités': [
     { label: "Titre section", value: "Cinq activités clés" },
@@ -528,13 +585,13 @@ const SITE_SNAPSHOT = {
     { label: "Localisation STL", value: "https://images.unsplash.com/photo-1693907986952-3cd372e4c9d8?fm=jpg&q=80&w=900&auto=format&fit=crop", type: "image" },
   ],
   'Agro Chemical::Hero': [
-    { label: "Badge", value: "Agriculture & intrants" },
-    { label: "Titre principal", value: "Des intrants de qualité et un accompagnement pour une agriculture performante et durable" },
-    { label: "Sous-titre", value: "SIBIRI AGRO CHEMICAL importe, distribue et accompagne les producteurs du Burkina Faso et de la sous-région à travers des intrants certifiés, un appui technique et des aménagements agricoles." },
-    { label: "CTA 1", value: "Découvrir nos services" },
-    { label: "CTA 2", value: "Voir nos réalisations" },
-    { label: "CTA 3", value: "Nous contacter" },
-    { label: "Épandage d'engrais de haute qualité sur une jeune pousse", value: "/agro/engrais-haute-qualite.jpg", type: "image" },
+    { key: 'agro.hero.tag', label: "Badge", value: "Agriculture & intrants" },
+    { key: 'agro.hero.title', label: "Titre principal", value: "Des intrants de qualité et un accompagnement pour une agriculture performante et durable" },
+    { key: 'agro.hero.description', label: "Sous-titre", value: "SIBIRI AGRO CHEMICAL importe, distribue et accompagne les producteurs du Burkina Faso et de la sous-région à travers des intrants certifiés, un appui technique et des aménagements agricoles." },
+    { key: 'agro.hero.services_cta', label: "CTA 1", value: "Découvrir nos services" },
+    { key: 'agro.hero.projects_cta', label: "CTA 2", value: "Voir nos réalisations" },
+    { key: 'agro.hero.contact_cta', label: "CTA 3", value: "Nous contacter" },
+    { key: 'agro.hero.image', label: "Image de fond", value: "/agro/engrais-haute-qualite.jpg", type: "image" },
   ],
   'Agro Chemical::Expertise': [
     { label: "Titre section", value: "Notre savoir-faire" },
@@ -581,16 +638,25 @@ const SITE_SNAPSHOT = {
     { label: "Email", value: "agro@sibiri.group" },
     { label: "Localisation filiale AGRO", value: "https://images.unsplash.com/photo-1743742566156-f1745850281a?fm=jpg&q=80&w=900&auto=format&fit=crop", type: "image" },
   ],
+  'Groupe::Hero': [
+    { key: 'holding.group.hero.title', label: "Titre principal", value: "Un Groupe Africain" },
+    { key: 'holding.group.hero.accent', label: "Mot mis en avant", value: "d'Excellence" },
+    { key: 'holding.group.hero.subtitle', label: "Sous-titre", value: "Investissements, gestion et contrôle d’actifs —\nau service des économies africaines depuis sa fondation." },
+    { key: 'holding.group.hero.scroll_label', label: "Indication de défilement", value: "Découvrir" },
+    { key: 'holding.group.hero.foundation', label: "Badge — fondation", value: "Fondé en 2012" },
+    { key: 'holding.group.hero.location', label: "Badge — localisation", value: "Ouagadougou, Burkina Faso" },
+  ],
   'Groupe::Histoire': [
-    { label: "Titre section", value: "L'héritage d'une vision familiale" },
-    { label: "Paragraphe 1", value: "SIBIRI Holding SA est une société Anonyme de droit Burkinabé au capital de cent soixante-quinze millions cinq cent mille (175 500 000) FCFA, avec Administrateur Général en la personne de son Fondateur, Monsieur Mahamadou Lamine OUEDRAOGO, actionnaire principal, Consul Honoraire du Burkina en République du Bénin et Officier de l'Ordre National du Burkina Faso." },
-    { label: "Paragraphe 2", value: "Elle est une société d'investissements, de gestion et de contrôle d'actifs mobiliers et immobiliers." },
-    { label: "Paragraphe 3", value: "Monsieur Mahamadou Lamine OUEDRAOGO est un fils du premier Président de la Chambre de Commerce et d'Industrie de la Haute Volta (Feu El Hadj Ousmane Sibiri OUEDRAOGO) — d'où le nom de la Holding —, il porte et défend l'ensemble des intérêts du Groupe SIBIRI." },
-    { label: "Paragraphe 4", value: "Le Groupe est présent dans le domaine du BTP, du biomédical, des Hydrocarbures, du transport, des intrants agricoles et du Négoce international." },
-    { label: "Histoire SIBIRI Groupe — photo 1", value: "/groupe/histoire/DJI_0229.JPG", type: "image" },
-    { label: "Histoire SIBIRI Groupe — photo 2", value: "/groupe/histoire/DJI_0235.JPG", type: "image" },
-    { label: "Histoire SIBIRI Groupe — photo 3", value: "/groupe/histoire/DJI_0241.JPG", type: "image" },
-    { label: "Histoire SIBIRI Groupe — photo 4", value: "/groupe/histoire/DJI_0244.JPG", type: "image" },
+    { key: 'holding.group.history.title', label: "Titre de section", value: "L'héritage d'une" },
+    { key: 'holding.group.history.accent', label: "Mot mis en avant", value: "vision familiale" },
+    { key: 'holding.group.history.paragraph_1', label: "Paragraphe 1", value: "SIBIRI Holding SA est une société Anonyme de droit Burkinabé au capital de cent soixante-quinze millions cinq cent mille (175 500 000) FCFA, avec Administrateur Général en la personne de son Fondateur, Monsieur Mahamadou Lamine OUEDRAOGO, actionnaire principal, Consul Honoraire du Burkina en République du Bénin et Officier de l'Ordre National du Burkina Faso." },
+    { key: 'holding.group.history.paragraph_2', label: "Paragraphe 2", value: "Elle est une société d'investissements, de gestion et de contrôle d'actifs mobiliers et immobiliers." },
+    { key: 'holding.group.history.paragraph_3', label: "Paragraphe 3", value: "Monsieur Mahamadou Lamine OUEDRAOGO est un fils du premier Président de la Chambre de Commerce et d'Industrie de la Haute Volta (Feu El Hadj Ousmane Sibiri OUEDRAOGO) — d'où le nom de la Holding —, il porte et défend l'ensemble des intérêts du Groupe SIBIRI." },
+    { key: 'holding.group.history.paragraph_4', label: "Paragraphe 4", value: "Le Groupe est présent dans le domaine du BTP, du biomédical, des Hydrocarbures, du transport, des intrants agricoles et du Négoce international." },
+    { key: 'holding.group.history.image_1', label: "Histoire — photo 1", value: "/groupe/histoire/DJI_0229.JPG", type: "image" },
+    { key: 'holding.group.history.image_2', label: "Histoire — photo 2", value: "/groupe/histoire/DJI_0235.JPG", type: "image" },
+    { key: 'holding.group.history.image_3', label: "Histoire — photo 3", value: "/groupe/histoire/DJI_0241.JPG", type: "image" },
+    { key: 'holding.group.history.image_4', label: "Histoire — photo 4", value: "/groupe/histoire/DJI_0244.JPG", type: "image" },
   ],
   'Groupe::Valeurs': [
     { label: "Titre section", value: "Les Principes qui Nous Définissent" },
@@ -601,9 +667,10 @@ const SITE_SNAPSHOT = {
     { label: "Fidélité", value: "Par le développement de la qualité auprès de nos clients." },
   ],
   'Actualités::Liste des actualités': [
-    { label: "Eyebrow", value: "Actualités et événements" },
-    { label: "Titre principal", value: "Suivez nos dernières actualités" },
-    { label: "Sous-titre", value: "Découvrez les derniers développements, projets et initiatives du groupe SIBIRI Holding et ses filiales." },
+    { key: 'holding.news.hero.eyebrow', label: "Hero — sur-titre", value: "Actualités et événements" },
+    { key: 'holding.news.hero.title', label: "Hero — titre", value: "Suivez nos dernières" },
+    { key: 'holding.news.hero.accent', label: "Hero — mot mis en avant", value: "actualités" },
+    { key: 'holding.news.hero.subtitle', label: "Hero — sous-titre", value: "Découvrez les derniers développements, projets et initiatives du groupe SIBIRI Holding et ses filiales." },
     { label: "Label À la une", value: "À la une" },
     { label: "Article 1 - Titre", value: "SIBIRI Holding inaugure son nouveau siège régional" },
     { label: "Article 1 - Extrait", value: "Le groupe annonce l'ouverture de son centre de commandement régional en Afrique de l'Ouest, renforçant sa présence dans la zone." },
@@ -621,17 +688,18 @@ const SITE_SNAPSHOT = {
     { label: "Conférence internationale SIBIRI Holding (image cassée — fichier manquant)", value: "/news/conference.jpg", type: "image" },
   ],
   'Contact::Coordonnées': [
-    { label: "Badge Hero", value: "Contactez-Nous" },
-    { label: "Titre Hero", value: "Parlons de votre projet" },
-    { label: "Sous-titre Hero", value: "Que vous soyez partenaire, investisseur, client ou candidat, notre équipe est à votre écoute pour répondre à toutes vos sollicitations." },
-    { label: "Siège Social", value: "Ouagadougou, Burkina Faso" },
-    { label: "Siège Social - Détail", value: "Secteur 15, Avenue Kwamé N'Krumah" },
-    { label: "Téléphone", value: "+226 25 36 XX XX" },
-    { label: "Téléphone - Détail", value: "Lun – Ven, 08h – 17h" },
-    { label: "Email", value: "contact@sibiriholding.com" },
-    { label: "Email - Détail", value: "Réponse sous 24h ouvrées" },
-    { label: "Horaires", value: "Lun – Ven : 08h00 – 17h00" },
-    { label: "Horaires - Détail", value: "Samedi : 09h00 – 13h00" },
+    { key: 'holding.contact.hero.tag', label: "Hero — badge", value: "Contactez-Nous" },
+    { key: 'holding.contact.hero.title', label: "Hero — titre", value: "Parlons de votre" },
+    { key: 'holding.contact.hero.accent', label: "Hero — mot mis en avant", value: "projet" },
+    { key: 'holding.contact.hero.subtitle', label: "Hero — sous-titre", value: "Que vous soyez partenaire, investisseur, client ou candidat, notre équipe est à votre écoute pour répondre à toutes vos sollicitations." },
+    { key: 'holding.contact.info.headquarters', label: "Siège Social", value: "Ouagadougou, Burkina Faso" },
+    { key: 'holding.contact.info.headquarters_detail', label: "Siège Social — détail", value: "Secteur 15, Avenue Kwamé N'Krumah" },
+    { key: 'holding.contact.info.phone', label: "Téléphone", value: "+226 25 36 XX XX" },
+    { key: 'holding.contact.info.phone_detail', label: "Téléphone — détail", value: "Lun – Ven, 08h – 17h" },
+    { key: 'holding.contact.info.email', label: "Email", value: "contact@sibiriholding.com" },
+    { key: 'holding.contact.info.email_detail', label: "Email — détail", value: "Réponse sous 24h ouvrées" },
+    { key: 'holding.contact.info.hours', label: "Horaires", value: "Lun – Ven : 08h00 – 17h00" },
+    { key: 'holding.contact.info.hours_detail', label: "Horaires — détail", value: "Samedi : 09h00 – 13h00" },
     { label: "Titre section carte", value: "Nous trouver à Ouagadougou" },
     { label: "Logo SIBIRI Holding (carte contact)", value: "/SIBIRI%20Holding.png", type: "image" },
   ],
@@ -645,6 +713,9 @@ const SITE_SNAPSHOT = {
     { label: "Texte politique de confidentialité", value: "En soumettant ce formulaire, vous acceptez que vos données soient traitées par SIBIRI Holding SA dans le cadre de votre demande, conformément à notre politique de confidentialité." },
   ],
   'Accueil::Hero': [
+    { key: 'home.hero.title', label: "Titre principal", value: "Un Groupe Multisectoriel" },
+    { key: 'home.hero.subtitle', label: "Sous-titre", value: "Bâtisseurs d'Avenir" },
+    { key: 'home.hero.cta', label: "Libellé du bouton", value: "Accéder à nos filiales" },
     { label: "Logo filiale — Construction (bandeau hero)", value: "/Sibiri-Construction.png", type: "image" },
     { label: "Logo filiale — Medical (bandeau hero)", value: "/Sibiri-Medical.png", type: "image" },
     { label: "Logo filiale — Energy (bandeau hero)", value: "/Sibiri-Energy.png", type: "image" },
@@ -652,6 +723,8 @@ const SITE_SNAPSHOT = {
     { label: "Logo filiale — Agro (bandeau hero)", value: "/Sibiri-Agro.png", type: "image" },
   ],
   'Accueil::Nos filiales': [
+    { key: 'home.filiales.title', label: "Titre de section", value: "Un Groupe, 5 expertises" },
+    { key: 'home.filiales.subtitle', label: "Texte de présentation", value: "Chaque filiale incarne un secteur clé du développement africain, avec une stratégie d'excellence propre à son domaine." },
     { label: "Logo carte — Construction", value: "/Sibiri-Construction.png", type: "image" },
     { label: "Logo carte — Medical", value: "/Sibiri-Medical.png", type: "image" },
     { label: "Logo carte — Energy", value: "/Sibiri-Energy.png", type: "image" },
@@ -751,7 +824,7 @@ const ContentRow = ({ row, draft, onSaved, onDeleted, onDrafted, onPublished }) 
           <div>
             <p style={{ margin: 0, fontSize: 13.5, fontWeight: 600, color: INK, fontFamily: "'Inter', sans-serif" }}>{row.label}</p>
             <p style={{ margin: '2px 0 0', fontSize: 11, color: MUTED, fontFamily: "'Inter', sans-serif" }}>
-              {row.key} · {TYPE_LABELS[row.type] || row.type}{draft ? ' · Brouillon en attente' : ''}
+              {TYPE_LABELS[row.type] || row.type}{draft ? ' · Brouillon en attente' : ' · Relié au site'}
             </p>
           </div>
         </div>
@@ -816,7 +889,7 @@ const ContentRow = ({ row, draft, onSaved, onDeleted, onDrafted, onPublished }) 
 }
 
 // ─── Formulaire compact d'ajout, pré-rempli avec la page/section active ────
-const AddFieldInline = ({ page, section, onAdded }) => {
+const AddFieldInline = ({ page, section, onAdded, isMobile }) => {
   const [open, setOpen] = useState(false)
   const [form, setForm] = useState({ key: '', label: '', type: 'text', value: '' })
   const [busy, setBusy] = useState(false)
@@ -865,7 +938,7 @@ const AddFieldInline = ({ page, section, onAdded }) => {
   }
 
   return (
-    <form onSubmit={submit} style={{ background: '#fff', border: `1px solid ${LINE}`, borderRadius: 10, padding: 16, marginBottom: 16, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+    <form onSubmit={submit} style={{ background: '#fff', border: `1px solid ${LINE}`, borderRadius: 10, padding: 16, marginBottom: 16, display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 10 }}>
       <div style={{ gridColumn: '1 / -1', fontSize: 11.5, color: MUTED, fontFamily: "'Inter', sans-serif" }}>
         Nouveau champ pour <strong style={{ color: INK }}>{page} → {section}</strong> — sera visible sur le site une fois relié au composant par un développeur.
       </div>
@@ -888,12 +961,12 @@ const AddFieldInline = ({ page, section, onAdded }) => {
   )
 }
 
-// ─── Une donnée qui existe déjà en dur sur le site, pas encore reliée au
-// back-office — aperçu en lecture seule + publication en un clic (le champ
-// est alors créé avec cette valeur exacte, prêt à être relié par un développeur).
+// ─── Une donnée de référence du site. Les entrées qui portent une clé sont
+// reliées au composant public dès leur publication ; les autres restent un
+// inventaire de migration pour les prochaines pages.
 const SnapshotRow = ({ entry, page, section, onAdded }) => {
   const [open, setOpen] = useState(false)
-  const [key, setKey] = useState(() => `${slugify(page)}.${slugify(section)}.${slugify(entry.label)}`)
+  const [key, setKey] = useState(() => entry.key || `${slugify(page)}.${slugify(section)}.${slugify(entry.label)}`)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
   const isImage = entry.type === 'image'
@@ -914,7 +987,7 @@ const SnapshotRow = ({ entry, page, section, onAdded }) => {
   if (open) {
     return (
       <form onSubmit={publish} style={{ background: '#fff', border: `1px solid ${GOLD}`, borderRadius: 10, padding: 14, marginBottom: 8 }}>
-        <p style={{ margin: '0 0 8px', fontSize: 12, color: MUTED }}>Publier « <strong style={{ color: INK }}>{entry.label}</strong> » comme champ éditable :</p>
+        <p style={{ margin: '0 0 8px', fontSize: 12, color: MUTED }}>{entry.key ? <>Publier « <strong style={{ color: INK }}>{entry.label}</strong> » : la modification sera visible sur le site.</> : <>Publier « <strong style={{ color: INK }}>{entry.label}</strong> » comme champ éditable :</>}</p>
         {isImage ? (
           <div style={{ margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: 10, background: PANEL, borderRadius: 7, padding: '8px 10px' }}>
             <img src={entry.value} alt="" style={{ height: 44, borderRadius: 5, border: `1px solid ${LINE}` }} />
@@ -923,8 +996,12 @@ const SnapshotRow = ({ entry, page, section, onAdded }) => {
         ) : (
           <p style={{ margin: '0 0 10px', fontSize: 12.5, color: '#3F3F46', background: PANEL, borderRadius: 7, padding: '8px 10px', whiteSpace: 'pre-wrap' }}>{entry.value}</p>
         )}
-        <input required value={key} onChange={e => setKey(e.target.value)} placeholder="Clé unique"
-          style={{ width: '100%', boxSizing: 'border-box', padding: '8px 11px', borderRadius: 7, border: `1.5px solid ${LINE}`, background: '#fff', color: INK, fontSize: 13, fontFamily: "'SFMono-Regular', Consolas, monospace", marginBottom: 10 }} />
+        {entry.key ? (
+          <p style={{ margin: '0 0 10px', color: '#685424', fontSize: 11.5, lineHeight: 1.45 }}>Ce champ est déjà relié à la page. Son identifiant est sécurisé pour préserver la mise en page.</p>
+        ) : (
+          <input required value={key} onChange={e => setKey(e.target.value)} placeholder="Clé unique"
+            style={{ width: '100%', boxSizing: 'border-box', padding: '8px 11px', borderRadius: 7, border: `1.5px solid ${LINE}`, background: '#fff', color: INK, fontSize: 13, fontFamily: "'SFMono-Regular', Consolas, monospace", marginBottom: 10 }} />
+        )}
         {error && <p style={{ color: '#B4453A', fontSize: 12, margin: '0 0 8px' }}>{error}</p>}
         <div style={{ display: 'flex', gap: 8 }}>
           <button type="submit" disabled={busy} style={{ padding: '7px 14px', borderRadius: 7, border: 'none', background: GOLD, color: '#fff', fontWeight: 600, fontSize: 12.5, cursor: 'pointer', fontFamily: "'Inter', sans-serif" }}>
@@ -960,6 +1037,43 @@ const SnapshotRow = ({ entry, page, section, onAdded }) => {
       >
         <Plus size={12} /> Publier
       </button>
+    </div>
+  )
+}
+
+// Active d'un coup tous les champs déjà reliés au rendu public d'une section.
+// L'administrateur évite ainsi de publier champ par champ lors de la première
+// prise en main d'une page.
+const ActivateConnectedFields = ({ entries, page, section, onAdded }) => {
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState('')
+  const connected = entries.filter(entry => entry.key)
+  if (connected.length === 0) return null
+
+  const activate = async () => {
+    setBusy(true)
+    setError('')
+    const payload = connected.map(entry => ({
+      key: entry.key,
+      label: entry.label,
+      page,
+      section,
+      type: entry.type === 'image' ? 'image' : 'text',
+      value: entry.value,
+    }))
+    const { error: err } = await supabase.from('content').upsert(payload, { onConflict: 'key', ignoreDuplicates: true })
+    setBusy(false)
+    if (err) { setError(err.message); return }
+    onAdded?.()
+  }
+
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', padding: '10px 12px', marginBottom: 10, borderRadius: 9, background: GOLD_BG, border: `1px solid #E8D9B4` }}>
+      <span style={{ flex: '1 1 220px', color: '#685424', fontSize: 12, lineHeight: 1.45 }}><strong>{connected.length} champs essentiels</strong> sont prêts pour cette section.</span>
+      <button type="button" onClick={activate} disabled={busy} style={{ padding: '7px 11px', border: 'none', borderRadius: 7, background: GOLD, color: '#fff', cursor: busy ? 'wait' : 'pointer', fontSize: 11.5, fontWeight: 700, fontFamily: "'Inter', sans-serif", whiteSpace: 'nowrap' }}>
+        {busy ? 'Activation…' : 'Activer en un clic'}
+      </button>
+      {error && <span style={{ width: '100%', color: '#B4453A', fontSize: 11.5 }}>{error}</span>}
     </div>
   )
 }
@@ -1044,7 +1158,7 @@ export const AdminDashboard = () => {
               fontFamily: "'Inter', sans-serif", fontSize: 13, color: INK, fontWeight: 600,
             }}
           >
-            <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ display: 'flex', minWidth: 0, alignItems: 'center', gap: 8 }}>
               <filiale.Icon size={14} color={filiale.color} /> {filiale.label} — {page.label}
             </span>
             {mobileNavOpen ? <X size={16} /> : <Menu size={16} />}
@@ -1101,7 +1215,7 @@ export const AdminDashboard = () => {
             </div>
             <a href={page.path} target="_blank" rel="noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '9px 13px', borderRadius: 8, background: INK, color: '#fff', textDecoration: 'none', fontSize: 12, fontWeight: 600 }}>Aperçu de la page <ExternalLink size={13} /></a>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 10, marginTop: 21 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, minmax(0, 1fr))', gap: 10, marginTop: 21 }}>
             {[
               { value: rows?.length ?? '—', label: 'champs publiés' },
               { value: drafts.length, label: 'brouillon(s) à valider' },
@@ -1180,15 +1294,20 @@ export const AdminDashboard = () => {
               {snapshotEntries.length > 0 && (
                 <>
                   <p style={{ fontSize: 11, color: MUTED, margin: '4px 0 8px', fontFamily: "'Inter', sans-serif" }}>
-                    Contenu actuel sur le site — pas encore relié au back-office
+                    {snapshotEntries.every(entry => entry.key)
+                      ? 'Champs reliés — publiez-les une première fois pour les rendre éditables.'
+                      : snapshotEntries.some(entry => entry.key)
+                        ? 'Champs reliés et inventaire de migration du site.'
+                        : 'Contenu actuel sur le site — pas encore relié au back-office'}
                   </p>
+                  <ActivateConnectedFields entries={snapshotEntries} page={page.dbPage} section={section} onAdded={load} />
                   {snapshotEntries.map((entry, i) => (
                     <SnapshotRow key={`${section}-${i}`} entry={entry} page={page.dbPage} section={section} onAdded={load} />
                   ))}
                 </>
               )}
 
-              <AddFieldInline page={page.dbPage} section={section} onAdded={load} />
+              <AddFieldInline page={page.dbPage} section={section} onAdded={load} isMobile={isMobile} />
             </div>
           )
         })}

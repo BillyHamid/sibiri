@@ -1,6 +1,7 @@
 ﻿import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { useContentValue } from '../../lib/content/ContentProvider'
 import {
   RED, DARK, PAPER, ON_PAPER,
   Reveal, CountUp, SectionLabel,
@@ -24,9 +25,20 @@ import {
 
 const HeroSection = () => {
   const [slide, setSlide] = useState(0)
+  const tag = useContentValue('energy.hero.tag', 'Sibiri Energy')
+  const title = useContentValue('energy.hero.title', 'QUALITY')
+  const accent = useContentValue('energy.hero.accent', 'ONLY')
+  const description = useContentValue('energy.hero.description', 'Distribution de carburants et de lubrifiants, solutions solaires et travaux énergétiques — au service des entreprises et du grand public depuis plus de 10 ans.')
+  const productsCta = useContentValue('energy.hero.products_cta', 'Nos produits →')
+  const contactCta = useContentValue('energy.hero.contact_cta', 'Nous contacter')
+  const slide1 = useContentValue('energy.hero.slide_1', HERO_SLIDES[0].src)
+  const slide2 = useContentValue('energy.hero.slide_2', HERO_SLIDES[1].src)
+  const slide3 = useContentValue('energy.hero.slide_3', HERO_SLIDES[2].src)
+  const slide4 = useContentValue('energy.hero.slide_4', HERO_SLIDES[3].src)
+  const slides = HERO_SLIDES.map((item, index) => ({ ...item, src: [slide1, slide2, slide3, slide4][index] }))
 
   useEffect(() => {
-    const t = setInterval(() => setSlide(s => (s + 1) % HERO_SLIDES.length), SLIDE_DWELL)
+    const t = setInterval(() => setSlide(s => (s + 1) % slides.length), SLIDE_DWELL)
     return () => clearInterval(t)
   }, [])
 
@@ -38,7 +50,7 @@ const HeroSection = () => {
         display: 'flex', alignItems: 'center',
       }}>
         {/* ── Média : diaporama plein cadre ─────────────────────────────── */}
-        {HERO_SLIDES.map((img, i) => (
+        {slides.map((img, i) => (
           <motion.img
             key={img.src}
             src={img.src}
@@ -87,7 +99,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.2 }}
           >
-            <span className="hero-bio__tag">Sibiri Energy</span>
+            <span className="hero-bio__tag">{tag}</span>
           </motion.div>
 
           <motion.h1
@@ -95,7 +107,7 @@ const HeroSection = () => {
             transition={{ duration: 0.7, delay: 0.35 }}
             className="hero-bio__title"
           >
-            QUALITY <span className="hero-bio__accent">ONLY</span>
+            {title} <span className="hero-bio__accent">{accent}</span>
           </motion.h1>
 
           <motion.p
@@ -103,9 +115,7 @@ const HeroSection = () => {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="hero-bio__lead"
           >
-            Distribution de carburants et de lubrifiants, solutions solaires et travaux
-            énergétiques — au service des entreprises et du grand public depuis{' '}
-            <strong>plus de 10 ans</strong>.
+            {description}
           </motion.p>
 
           <motion.div
@@ -113,8 +123,8 @@ const HeroSection = () => {
             transition={{ duration: 0.6, delay: 0.62 }}
             className="hero-bio__actions"
           >
-            <Link to="/energy/services" className="hero-bio__cta">Nos produits →</Link>
-            <Link to="/energy/contact" className="hero-bio__ghost">Nous contacter</Link>
+            <Link to="/energy/services" className="hero-bio__cta">{productsCta}</Link>
+            <Link to="/energy/contact" className="hero-bio__ghost">{contactCta}</Link>
           </motion.div>
 
           {/* Repères du diaporama — Bio n'en a pas besoin (vidéo unique),
@@ -124,7 +134,7 @@ const HeroSection = () => {
             transition={{ duration: 0.8, delay: 0.9 }}
             className="hero-bio__dots"
           >
-            {HERO_SLIDES.map((s, i) => (
+            {slides.map((s, i) => (
               <button
                 key={s.src} type="button" onClick={() => setSlide(i)}
                 aria-label={s.label} aria-current={i === slide}
@@ -142,7 +152,7 @@ const HeroSection = () => {
           >
             <span className="hero-bio__signal-index">0{slide + 1}</span>
             <span className="hero-bio__signal-line"><i key={slide} /></span>
-            <span>{HERO_SLIDES[slide].label}</span>
+            <span>{slides[slide].label}</span>
           </motion.div>
         </div>
 
@@ -291,6 +301,12 @@ const HIGHLIGHTS = [
 
 const HighlightsSection = () => {
   const [count, setCount] = useState(false)
+  const label = useContentValue('energy.home.milestones.label', 'Sibiri Energy · Depuis 2016')
+  const title = useContentValue('energy.home.milestones.title', 'L’énergie avance')
+  const accent = useContentValue('energy.home.milestones.accent', 'avec les territoires.')
+  const intro = useContentValue('energy.home.milestones.intro', 'Des repères concrets qui traduisent une ambition : être présent, fiable et utile à chaque étape.')
+  const footer = useContentValue('energy.home.milestones.footer', 'Carburants · Lubrifiants · Solutions énergétiques')
+  const footerCta = useContentValue('energy.home.milestones.cta', 'Explorer nos solutions')
 
   return (
     <section className="energy-milestones" style={{ position: 'relative', overflow: 'hidden' }}>
@@ -303,10 +319,10 @@ const HighlightsSection = () => {
         <Reveal>
           <div className="energy-milestones__intro">
             <div>
-              <p className="energy-milestones__label">Sibiri Energy · Depuis 2016</p>
-              <h2>L’énergie avance<br /><em>avec les territoires.</em></h2>
+              <p className="energy-milestones__label">{label}</p>
+              <h2>{title}<br /><em>{accent}</em></h2>
             </div>
-            <p>Des repères concrets qui traduisent une ambition : être présent, fiable et utile à chaque étape.</p>
+            <p>{intro}</p>
           </div>
         </Reveal>
 
@@ -328,8 +344,8 @@ const HighlightsSection = () => {
 
         <Reveal delay={0.2}>
           <div className="energy-milestones__footer">
-            <span>Carburants · Lubrifiants · Solutions énergétiques</span>
-            <Link to="/energy/services">Explorer nos solutions <span aria-hidden="true">→</span></Link>
+            <span>{footer}</span>
+            <Link to="/energy/services">{footerCta} <span aria-hidden="true">→</span></Link>
           </div>
         </Reveal>
       </motion.div>
@@ -356,23 +372,31 @@ const HighlightsSection = () => {
 // ══════════════════════════════════════════════════════════════════════════════
 // PRÉSENTATION — teaser
 // ══════════════════════════════════════════════════════════════════════════════
-const PresentationTeaser = () => (
+const PresentationTeaser = () => {
+  const image = useContentValue('energy.home.story.image', '/energy/SIBIRI%20ENERGY-12.JPG.jpeg')
+  const label = useContentValue('energy.home.story.label', 'Notre rôle')
+  const title = useContentValue('energy.home.story.title', 'Faire circuler')
+  const accent = useContentValue('energy.home.story.accent', 'l’énergie utile.')
+  const lead = useContentValue('energy.home.story.lead', 'SIBIRI ENERGY accompagne les entreprises comme le grand public avec des solutions pensées pour les réalités du terrain.')
+  const body = useContentValue('energy.home.story.body', 'Distribution de produits pétroliers, travaux électriques, mécaniques et de génie civil, réseaux téléphoniques et internet : notre expertise relie les besoins d’aujourd’hui aux ambitions de demain.')
+  const cta = useContentValue('energy.home.story.cta', 'Découvrir SIBIRI Energy')
+  return (
   <section className="energy-story">
     <div className="energy-story__wrap">
       <Reveal>
         <div className="energy-story__visual">
-          <img src="/energy/SIBIRI%20ENERGY-12.JPG.jpeg" alt="Station Sibiri Energy" />
+          <img src={image} alt="Station Sibiri Energy" />
           <span className="energy-story__index" aria-hidden="true">01</span>
           <div className="energy-story__caption"><span>Opérer · Servir · Développer</span></div>
         </div>
       </Reveal>
       <Reveal delay={0.12}>
         <div className="energy-story__content">
-          <p className="energy-story__label">Notre rôle</p>
-          <h2>Faire circuler<br /><em>l’énergie utile.</em></h2>
-          <p className="energy-story__lead">SIBIRI ENERGY accompagne les entreprises comme le grand public avec des solutions pensées pour les réalités du terrain.</p>
-          <p className="energy-story__body">Distribution de produits pétroliers, travaux électriques, mécaniques et de génie civil, réseaux téléphoniques et internet : notre expertise relie les besoins d’aujourd’hui aux ambitions de demain.</p>
-          <Link to="/energy/a-propos" className="energy-story__link">Découvrir SIBIRI Energy <span aria-hidden="true">→</span></Link>
+          <p className="energy-story__label">{label}</p>
+          <h2>{title}<br /><em>{accent}</em></h2>
+          <p className="energy-story__lead">{lead}</p>
+          <p className="energy-story__body">{body}</p>
+          <Link to="/energy/a-propos" className="energy-story__link">{cta} <span aria-hidden="true">→</span></Link>
         </div>
       </Reveal>
     </div>
@@ -385,7 +409,8 @@ const PresentationTeaser = () => (
       @media (max-width:760px) { .energy-story { padding:76px 0; }.energy-story__wrap { display:flex; flex-direction:column; padding:0 24px; gap:38px; }.energy-story__visual { width:100%; min-height:350px; }.energy-story__content { width:100%; }.energy-story__lead { font-size:17px; } }
     `}</style>
   </section>
-)
+  )
+}
 
 // ══════════════════════════════════════════════════════════════════════════════
 // PRODUITS — teaser (Carburant / Lubrifiant)
@@ -420,17 +445,32 @@ const PRODUITS_TEASER = [
   },
 ]
 
-const ProduitsTeaser = () => (
+const ProduitsTeaser = () => {
+  const label = useContentValue('energy.home.products.label', 'Nos solutions')
+  const title = useContentValue('energy.home.products.title', 'La bonne énergie,')
+  const accent = useContentValue('energy.home.products.accent', 'au bon moment.')
+  const intro = useContentValue('energy.home.products.intro', 'Deux expertises, une même exigence de qualité et de disponibilité.')
+  const fuelTitle = useContentValue('energy.home.products.fuel.title', PRODUITS_TEASER[0].title)
+  const fuelDescription = useContentValue('energy.home.products.fuel.description', PRODUITS_TEASER[0].desc)
+  const fuelImage = useContentValue('energy.home.products.fuel.image', PRODUITS_TEASER[0].image)
+  const lubricantTitle = useContentValue('energy.home.products.lubricant.title', PRODUITS_TEASER[1].title)
+  const lubricantDescription = useContentValue('energy.home.products.lubricant.description', PRODUITS_TEASER[1].desc)
+  const lubricantImage = useContentValue('energy.home.products.lubricant.image', PRODUITS_TEASER[1].image)
+  const products = [
+    { ...PRODUITS_TEASER[0], title: fuelTitle, desc: fuelDescription, image: fuelImage },
+    { ...PRODUITS_TEASER[1], title: lubricantTitle, desc: lubricantDescription, image: lubricantImage },
+  ]
+  return (
   <section className="energy-solutions">
     <div className="energy-solutions__wrap">
       <Reveal>
         <div className="energy-solutions__intro">
-          <div><p>Nos solutions</p><h2>La bonne énergie,<br /><em>au bon moment.</em></h2></div>
-          <span>Deux expertises, une même exigence de qualité et de disponibilité.</span>
+          <div><p>{label}</p><h2>{title}<br /><em>{accent}</em></h2></div>
+          <span>{intro}</span>
         </div>
       </Reveal>
       <div className="energy-solutions__grid">
-        {PRODUITS_TEASER.map((p, i) => (
+        {products.map((p, i) => (
           <Reveal key={p.title} delay={i * 0.1}>
             <Link to={p.href} className={`energy-solution energy-solution--${i + 1}`}>
               <div className="energy-solution__copy">
@@ -452,7 +492,8 @@ const ProduitsTeaser = () => (
       @media(max-width:760px) { .energy-solutions { padding:76px 0; }.energy-solutions__wrap { padding:0 24px; }.energy-solutions__intro { display:block; margin-bottom:36px; }.energy-solutions__intro > span { display:block; margin-top:18px; }.energy-solutions__grid { grid-template-columns:1fr; }.energy-solution,.energy-solution__copy { min-height:350px; }.energy-solution__copy { width:61%; padding:25px; }.energy-solution img { width:58%; }.energy-solution__number { margin-top:22px; } }
     `}</style>
   </section>
-)
+  )
+}
 
 // ══════════════════════════════════════════════════════════════════════════════
 // ACTUALITÉS — teaser
@@ -462,14 +503,27 @@ const ACTUS_TEASER = [
   { date: '2022', tag: 'Inauguration', title: 'Station-service Kouba — KOUBRI', desc: "Première station grand public de SIBIRI ENERGY SA, point de départ de l'expansion du réseau à Ouagadougou." },
 ]
 
-const ActualiteTeaser = () => (
+const ActualiteTeaser = () => {
+  const label = useContentValue('energy.home.news.label', 'Actualités')
+  const title = useContentValue('energy.home.news.title', 'Ce qui fait')
+  const accent = useContentValue('energy.home.news.accent', 'avancer Energy.')
+  const cta = useContentValue('energy.home.news.cta', 'Toutes les actualités')
+  const firstTitle = useContentValue('energy.home.news.first.title', ACTUS_TEASER[0].title)
+  const firstDescription = useContentValue('energy.home.news.first.description', ACTUS_TEASER[0].desc)
+  const secondTitle = useContentValue('energy.home.news.second.title', ACTUS_TEASER[1].title)
+  const secondDescription = useContentValue('energy.home.news.second.description', ACTUS_TEASER[1].desc)
+  const news = [
+    { ...ACTUS_TEASER[0], title: firstTitle, desc: firstDescription },
+    { ...ACTUS_TEASER[1], title: secondTitle, desc: secondDescription },
+  ]
+  return (
   <section className="energy-journal">
     <div className="energy-journal__wrap">
       <Reveal>
-        <div className="energy-journal__heading"><div><p>Actualités</p><h2>Ce qui fait<br /><em>avancer Energy.</em></h2></div><Link to="/energy/actualite">Toutes les actualités <span aria-hidden="true">→</span></Link></div>
+        <div className="energy-journal__heading"><div><p>{label}</p><h2>{title}<br /><em>{accent}</em></h2></div><Link to="/energy/actualite">{cta} <span aria-hidden="true">→</span></Link></div>
       </Reveal>
       <div className="energy-journal__list">
-        {ACTUS_TEASER.map((a, i) => (
+        {news.map((a, i) => (
           <Reveal key={a.title} delay={i * 0.1}>
             <Link to="/energy/actualite" className="energy-journal__article">
               <span className="energy-journal__date">{a.date}</span>
@@ -487,7 +541,8 @@ const ActualiteTeaser = () => (
       @media(max-width:760px) { .energy-journal { padding:76px 0; }.energy-journal__wrap { padding:0 24px; }.energy-journal__heading { align-items:flex-start; flex-direction:column; margin-bottom:36px; }.energy-journal__article { grid-template-columns:74px 1fr 25px; gap:13px; padding:24px 0; }.energy-journal__description { grid-column:2 / 4; }.energy-journal__date { font-size:28px; }.energy-journal__article h3 { font-size:20px; } }
     `}</style>
   </section>
-)
+  )
+}
 
 export const EnergyHome = () => (
   <>

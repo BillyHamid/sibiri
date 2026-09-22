@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { useContentValue } from '../lib/content/ContentProvider'
 
 const GOLD = '#C9A84C'
 const DARK = '#1D1D1B'
@@ -174,12 +175,23 @@ const DashH = ({ side = 'left', delay = 0 }) => (
 
 // ── Organigramme ─────────────────────────────────────────────────────────────
 export const OrgChart = () => {
+  const heading = useContentValue('home.org.heading', 'Organigramme')
+  const generalTitle = useContentValue('home.org.general.title', 'Administrateur Général')
+  const generalRole = useContentValue('home.org.general.role', 'Direction Générale')
+  const adviserTitle = useContentValue('home.org.adviser.title', 'Conseiller Spécial')
+  const secretaryGeneralTitle = useContentValue('home.org.secretary_general.title', 'Secrétaire Général')
+  const adviserFemaleTitle = useContentValue('home.org.adviser_female.title', 'Conseillère Spéciale')
+  const controllerTitle = useContentValue('home.org.controller.title', 'Contrôleur Général et Financier')
+  const legalTitle = useContentValue('home.org.legal.title', 'Responsable Juridique et RH')
+  const assistantTitle = useContentValue('home.org.assistant.title', 'Assistante de Direction')
+  const secretaryTitle = useContentValue('home.org.secretary.title', 'Secrétaire')
+  const liaisonTitle = useContentValue('home.org.liaison.title', 'Agent de liaison')
   const DAF = [
-    { title: 'DAF 1', role: 'SH'   },
-    { title: 'DAF 2', role: 'SBMS' },
-    { title: 'DAF 3', role: 'SE'   },
-    { title: 'DAF 4', role: 'STL'  },
-    { title: 'DAF 5', role: 'SGCR' },
+    { title: useContentValue('home.org.daf_1.title', 'DAF 1'), role: useContentValue('home.org.daf_1.role', 'SH') },
+    { title: useContentValue('home.org.daf_2.title', 'DAF 2'), role: useContentValue('home.org.daf_2.role', 'SBMS') },
+    { title: useContentValue('home.org.daf_3.title', 'DAF 3'), role: useContentValue('home.org.daf_3.role', 'SE') },
+    { title: useContentValue('home.org.daf_4.title', 'DAF 4'), role: useContentValue('home.org.daf_4.role', 'STL') },
+    { title: useContentValue('home.org.daf_5.title', 'DAF 5'), role: useContentValue('home.org.daf_5.role', 'SGCR') },
   ]
 
   return (
@@ -221,7 +233,7 @@ export const OrgChart = () => {
             fontSize: 'clamp(26px, 4vw, 42px)', fontWeight: 700,
             color: DARK, margin: '0 0 14px',
             fontFamily: "'Playfair Display', serif", lineHeight: 1.15,
-          }}>Organigramme</h2>
+          }}>{heading}</h2>
 
           <div style={{
             width: 48, height: 2,
@@ -234,7 +246,7 @@ export const OrgChart = () => {
         <div className="oc-tree" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0 }}>
 
           {/* ── Niveau 1 ─────────────────────────────────────────────── */}
-          <Card title="Administrateur Général" role="Direction Générale" level={1} icon="👑" delay={0.1} />
+          <Card title={generalTitle} role={generalRole} level={1} icon="👑" delay={0.1} />
           <VLine h={36} delay={0.3} />
 
           {/* ── Niveau 2 : Conseillers ↔ Secrétaire Général ─────────── */}
@@ -247,11 +259,11 @@ export const OrgChart = () => {
               transition={{ duration: 0.5, delay: 0.38 }}
               style={{ display: 'flex', alignItems: 'center', flex: 1 }}
             >
-              <Card title="Conseiller Spécial" role="Conseil" level={2} icon="🎯" delay={0.38} dashed />
+              <Card title={adviserTitle} role="Conseil" level={2} icon="🎯" delay={0.38} dashed />
               <DashH side="left" delay={0.52} />
             </motion.div>
 
-            <Card title="Secrétaire Général" role="Secrétariat Général" level={2} icon="🏛️" delay={0.42} />
+            <Card title={secretaryGeneralTitle} role="Secrétariat Général" level={2} icon="🏛️" delay={0.42} />
 
             <motion.div
               className="oc-l2-branch"
@@ -262,7 +274,7 @@ export const OrgChart = () => {
               style={{ display: 'flex', alignItems: 'center', flex: 1 }}
             >
               <DashH side="right" delay={0.52} />
-              <Card title="Conseillère Spéciale" role="Conseil" level={2} icon="🎯" delay={0.38} dashed />
+              <Card title={adviserFemaleTitle} role="Conseil" level={2} icon="🎯" delay={0.38} dashed />
             </motion.div>
           </div>
 
@@ -286,7 +298,7 @@ export const OrgChart = () => {
             {/* ── Col 1 : Contrôleur ─────────────────────────────────── */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0 }}>
               <VLine h={28} delay={0.7} />
-              <Card title="Contrôleur Général et Financier" role="Finance & Contrôle" level={3} icon="📊" delay={0.75} wide />
+              <Card title={controllerTitle} role="Finance & Contrôle" level={3} icon="📊" delay={0.75} wide />
               <VLine h={20} dashed delay={0.9} />
 
               {/* Connecteur DAF */}
@@ -334,17 +346,17 @@ export const OrgChart = () => {
             {/* ── Col 2 : Responsable Juridique ──────────────────────── */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <VLine h={28} delay={0.72} />
-              <Card title="Responsable Juridique et RH" role="Juridique & RH" level={3} icon="⚖️" delay={0.77} wide />
+              <Card title={legalTitle} role="Juridique & RH" level={3} icon="⚖️" delay={0.77} wide />
             </div>
 
             {/* ── Col 3 : Assistante de Direction ────────────────────── */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <VLine h={28} delay={0.74} />
-              <Card title="Assistante de Direction" role="Direction" level={3} icon="📋" delay={0.79} wide />
+              <Card title={assistantTitle} role="Direction" level={3} icon="📋" delay={0.79} wide />
               <VLine h={28} delay={0.93} />
-              <Card title="Secrétaire" role="Secrétariat" level={3} icon="✉️" delay={0.99} />
+              <Card title={secretaryTitle} role="Secrétariat" level={3} icon="✉️" delay={0.99} />
               <VLine h={28} delay={1.1} />
-              <Card title="Agent de liaison" role="Coordination" level={3} icon="🔗" delay={1.16} />
+              <Card title={liaisonTitle} role="Coordination" level={3} icon="🔗" delay={1.16} />
             </div>
 
           </div>

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Reveal, SectionLabel, PageHero } from './shared'
+import { Reveal, SectionLabel, EditablePageHero } from './shared'
 import './EnergyEditorial.css'
 
 const ACTUS = [
@@ -29,7 +29,8 @@ const ACTUS = [
 
 export const EnergyActualite = () => (
   <div className="energy-editorial">
-    <PageHero
+    <EditablePageHero
+      contentKey="energy.news.hero"
       current="Actualités"
       title="L’énergie avance."
       accent="Notre histoire aussi."
