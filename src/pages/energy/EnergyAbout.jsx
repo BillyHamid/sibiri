@@ -129,8 +129,8 @@ export const EnergyAbout = () => {
                 <img
                   src="/energy/olenchic-cartoon-9972771_1920.png"
                   alt="Illustration d’un pompiste souriant devant une station-service"
-                  width="1920"
-                  height="1920"
+                  width="1000"
+                  height="1000"
                   loading="lazy"
                   decoding="async"
                 />
