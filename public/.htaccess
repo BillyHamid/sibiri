@@ -16,14 +16,22 @@
   RewriteEngine On
   RewriteBase /
 
-  # Forcer le HTTPS (o2switch fournit un certificat Let's Encrypt gratuit).
-  # À commenter si vous constatez une boucle de redirection.
-  RewriteCond %{HTTPS} !=on
+  # Forcer le HTTPS.
+  # NE PAS tester %{HTTPS} ici : chez Gandi Simple Hosting (et derrière tout
+  # proxy qui termine le TLS en amont), Apache reçoit la requête en clair et
+  # %{HTTPS} ne vaut jamais "on" — la règle redirige alors vers elle-même,
+  # à l'infini. On ne se fie donc qu'à l'en-tête transmis par le proxy, et
+  # seulement s'il affirme explicitement que l'origine était en HTTP.
+  # S'il est absent, on ne redirige pas : mieux vaut ne rien faire que boucler.
+  RewriteCond %{HTTP:X-Forwarded-Proto} =http
   RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
-  # Un fichier ou un dossier qui existe réellement est servi tel quel.
-  RewriteCond %{REQUEST_FILENAME} -f [OR]
-  RewriteCond %{REQUEST_FILENAME} -d
+  # Seul un FICHIER réellement présent est servi tel quel.
+  # Surtout pas les dossiers : /medical, /groupe et /energy sont à la fois des
+  # routes de l'application ET des dossiers de médias. Si on les laissait
+  # passer, Apache ajouterait un slash final (301) puis refuserait de lister
+  # leur contenu (403), et la page React ne serait jamais atteinte.
+  RewriteCond %{REQUEST_FILENAME} -f
   RewriteRule ^ - [L]
 
   # Tout le reste est confié à l'application, qui gère elle-même la route.
@@ -79,4 +87,10 @@
 
 # ── 5. Divers ──────────────────────────────────────────────────────────────
 Options -Indexes
+
+# Empêche Apache de transformer /medical en redirection vers /medical/ quand un
+# dossier de ce nom existe. Sans cette ligne, la redirection est émise AVANT nos
+# règles de réécriture et court-circuite l'application.
+DirectorySlash Off
+
 ErrorDocument 404 /index.html

@@ -24,3 +24,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Dossier de deploiement Gandi : simple copie du build, ne doit jamais
+# partir sur GitHub (il contient son propre depot git, pousse vers Gandi).
+deploy-gandi/
