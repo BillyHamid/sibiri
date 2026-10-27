@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useContentValue } from '../lib/content/ContentProvider'
+import { useContentValue } from '../lib/content/useContent'
 
 const GOLD  = '#C9A84C'
 const GOLDF = 'rgba(201,168,76,'

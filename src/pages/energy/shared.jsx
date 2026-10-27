@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { useContentValue } from '../../lib/content/ContentProvider'
+import { useContentValue } from '../../lib/content/useContent'
 import { Link } from 'react-router-dom'
 
 // ── Palette — charte graphique SIBIRI ENERGY ─────────────────────────────────

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { useContentValue } from '../lib/content/ContentProvider'
+import { useContentValue } from '../lib/content/useContent'
 
 const GOLD = '#C9A84C'
 const DARK = '#1D1D1B'

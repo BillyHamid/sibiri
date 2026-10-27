@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
-import { useContentValue } from '../lib/content/ContentProvider'
+import { useContentReader } from "../lib/content/useContent";
+import { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { useContentValue } from '../lib/content/useContent';
 
 // ─── Styles globaux injectés une seule fois ───────────────────────────────────
 const BANNER_STYLES = `
@@ -94,194 +95,241 @@ const BANNER_STYLES = `
   @media (max-width: 640px) {
     .phb-content { padding-top: 130px !important; justify-content: flex-start !important; }
   }
-`
+`;
 
 // ─── Injecteur de styles ──────────────────────────────────────────────────────
-let stylesInjected = false
+let stylesInjected = false;
 function injectStyles() {
-  if (stylesInjected) return
-  const tag = document.createElement('style')
-  tag.textContent = BANNER_STYLES
-  document.head.appendChild(tag)
-  stylesInjected = true
+  if (stylesInjected) return;
+  const tag = document.createElement('style');
+  tag.textContent = BANNER_STYLES;
+  document.head.appendChild(tag);
+  stylesInjected = true;
 }
 
 // ─── Filiales (affichées dans le HERO, à la place des statistiques) ───────────
-const FILIALES = [
-  { name: 'Construction', route: '/global-construction', logo: '/Sibiri-Construction.png' },
-  { name: 'Medical',      route: '/medical',             logo: '/Sibiri-Medical.png'      },
-  { name: 'Energy',       route: '/energy',               logo: '/Sibiri-Energy.png'       },
-  { name: 'Transport',    route: '/transport-logistic',   logo: '/Sibiri-Transport.png'    },
-  { name: 'Agro',         route: '/agro-chemical',        logo: '/Sibiri-Agro.png'         },
-]
+const FILIALES = readContent => [{
+  name: 'Construction',
+  route: '/global-construction',
+  logo: readContent("accueil.hero.logo-filiale-construction-bandeau-hero", '/Sibiri-Construction.png')
+}, {
+  name: 'Medical',
+  route: '/medical',
+  logo: readContent("accueil.hero.logo-filiale-medical-bandeau-hero", '/Sibiri-Medical.png')
+}, {
+  name: 'Energy',
+  route: '/energy',
+  logo: readContent("accueil.hero.logo-filiale-energy-bandeau-hero", '/Sibiri-Energy.png')
+}, {
+  name: 'Transport',
+  route: '/transport-logistic',
+  logo: readContent("accueil.hero.logo-filiale-transport-bandeau-hero", '/Sibiri-Transport.png')
+}, {
+  name: 'Agro',
+  route: '/agro-chemical',
+  logo: readContent("accueil.hero.logo-filiale-agro-bandeau-hero", '/Sibiri-Agro.png')
+}];
 
 // ─── ParticleHeroBanner ───────────────────────────────────────────────────────
 export const ParticleHeroBanner = () => {
-  const canvasRef    = useRef(null)
-  const animationRef = useRef(null)
-  const particlesRef = useRef([])
-  const sectionRef   = useRef(null)
-
-  const heroTitle    = useContentValue('home.hero.title', 'Un Groupe Multisectoriel')
-  const heroSubtitle = useContentValue('home.hero.subtitle', "Bâtisseurs d'Avenir")
-  const heroCta      = useContentValue('home.hero.cta', 'Accéder à nos filiales')
-
+  const readContent = useContentReader();
+  const canvasRef = useRef(null);
+  const animationRef = useRef(null);
+  const particlesRef = useRef([]);
+  const sectionRef = useRef(null);
+  const heroTitle = useContentValue('home.hero.title', 'Un Groupe Multisectoriel');
+  const heroSubtitle = useContentValue('home.hero.subtitle', "Bâtisseurs d'Avenir");
+  const heroCta = useContentValue('home.hero.cta', 'Accéder à nos filiales');
   useEffect(() => {
-    injectStyles()
-
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
+    injectStyles();
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
     // ── Création d'une particule ──────────────────────────────────────────────
     const createParticle = () => {
       const p = {
-        x: 0, y: 0, speed: 0, opacity: 1,
-        fadeDelay: 0, fadeStart: 0, fadingOut: false,
-
+        x: 0,
+        y: 0,
+        speed: 0,
+        opacity: 1,
+        fadeDelay: 0,
+        fadeStart: 0,
+        fadingOut: false,
         reset() {
-          this.x         = Math.random() * canvas.width
-          this.y         = Math.random() * canvas.height
-          this.speed     = Math.random() / 5 + 0.08
-          this.opacity   = 1
-          this.fadeDelay = Math.random() * 700 + 100
-          this.fadeStart = Date.now() + this.fadeDelay
-          this.fadingOut = false
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.speed = Math.random() / 5 + 0.08;
+          this.opacity = 1;
+          this.fadeDelay = Math.random() * 700 + 100;
+          this.fadeStart = Date.now() + this.fadeDelay;
+          this.fadingOut = false;
         },
         update() {
-          this.y -= this.speed
-          if (this.y < 0) this.reset()
-          if (!this.fadingOut && Date.now() > this.fadeStart) this.fadingOut = true
+          this.y -= this.speed;
+          if (this.y < 0) this.reset();
+          if (!this.fadingOut && Date.now() > this.fadeStart) this.fadingOut = true;
           if (this.fadingOut) {
-            this.opacity -= 0.007
-            if (this.opacity <= 0) this.reset()
+            this.opacity -= 0.007;
+            if (this.opacity <= 0) this.reset();
           }
         },
         draw(ctx) {
           // Particules or ambré montantes
-          const rVal = 195 + Math.floor(Math.random() * 20)
-          const gVal = 135 + Math.floor(Math.random() * 55)
-          ctx.fillStyle = `rgba(${rVal}, ${gVal}, 38, ${this.opacity})`
-          ctx.fillRect(this.x, this.y, 0.55, Math.random() * 2.2 + 0.6)
-        },
-      }
-      p.reset()
-      p.y = Math.random() * canvas.height
-      return p
-    }
+          const rVal = 195 + Math.floor(Math.random() * 20);
+          const gVal = 135 + Math.floor(Math.random() * 55);
+          ctx.fillStyle = `rgba(${rVal}, ${gVal}, 38, ${this.opacity})`;
+          ctx.fillRect(this.x, this.y, 0.55, Math.random() * 2.2 + 0.6);
+        }
+      };
+      p.reset();
+      p.y = Math.random() * canvas.height;
+      return p;
+    };
 
     // ── Redimensionnement ─────────────────────────────────────────────────────
     const resize = () => {
-      canvas.width  = canvas.offsetWidth
-      canvas.height = canvas.offsetHeight
-      const count   = Math.floor((canvas.width * canvas.height) / 5500)
-      particlesRef.current = Array.from({ length: count }, createParticle)
-    }
-
-    resize()
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+      const count = Math.floor(canvas.width * canvas.height / 5500);
+      particlesRef.current = Array.from({
+        length: count
+      }, createParticle);
+    };
+    resize();
 
     // ── Boucle d'animation ────────────────────────────────────────────────────
     const loop = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
-      particlesRef.current.forEach(p => { p.update(); p.draw(ctx) })
-      animationRef.current = requestAnimationFrame(loop)
-    }
-    loop()
-
-    window.addEventListener('resize', resize)
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particlesRef.current.forEach(p => {
+        p.update();
+        p.draw(ctx);
+      });
+      animationRef.current = requestAnimationFrame(loop);
+    };
+    loop();
+    window.addEventListener('resize', resize);
     return () => {
-      window.removeEventListener('resize', resize)
-      if (animationRef.current) cancelAnimationFrame(animationRef.current)
-    }
-  }, [])
-
-  return (
-    <section ref={sectionRef} style={{
-      position: 'relative',
-      width: '100%',
-      height: 700,
-      overflow: 'hidden',
-      background: '#07080f',
-      fontFamily: "'Inter', sans-serif",
-    }}>
+      window.removeEventListener('resize', resize);
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    };
+  }, []);
+  return <section ref={sectionRef} style={{
+    position: 'relative',
+    width: '100%',
+    height: 700,
+    overflow: 'hidden',
+    background: '#07080f',
+    fontFamily: "'Inter', sans-serif"
+  }}>
 
       {/* ── Cônes de lumière (spotlights) ────────────────────────────────── */}
-      <div style={{ pointerEvents: 'none', position: 'absolute', inset: 0, zIndex: 0 }}>
-        {[
-          { rot: 22,  dur: '17s',         delay: '0s'    },
-          { rot: -22, dur: '14s',         delay: '0.3s'  },
-          { rot: 0,   dur: '21s reverse', delay: '0.6s'  },
-        ].map(({ rot, dur, delay }, i) => (
-          <div key={i} style={{
-            borderRadius: '0 0 50% 50%',
-            position: 'absolute',
-            left: 0, right: 0, margin: '0 auto',
-            top: '1.5em',
-            width: 'min(32em, 90vw)',
-            height: 'max(42em, 95vh)',
-            backgroundImage: 'conic-gradient(from 0deg at 50% -5%, transparent 45%, rgba(201,168,76,.18) 49%, rgba(201,168,76,.30) 50%, rgba(201,168,76,.18) 51%, transparent 55%)',
-            transformOrigin: '50% 0',
-            transform: `rotate(${rot}deg)`,
-            filter: 'blur(15px) opacity(.5)',
-            animation: `phb-loadrot 2s ease-in-out forwards, phb-spotlight ${dur} ease-in-out ${delay} infinite`,
-          }} />
-        ))}
+      <div style={{
+      pointerEvents: 'none',
+      position: 'absolute',
+      inset: 0,
+      zIndex: 0
+    }}>
+        {[{
+        rot: 22,
+        dur: '17s',
+        delay: '0s'
+      }, {
+        rot: -22,
+        dur: '14s',
+        delay: '0.3s'
+      }, {
+        rot: 0,
+        dur: '21s reverse',
+        delay: '0.6s'
+      }].map(({
+        rot,
+        dur,
+        delay
+      }, i) => <div key={i} style={{
+        borderRadius: '0 0 50% 50%',
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        margin: '0 auto',
+        top: '1.5em',
+        width: 'min(32em, 90vw)',
+        height: 'max(42em, 95vh)',
+        backgroundImage: 'conic-gradient(from 0deg at 50% -5%, transparent 45%, rgba(201,168,76,.18) 49%, rgba(201,168,76,.30) 50%, rgba(201,168,76,.18) 51%, transparent 55%)',
+        transformOrigin: '50% 0',
+        transform: `rotate(${rot}deg)`,
+        filter: 'blur(15px) opacity(.5)',
+        animation: `phb-loadrot 2s ease-in-out forwards, phb-spotlight ${dur} ease-in-out ${delay} infinite`
+      }} />)}
       </div>
 
       {/* ── Canvas particules ─────────────────────────────────────────────── */}
-      <canvas
-        ref={canvasRef}
-        style={{
-          position: 'absolute', inset: 0,
-          width: '100%', height: '100%',
-          pointerEvents: 'none', zIndex: 1,
-          animation: 'phb-fadein .4s ease-in-out forwards',
-        }}
-      />
+      <canvas ref={canvasRef} style={{
+      position: 'absolute',
+      inset: 0,
+      width: '100%',
+      height: '100%',
+      pointerEvents: 'none',
+      zIndex: 1,
+      animation: 'phb-fadein .4s ease-in-out forwards'
+    }} />
 
       {/* ── Lignes d'accent horizontales ─────────────────────────────────── */}
-      <div style={{ pointerEvents: 'none', position: 'absolute', inset: 0, zIndex: 2 }}>
-        {[100, 185, 275, 390, 490].map((top, i) => (
-          <div key={i} style={{
-            position: 'absolute', top, left: 0, right: 0, height: 1,
-            background: 'linear-gradient(90deg, transparent, rgba(201,168,76,.14), transparent)',
-            transformOrigin: 'center',
-            animation: `phb-accentline 1.8s ease-out ${2.2 + i * 0.12}s forwards`,
-            opacity: 0,
-          }} />
-        ))}
+      <div style={{
+      pointerEvents: 'none',
+      position: 'absolute',
+      inset: 0,
+      zIndex: 2
+    }}>
+        {[100, 185, 275, 390, 490].map((top, i) => <div key={i} style={{
+        position: 'absolute',
+        top,
+        left: 0,
+        right: 0,
+        height: 1,
+        background: 'linear-gradient(90deg, transparent, rgba(201,168,76,.14), transparent)',
+        transformOrigin: 'center',
+        animation: `phb-accentline 1.8s ease-out ${2.2 + i * 0.12}s forwards`,
+        opacity: 0
+      }} />)}
 
         {/* Lignes verticales */}
-        {['22%', '50%', '78%'].map((left, i) => (
-          <div key={i} style={{
-            position: 'absolute', top: 0, bottom: 0, left,
-            width: 1,
-            background: left === '50%'
-              ? 'linear-gradient(to bottom, transparent, rgba(201,168,76,.18), transparent)'
-              : 'rgba(201,168,76,.07)',
-            transformOrigin: 'center',
-            animation: `phb-accentcol 2s ease-out ${2 + i * 0.1}s forwards`,
-            opacity: 0,
-          }} />
-        ))}
+        {['22%', '50%', '78%'].map((left, i) => <div key={i} style={{
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left,
+        width: 1,
+        background: left === '50%' ? 'linear-gradient(to bottom, transparent, rgba(201,168,76,.18), transparent)' : 'rgba(201,168,76,.07)',
+        transformOrigin: 'center',
+        animation: `phb-accentcol 2s ease-out ${2 + i * 0.1}s forwards`,
+        opacity: 0
+      }} />)}
       </div>
 
       {/* ── Contenu central ──────────────────────────────────────────────── */}
       <div className="phb-content" style={{
-        position: 'absolute', inset: 0, zIndex: 10,
-        display: 'flex', flexDirection: 'column',
-        alignItems: 'center', justifyContent: 'center',
-        gap: 28, padding: '0 24px',
-        textAlign: 'center',
-      }}>
+      position: 'absolute',
+      inset: 0,
+      zIndex: 10,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 28,
+      padding: '0 24px',
+      textAlign: 'center'
+    }}>
 
         {/* Étiquette */}
         <p className="phb-tagline" style={{
-          fontSize: 10, fontWeight: 800,
-          letterSpacing: '0.38em', textTransform: 'uppercase',
-          color: 'rgba(201,168,76,0.65)',
-        }}>
+        fontSize: 10,
+        fontWeight: 800,
+        letterSpacing: '0.38em',
+        textTransform: 'uppercase',
+        color: 'rgba(201,168,76,0.65)'
+      }}>
           GROUP SIBIRI HOLDING
         </p>
 
@@ -292,81 +340,82 @@ export const ParticleHeroBanner = () => {
 
         {/* Sous-titre */}
         <p className="phb-subtitle" style={{
-          fontSize: 'clamp(13px, 1.4vw, 17px)',
-          lineHeight: 1.75, maxWidth: 540,
-          background: 'linear-gradient(0deg, #d8ecf8 0%, #C9A84C 100%)',
-          backgroundClip: 'text',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-        }}>
+        fontSize: 'clamp(13px, 1.4vw, 17px)',
+        lineHeight: 1.75,
+        maxWidth: 540,
+        background: 'linear-gradient(0deg, #d8ecf8 0%, #C9A84C 100%)',
+        backgroundClip: 'text',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent'
+      }}>
           {heroSubtitle}
         </p>
 
         {/* CTA */}
         <div className="phb-cta">
-          <a
-            href="#nos-filiales"
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              padding: '11px 28px', borderRadius: 99,
-              background: 'rgba(201,168,76,0.10)',
-              border: '1px solid rgba(201,168,76,0.38)',
-              color: '#C9A84C',
-              fontSize: 13, fontWeight: 600,
-              textDecoration: 'none',
-              transition: 'all .25s',
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.background = 'rgba(201,168,76,0.20)'
-              e.currentTarget.style.transform = 'scale(1.04)'
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.background = 'rgba(201,168,76,0.10)'
-              e.currentTarget.style.transform = 'scale(1)'
-            }}
-          >
+          <a href="#nos-filiales" style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 8,
+          padding: '11px 28px',
+          borderRadius: 99,
+          background: 'rgba(201,168,76,0.10)',
+          border: '1px solid rgba(201,168,76,0.38)',
+          color: '#C9A84C',
+          fontSize: 13,
+          fontWeight: 600,
+          textDecoration: 'none',
+          transition: 'all .25s'
+        }} onMouseEnter={e => {
+          e.currentTarget.style.background = 'rgba(201,168,76,0.20)';
+          e.currentTarget.style.transform = 'scale(1.04)';
+        }} onMouseLeave={e => {
+          e.currentTarget.style.background = 'rgba(201,168,76,0.10)';
+          e.currentTarget.style.transform = 'scale(1)';
+        }}>
             {heroCta} ↓
           </a>
         </div>
 
         {/* Filiales — intégrées au HERO, à la place des statistiques */}
         <div className="phb-stats" style={{
-          display: 'flex', flexWrap: 'wrap', justifyContent: 'center',
-          gap: 'clamp(20px, 4vw, 44px)',
-          marginTop: 16,
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        gap: 'clamp(20px, 4vw, 44px)',
+        marginTop: 16
+      }}>
+          {FILIALES(readContent).map(f => <Link key={f.name} to={f.route} style={{
+          textDecoration: 'none',
+          textAlign: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 8
+        }} onMouseEnter={e => {
+          e.currentTarget.style.transform = 'translateY(-4px) scale(1.06)';
+        }} onMouseLeave={e => {
+          e.currentTarget.style.transform = 'translateY(0) scale(1)';
         }}>
-          {FILIALES.map((f) => (
-            <Link
-              key={f.name}
-              to={f.route}
-              style={{ textDecoration: 'none', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}
-              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px) scale(1.06)' }}
-              onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0) scale(1)' }}
-            >
-              <img
-                src={f.logo}
-                alt={f.name}
-                draggable={false}
-                style={{
-                  height: 64,
-                  width: 'auto',
-                  maxWidth: 120,
-                  objectFit: 'contain',
-                  filter: 'drop-shadow(0 2px 10px rgba(0,0,0,0.35))',
-                  transition: 'transform .25s ease',
-                }}
-              />
+              <img src={f.logo} alt={f.name} draggable={false} style={{
+            height: 64,
+            width: 'auto',
+            maxWidth: 120,
+            objectFit: 'contain',
+            filter: 'drop-shadow(0 2px 10px rgba(0,0,0,0.35))',
+            transition: 'transform .25s ease'
+          }} />
               <span style={{
-                fontSize: 9.5, fontWeight: 700,
-                letterSpacing: '0.12em', textTransform: 'uppercase',
-                color: 'rgba(201,168,76,0.65)',
-              }}>{f.name}</span>
-            </Link>
-          ))}
+            fontSize: 9.5,
+            fontWeight: 700,
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            color: 'rgba(201,168,76,0.65)'
+          }}>{f.name}</span>
+            </Link>)}
         </div>
       </div>
 
 
-    </section>
-  )
-}
+    </section>;
+};

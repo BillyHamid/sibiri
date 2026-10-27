@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { useContentValue } from '../lib/content/ContentProvider'
+import { useContentValue } from '../lib/content/useContent'
 
 const GREEN       = '#00A99D'
 const GREEN_LIGHT = '#8DC63F'
